@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
+        <file>
+            <url>src/Main.c</url>
+            <line>365</line>
+            <line>370</line>
+        </file>
+        <file>
+            <url>src/CustomHTTPApp.c</url>
+            <line>1750</line>
+            <line>1766</line>
+            <line>1780</line>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Documents%20and%20Settings/gary/My%20Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/Wifi_Wunder_Station.X/src/Main.c</file>
+        <file>file:/C:/Documents%20and%20Settings/gary/My%20Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP%20Stack/WiFi/WFMgmtMsg_24G.c</file>
+        <file>file:/C:/Documents%20and%20Settings/gary/My%20Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP%20Stack/Include/TCPIP%20Stack/WFRaw_24G.h</file>
+        <file>file:/C:/Documents%20and%20Settings/gary/My%20Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP%20Stack/Include/TCPIP%20Stack/WFMac.h</file>
+    </open-files>
+</project-private>

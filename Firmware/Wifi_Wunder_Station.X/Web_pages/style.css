@@ -1,0 +1,62 @@
+﻿/*
+body {font-size:12px; font-family:Verdana,Arial,sans-serif;}
+table {font-size:12px; font-family:Verdana,Arial,sans-serif;}
+*/
+ul {margin-top:4px; margin-bottom:4px;}
+
+.pgHdr {font-size:18px; color:#000080; white-space:nowrap; font-weight:bold;}
+.pgSec {font-size:16px; color:#000070; white-space:nowrap; font-weight:bold;}
+.mxlink {color: #0000FF; text-decoration: underline;}
+.ifrmBody {margin-bottom: 50px; padding: 3px;}
+.bBox {border:2px solid #999999; padding: 0px;}
+.bHdr {font-size:16px; background:#AAAAAA; white-space:nowrap; font-weight:bold;}
+.bSec {font-size:14px; background:#BBBBBB; padding-left:5; font-weight:bold;}
+.bSub {font-size:14px; background:#CCCCCC; padding-left:10; font-weight:bold;}
+.bDesc {background:#D0E0F0; padding-left:20;}
+.bLbl {background:#D0D0D0; white-space:nowrap; padding-left:20; padding-right:20;}
+.bCtr {background:#DDDDDD; padding-left:10; padding-right:20;}
+.bCel {background:#DDDDDD; }
+.bBot {background:#DDDDDD; padding-top: 20;}
+
+.errorSubmit
+{
+	color: red;
+	font-style: italic;
+}
+
+label {
+    display: block;
+    width: 12em;
+    float: left; 
+    margin: 0px 8px 8px 8px;
+    text-align: right;
+}
+
+br { clear: left; }
+
+hr {
+	color:gray	
+}
+
+.top {border-bottom:2px double #0000FF; background-color:#ffdd00; text-align:center; height:20px; padding:3px;}
+.left {border-right:2px solid #0000FF; background-color:#F0F0F0; padding:0px; vertical-align:top;}
+.menuBtn {
+	padding-left:7px;
+	padding-right:7px;
+	border-top:2px solid #FFFFFF;
+	border-right:2px solid #CCCCCC;
+	border-bottom:2px solid #CCCCCC;
+	border-left:2px solid #FFFFFF;
+	white-space:nowrap;
+	font-size:14px;
+}
+A {color:#000000; text-decoration:none;}
+body {height:100%; margin:0; padding:0; font-family:Verdana,Arial,sans-serif;}
+html {height:100%; overflow-y:hidden;}
+
+
+
+
+
+
+

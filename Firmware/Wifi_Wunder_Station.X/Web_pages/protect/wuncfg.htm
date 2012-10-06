@@ -1,0 +1,53 @@
+﻿~inc:header.inc~
+<div id="content">
+	<h1>Weather Station Configuration</h1>
+	<p>This page allows the configuration of the Weather Underground Station settings.</p>
+	
+	<div class="result fail" style="display:~status_fail~">
+		<p>Error: ~status_msg~ </p>
+		<p>Try again...</p>
+	</div>
+
+	<form action="" method="GET" name="WUNDERconfig" > <!-- action="" == self posting form -->
+		<fieldset>
+			<legend>Station Properties:</legend>
+			<div> <label>Station ID :</label> <input type="text" name="W_SID"	 size ="12" maxlength="12" value="~W_SID~"/> </div>
+			<div> <label>Station PWD :</label> 	<input type="text" name="W_PASS" size ="12" maxlength="12" value="~W_PASS~"/></div>
+			<div> <label>Station Elev. ft :</label>	<input type="text" name="ELEV" 	 size ="5"  maxlength="5" value="~ELEV~"/> </div>
+			<div><label>Wunder IP Addr :</label> <input type="text" name="W_IP"size="15" maxlength="15" value="~W_IP~"/> <span style="font-size:x-small"> default is 38.102.136.125</span></div>
+		  	<div><label>Enable Reporting :</label> <input type="checkbox" name="W_ENB" ~W_ENB~ value="1"></input> </div>
+			<div> <input type="submit" class="sm" name="_SAVE" value="Save"/> </div>
+		</fieldset>
+	</form>  
+	
+	<form action ="" method="GET"  name="NISTconfig">
+		<fieldset>
+			<legend>Time Server Configuration:</legend>
+
+			<div><label>Primary NIST:</label><input type="text" name="NIST_1" size="15" maxlength="15" value="~nist_1~" /></div>
+			<div><label>Secondary NIST:</label>	<input type="text" name="NIST_2" size="15" maxlength="15" value="~nist_2~" /></div>
+			<div><input type="submit" class="sm" name="_SAVE" value="Save" /></div>
+		</fieldset>
+	</form>
+	<form action ="" method="GET"  name="Calconfig">
+		<fieldset>
+			<legend>Sensor Calibration:</legend>
+
+			<div><label>Temperature Gain:</label><input type="text" name="CALtg" size="4" maxlength="4" value="~CALtg~" /></div>
+			<div><label>Hygrometer Gain :</label><input type="text" name="CALhg" size="4" maxlength="4" value="~CALhg~" /></div>
+			<div><label>Solar Gain :</label><input type="text" name="CALsg" size="4" maxlength="4" value="~CALsg~" /></div>
+			<div><label>Barometer Offs :</label><input type="text" name="CALbo" size="4" maxlength="4" value="~CALbo~" /></div>
+			<div><label>Hygrometer Offs :</label><input type="text" name="CALho" size="4" maxlength="4" value="~CALho~" /></div>
+			<div><label>Wind Dir Offs :</label><input type="text" name="CALwo" size="4" maxlength="4" value="~CALwo~" /></div>
+	<div><input type="submit" class="sm" name="_SAVE" value="Save" /></div>
+		</fieldset>
+	</form>
+
+	<hr/>
+	<form name ="frmRst" method="POST" action="config.htm">
+	<input type="hidden" name="Reboot" value="Now"/>
+	<label> </label> <input type="submit" value="Reboot"/>
+	</form>
+</div>
+~inc:footer.inc~
+

@@ -1,0 +1,18 @@
+~inc:header.inc~
+<script type="text/javascript">
+setTimeout("window.location.replace('http://~rebootaddr~')",10000);
+setTimeout("newAJAXCommand('/protect/reboot.cgi',rebootDummy,false);",500);
+function rebootDummy(x){}
+</script>
+<div id="content">
+<h1>Reboot In Progress...</h1>
+<p align="center"><b>Your board is located at: 
+<a href="http://~rebootaddr~/">http://~rebootaddr~</a></b></p>
+<p>Wait for the reboot process to complete, the browser will automatically redirect in 10 seconds.</p>
+<p>You can restore compile-time settings by clearing the board's EEPROM. Hold
+BTN0 (right most button on PICDEM.net<sup>TM</sup> 2 and Explorer 16) and press MCLR. 
+Continue holding BTN0 until the LEDs flash.  Release BTN0 and press MCLR again. 
+This procedure restores the configuration settings in <code>TCPIPConfig.h</code>. 
+</p>
+</div>
+~inc:footer.inc~

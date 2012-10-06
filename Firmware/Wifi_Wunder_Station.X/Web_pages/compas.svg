@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" standalone="no"?>
+<!-- Viewbox defines the viewport into the user space coord system of the SVG canvas. For easier transform of the wind carret I have the center of the circle at 0,0 in svg user space 
+     and translate the the viewport with -400, -140 so that all of the graphic can be seen. (i.e. 0,0 is 400 to the right and 140 down) 
+	 The second set of numbers of the viewBox attribute indicate the size of the viewport into the user space.
+	 This has to be big enough to encompass the entire graphic and will be scaled up or down to fill the enclosing element screen size (i.e. Iframe, Div).
+-->	 
+<svg 	viewBox="-400 -140 520 260"	
+		version="1.1" baseProfile="full" 
+		xmlns="http://www.w3.org/2000/svg" 
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		xmlns:ev="http://www.w3.org/2001/xml-events"
+		style="font-family: Ariel; font-size: large" fill="blue" 
+	>
+<script type="text/javascript" xlink:href="ajax.js" />
+<script type="text/javascript">
+
+function updateThisStatus(xmlData) {
+ 
+	if(!xmlData)
+	{
+		return;
+	}
+	var wd = getXMLValue(xmlData, 'WindDir');
+	var wg = getXMLValue(xmlData, 'WindGust');
+	var ws = getXMLValue(xmlData, 'WindSpeed');
+	var tF = getXMLValue(xmlData, 'Temp_F');
+	var dF = getXMLValue(xmlData, 'Dew_F');
+	var rh = getXMLValue(xmlData, 'RelH');
+	var baro = getXMLValue(xmlData,'Baro_In');
+	var sol = getXMLValue(xmlData, 'Sol_W');
+
+
+	// Update the values on the screen
+	document.getElementById("tic").setAttribute("transform", "rotate("+wd+")");
+	document.getElementById("wind_dir").textContent =wd;
+	document.getElementById("wind_gust").textContent =wg;
+	document.getElementById("wind_spd").textContent =ws;
+	document.getElementById("temp_F").textContent = tF;
+	document.getElementById("dew_pt").textContent = dF;
+	document.getElementById("rel_hum").textContent = rh;
+	document.getElementById("baro_in").textContent = baro;
+	document.getElementById("sol_rad").textContent = sol;
+}
+
+
+// kick off the repeated status request in 500ms
+setTimeout("newAJAXCommand('sensors.xml', updateThisStatus, true)",100);
+
+</script>
+
+	
+<defs>
+<radialGradient id="myRadialGrad" fx="0.3" fy="0.3" r="0.5" spreadMethod="pad">
+<stop offset="0" stop-color="blue" stop-opacity="1"/>
+<stop offset="1" stop-color="#000050" stop-opacity="1"/>
+</radialGradient>
+</defs>
+
+
+<circle  cx="0" cy="0" r="115" fill="silver"/> 
+<circle  cx="0" cy="0" r="100" fill="url(#myRadialGrad)"/>
+<polygon id="tic" points="0,-90,-10,-110, 10,-110" fill="red" />
+<text x="102" y="5">E</text>
+<text x="-115" y="5">W</text>
+<text x="-6" y="-101">N</text>
+<text x="-5" y="113">S</text>
+<text x="0" y="-30" stroke="lightgrey" fill="lightgrey" text-anchor="middle">Wind dir <tspan id="wind_dir"> </tspan>°</text>
+<text x="0" y="00"  stroke="lightgrey" fill="lightgrey" text-anchor="middle">Wind speed <tspan id="wind_spd"> </tspan> mph</text>
+<text x="0" y="30"  stroke="lightgrey" fill="lightgrey" text-anchor="middle">Wind gust <tspan id="wind_gust"> </tspan> mph</text>
+<text x="-380" y="-100" font-size="x-large">Station ~W_SID~ </text>
+<text x="-380" y="-60">Temperature <tspan id="temp_F"> </tspan> °F </text>
+<text x="-380" y="-30">Dewpoint <tspan id="dew_pt"> </tspan> °F </text>
+<text x="-380" y="-00">Humidity <tspan id="rel_hum"> </tspan> %</text>
+<text x="-380" y= "30">Pressure <tspan id="baro_in"> </tspan>" Hg</text>
+<text x="-380" y= "60">Solar <tspan id="sol_rad"> </tspan> W/m2</text>
+
+
+</svg>
