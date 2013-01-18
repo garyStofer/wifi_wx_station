@@ -89,10 +89,10 @@
 #define MY_DEFAULT_LIST_RETRY_COUNT         WF_RETRY_FOREVER            /* Number of times to try to connect to the SSID when using Infrastructure network type */
  
 #if MY_DEFAULT_NETWORK_TYPE == WF_INFRASTRUCTURE
-    #define MY_DEFAULT_WIFI_SECURITY_MODE       WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE
+    #define MY_DEFAULT_WIFI_SECURITY_MODE       WF_SECURITY_OPEN   
     #define MY_DEFAULT_SCAN_TYPE                WF_ACTIVE_SCAN              /* WF_ACTIVE_SCAN or WF_PASSIVE_SCAN */
     #define MY_DEFAULT_BEACON_TIMEOUT           (40)                        /* Number of beacon periods          */
-    #define MY_DEFAULT_SSID_NAME                "Dialup"    
+    #define MY_DEFAULT_SSID_NAME                "linksys"
     #define MY_DEFAULT_CHANNEL_LIST         {1,2,3,4,5,6,7,8,9,10,11}   /* Default channel list for FCC */
 
     /* Select Infrastructure Power Save Mode */
@@ -186,7 +186,7 @@
 
 // Default pass phrase used for WF_SECURITY_WPA_WITH_PASS_PHRASE and 
 // WF_SECURITY_WPA2_WITH_PASS_PHRASE security modes
-#define MY_DEFAULT_PSK_PHRASE  "Andromeda"
+#define MY_DEFAULT_PSK_PHRASE  "WifiPassword"
 
 // The tool at http://www.wireshark.org/tools/wpa-psk.html can be used to generate this field gtom SSID and pass_phrase
 #define MY_DEFAULT_PSK "\

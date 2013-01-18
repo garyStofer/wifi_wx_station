@@ -480,12 +480,12 @@ void WF_OutputConnectionInfo(const APP_CONFIG *p_AppConfig)
     #if defined(WF_CONSOLE_DEMO)
         putrsUART("*** WiFi Console Demo ***\r\n"); 
     #elif defined(WF_TCPIP_DEMO)
-        putrsUART("*** WiFi TCP/IP Demo ***\r\n"); 
+        putrsUART("*** WiFi Weather Station ***\r\n\n");
     #elif defined(WF_EASY_CONFIG_DEMO)
         putrsUART("*** WiFi EZConfig Demo ***\r\n"); 
     #endif
 #endif    
-    putrsUART("WiFi Connection Parameters:\r\n");
+    putrsUART("Connection Parameters:\r\n");
     putrsUART("Domain:          ");
   
     OutputDomainString();
@@ -582,7 +582,7 @@ void WF_OutputConnectionInfo(const APP_CONFIG *p_AppConfig)
 	#endif	/* MY_DEFAULT_NETWORK_TYPE != WF_SOFT_AP */
    
         WF_OutputSecurityDebugMessage(p_AppConfig);
-
+/*
 	#if MY_DEFAULT_NETWORK_TYPE != WF_SOFT_AP
     	putrsUART("Power Save:      ");
     	#if (MY_DEFAULT_PS_POLL == WF_ENABLED)
@@ -590,9 +590,9 @@ void WF_OutputConnectionInfo(const APP_CONFIG *p_AppConfig)
     	#else
         	putrsUART("Disabled\r\n");    
     	#endif
-    #endif	/* MY_DEFAULT_NETWORK_TYPE != WF_SOFT_AP */
-	
-    #if defined(WF_CONSOLE_DEMO)
+    #endif	// MY_DEFAULT_NETWORK_TYPE != WF_SOFT_AP
+*/
+/*
         putrsUART("IP Address:      ");
         #if defined(ENABLE_STATIC_IP)
             for (i = 0; i < 4; ++i)
@@ -608,9 +608,9 @@ void WF_OutputConnectionInfo(const APP_CONFIG *p_AppConfig)
         #else
             putrsUART("via DHCP\r\n");
         #endif
-    #endif
+*/
     
-    putrsUART("Press button S4 >4 Sec upon reset to retore Factory defaults\r\n");
+    putrsUART("Press Button A >4 Seconds upon power-up to restore factory defaults\r\n");
     #endif /* __18CXX */
 }    
 

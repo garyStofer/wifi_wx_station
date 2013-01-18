@@ -52,15 +52,10 @@ extern HTTP_STUB httpStubs[MAX_HTTP_CONNECTIONS];
 extern BYTE curHTTPID;
 
 void HTTPPrint(DWORD callbackID);
-void HTTPPrint_hellomsg(void);
 void HTTPPrint_builddate(void);
 void HTTPPrint_led(WORD);
-void HTTPPrint_lcdtext(void);
-void HTTPPrint_ledSelected(WORD,WORD);
 void HTTPPrint_version(void);
 void HTTPPrint_reboot(void);
-void HTTPPrint_btn(WORD);
-void HTTPPrint_pot(void);
 void HTTPPrint_W_PASS(void);
 void HTTPPrint_ELEV(void);
 void HTTPPrint_W_ENB(void);
@@ -88,45 +83,40 @@ void HTTPPrint_Dew_F(void);
 void HTTPPrint_RelH(void);
 void HTTPPrint_Baro_In(void);
 void HTTPPrint_Sol_W(void);
-void HTTPPrint_CALtg(void);
-void HTTPPrint_CALhg(void);
 void HTTPPrint_CALbo(void);
 void HTTPPrint_CALho(void);
 void HTTPPrint_CALwo(void);
 void HTTPPrint_CALsg(void);
 void HTTPPrint_W_IP(void);
 void HTTPPrint_W_SID(void);
+void HTTPPrint_R_WND(void);
+void HTTPPrint_R_HYG(void);
+void HTTPPrint_R_SOL(void);
+void HTTPPrint_CALto(void);
+void HTTPPrint_M_TO(void);
+void HTTPPrint_M_SRV(void);
+void HTTPPrint_M_PRT(void);
+void HTTPPrint_M_USR(void);
+void HTTPPrint_M_PWD(void);
+void HTTPPrint_ST_USR(void);
+void HTTPPrint_ST_PWD(void);
+void HTTPPrint_CALra(void);
+void HTTPPrint_R_RAIN(void);
+void HTTPPrint_Ala(WORD);
+void HTTPPrint_inp(WORD);
+void HTTPPrint_out(WORD);
+void HTTPPrint_adc(WORD);
+void HTTPPrint_time(void);
+void HTTPPrint_date(void);
+void HTTPPrint_Rain_In(void);
+void HTTPPrint_RainDay(void);
 
 void HTTPPrint(DWORD callbackID)
 {
 	switch(callbackID)
 	{
-        case 0x00000000:
-			HTTPIncFile((ROM BYTE*)"header.inc");
-			break;
-        case 0x00000001:
-			HTTPPrint_hellomsg();
-			break;
-        case 0x00000002:
-			HTTPIncFile((ROM BYTE*)"footer.inc");
-			break;
         case 0x00000006:
 			HTTPPrint_builddate();
-			break;
-        case 0x00000007:
-			HTTPPrint_led(7);
-			break;
-        case 0x00000008:
-			HTTPPrint_led(6);
-			break;
-        case 0x00000009:
-			HTTPPrint_led(5);
-			break;
-        case 0x0000000a:
-			HTTPPrint_led(4);
-			break;
-        case 0x0000000b:
-			HTTPPrint_led(3);
 			break;
         case 0x0000000c:
 			HTTPPrint_led(2);
@@ -137,65 +127,11 @@ void HTTPPrint(DWORD callbackID)
         case 0x0000000e:
 			HTTPPrint_led(0);
 			break;
-        case 0x0000000f:
-			HTTPPrint_lcdtext();
-			break;
-        case 0x00000010:
-			HTTPPrint_ledSelected(6,TRUE);
-			break;
-        case 0x00000011:
-			HTTPPrint_ledSelected(6,FALSE);
-			break;
-        case 0x00000012:
-			HTTPPrint_ledSelected(5,TRUE);
-			break;
-        case 0x00000013:
-			HTTPPrint_ledSelected(5,FALSE);
-			break;
-        case 0x00000014:
-			HTTPPrint_ledSelected(4,TRUE);
-			break;
-        case 0x00000015:
-			HTTPPrint_ledSelected(4,FALSE);
-			break;
-        case 0x00000016:
-			HTTPPrint_ledSelected(3,TRUE);
-			break;
-        case 0x00000017:
-			HTTPPrint_ledSelected(3,FALSE);
-			break;
-        case 0x00000018:
-			HTTPPrint_ledSelected(2,TRUE);
-			break;
-        case 0x00000019:
-			HTTPPrint_ledSelected(2,FALSE);
-			break;
-        case 0x0000001a:
-			HTTPPrint_ledSelected(1,TRUE);
-			break;
-        case 0x0000001b:
-			HTTPPrint_ledSelected(1,FALSE);
-			break;
         case 0x0000001c:
 			HTTPPrint_version();
 			break;
         case 0x0000001d:
 			HTTPPrint_reboot();
-			break;
-        case 0x0000001e:
-			HTTPPrint_btn(0);
-			break;
-        case 0x0000001f:
-			HTTPPrint_btn(1);
-			break;
-        case 0x00000020:
-			HTTPPrint_btn(2);
-			break;
-        case 0x00000021:
-			HTTPPrint_btn(3);
-			break;
-        case 0x00000022:
-			HTTPPrint_pot();
 			break;
         case 0x00000023:
 			HTTPPrint_W_PASS();
@@ -302,12 +238,6 @@ void HTTPPrint(DWORD callbackID)
         case 0x0000004b:
 			HTTPPrint_Sol_W();
 			break;
-        case 0x0000004c:
-			HTTPPrint_CALtg();
-			break;
-        case 0x0000004d:
-			HTTPPrint_CALhg();
-			break;
         case 0x0000004f:
 			HTTPPrint_CALbo();
 			break;
@@ -325,6 +255,129 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x00000054:
 			HTTPPrint_W_SID();
+			break;
+        case 0x00000055:
+			HTTPPrint_R_WND();
+			break;
+        case 0x00000056:
+			HTTPPrint_R_HYG();
+			break;
+        case 0x00000057:
+			HTTPPrint_R_SOL();
+			break;
+        case 0x00000058:
+			HTTPPrint_CALto();
+			break;
+        case 0x0000005b:
+			HTTPPrint_M_TO();
+			break;
+        case 0x0000005c:
+			HTTPPrint_M_SRV();
+			break;
+        case 0x0000005d:
+			HTTPPrint_M_PRT();
+			break;
+        case 0x0000005e:
+			HTTPPrint_M_USR();
+			break;
+        case 0x0000005f:
+			HTTPPrint_M_PWD();
+			break;
+        case 0x00000060:
+			HTTPPrint_ST_USR();
+			break;
+        case 0x00000061:
+			HTTPPrint_ST_PWD();
+			break;
+        case 0x00000062:
+			HTTPPrint_CALra();
+			break;
+        case 0x00000063:
+			HTTPPrint_R_RAIN();
+			break;
+        case 0x00000072:
+			HTTPPrint_Ala(1);
+			break;
+        case 0x00000073:
+			HTTPPrint_Ala(2);
+			break;
+        case 0x00000074:
+			HTTPPrint_Ala(3);
+			break;
+        case 0x00000075:
+			HTTPPrint_Ala(4);
+			break;
+        case 0x00000076:
+			HTTPPrint_inp(0);
+			break;
+        case 0x00000077:
+			HTTPPrint_inp(1);
+			break;
+        case 0x00000078:
+			HTTPPrint_inp(2);
+			break;
+        case 0x00000079:
+			HTTPPrint_inp(3);
+			break;
+        case 0x0000007a:
+			HTTPPrint_out(0);
+			break;
+        case 0x0000007b:
+			HTTPPrint_out(1);
+			break;
+        case 0x0000007c:
+			HTTPPrint_out(2);
+			break;
+        case 0x0000007d:
+			HTTPPrint_out(3);
+			break;
+        case 0x0000007e:
+			HTTPPrint_out(4);
+			break;
+        case 0x0000007f:
+			HTTPPrint_out(5);
+			break;
+        case 0x00000080:
+			HTTPPrint_out(6);
+			break;
+        case 0x00000081:
+			HTTPPrint_out(7);
+			break;
+        case 0x00000082:
+			HTTPPrint_adc(0);
+			break;
+        case 0x00000083:
+			HTTPPrint_adc(1);
+			break;
+        case 0x00000084:
+			HTTPPrint_adc(2);
+			break;
+        case 0x00000085:
+			HTTPPrint_adc(3);
+			break;
+        case 0x00000086:
+			HTTPPrint_adc(4);
+			break;
+        case 0x00000087:
+			HTTPPrint_adc(5);
+			break;
+        case 0x00000088:
+			HTTPPrint_adc(6);
+			break;
+        case 0x00000089:
+			HTTPPrint_adc(7);
+			break;
+        case 0x0000008a:
+			HTTPPrint_time();
+			break;
+        case 0x0000008b:
+			HTTPPrint_date();
+			break;
+        case 0x0000008c:
+			HTTPPrint_Rain_In();
+			break;
+        case 0x0000008d:
+			HTTPPrint_RainDay();
 			break;
 		default:
 			// Output notification for undefined values

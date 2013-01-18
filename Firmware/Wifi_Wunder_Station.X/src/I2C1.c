@@ -1,4 +1,5 @@
 #define USE_AND_OR      // This is to steer the defines in i2c.h of the C30 compiler peripheral lib
+#include  "TCPIP Stack/TCPIP.h"
 #include "math.h"
 #include "i2c.h"
 #include "i2c1.h"
@@ -107,11 +108,13 @@ I2C1_Xfer(I2C_mode mode, unsigned char data)
             // No interrupt is generated -- return immediatly
             return 0;
     }
-
+// TODO :: need guard timeout if i2C can not complete transaction
     /* wait for interrupt flag indicating completion of transaction  */
     while (IFS1bits.MI2C1IF == 0)
     {
+
     }
+
     IFS1bits.MI2C1IF = 0; // and clear flag again
 
     switch (mode)

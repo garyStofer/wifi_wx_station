@@ -368,6 +368,7 @@ static void SyncTCB(void)
   ***************************************************************************/
 void TCPInit(void)
 {
+
 	BYTE i;
 	BYTE vSocketsAllocated;
 	WORD wTXSize, wRXSize;
@@ -417,8 +418,20 @@ void TCPInit(void)
 				ptrBaseAddress = wCurrentETHAddress;
 				wCurrentETHAddress += sizeof(TCB) + wTXSize+1 + wRXSize+1;
 				// Do a sanity check to ensure that we aren't going to use memory that hasn't been allocated to us.
-				// If your code locks up right here, it means you've incorrectly allocated your TCP socket buffers in TCPIPConfig.h.  See the TCP memory allocation section.  More RAM needs to be allocated to the base memory mediums, or the individual sockets TX and RX FIFOS and socket quantiy needs to be shrunken.
-				while(wCurrentETHAddress > TCP_ETH_RAM_BASE_ADDRESS + TCP_ETH_RAM_SIZE);
+				// If your code locks up right here, it means you've incorrectly allocated your TCP socket buffers in TCPIPConfig.h.
+                                //See the TCP memory allocation section.  More RAM needs to be allocated to the base memory mediums, or the individual sockets TX and RX FIFOS and socket quantiy needs to be shrunken.
+
+                                if (wCurrentETHAddress > TCP_ETH_RAM_BASE_ADDRESS + TCP_ETH_RAM_SIZE)
+                                {
+                                    volatile int ram_used;
+                                    ram_used = wCurrentETHAddress - TCP_ETH_RAM_BASE_ADDRESS;
+                                    All_LEDS_on(); // error --  all LEDS on
+#if defined(STACK_USE_UART)
+                                    putrsUART((ROM char*) "\r\nEthernet RAM buffers exhausted, check buffer assignements in TCPIPConfig.h  ");
+#endif
+                                    while (1){}       // Lock up
+                                }
+                                
 				break;
 			#endif
 				

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" standalone="no"?>
 <!-- Viewbox defines the viewport into the user space coord system of the SVG canvas. For easier transform of the wind carret I have the center of the circle at 0,0 in svg user space 
-     and translate the the viewport with -400, -140 so that all of the graphic can be seen. (i.e. 0,0 is 400 to the right and 140 down) 
+     and translate the the viewport with -400, -120 so that all of the graphic can be seen. (i.e. 0,0 is 400 to the right and 120 down) 
 	 The second set of numbers of the viewBox attribute indicate the size of the viewport into the user space.
 	 This has to be big enough to encompass the entire graphic and will be scaled up or down to fill the enclosing element screen size (i.e. Iframe, Div).
 -->	 
-<svg 	viewBox="-400 -140 520 260"	
+<svg 	viewBox="-400 -120 520 260"	
 		version="1.1" baseProfile="full" 
 		xmlns="http://www.w3.org/2000/svg" 
 		xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,6 +28,8 @@ function updateThisStatus(xmlData) {
 	var rh = getXMLValue(xmlData, 'RelH');
 	var baro = getXMLValue(xmlData,'Baro_In');
 	var sol = getXMLValue(xmlData, 'Sol_W');
+	var rain = getXMLValue(xmlData, 'Rain');
+	var rainday = getXMLValue(xmlData, 'RainDay');
 
 
 	// Update the values on the screen
@@ -40,6 +42,9 @@ function updateThisStatus(xmlData) {
 	document.getElementById("rel_hum").textContent = rh;
 	document.getElementById("baro_in").textContent = baro;
 	document.getElementById("sol_rad").textContent = sol;
+	document.getElementById("rain_in").textContent = rain;
+	document.getElementById("rain_day").textContent = rainday;
+
 }
 
 
@@ -69,10 +74,12 @@ setTimeout("newAJAXCommand('sensors.xml', updateThisStatus, true)",100);
 <text x="0" y="30"  stroke="lightgrey" fill="lightgrey" text-anchor="middle">Wind gust <tspan id="wind_gust"> </tspan> mph</text>
 <text x="-380" y="-100" font-size="x-large">Station ~W_SID~ </text>
 <text x="-380" y="-60">Temperature <tspan id="temp_F"> </tspan> °F </text>
-<text x="-380" y="-30">Dewpoint <tspan id="dew_pt"> </tspan> °F </text>
+<text x="-380" y="-30">Pressure <tspan id="baro_in"> </tspan>" Hg</text>
 <text x="-380" y="-00">Humidity <tspan id="rel_hum"> </tspan> %</text>
-<text x="-380" y= "30">Pressure <tspan id="baro_in"> </tspan>" Hg</text>
+<text x="-380" y= "30">Dewpoint <tspan id="dew_pt"> </tspan> °F </text>
 <text x="-380" y= "60">Solar <tspan id="sol_rad"> </tspan> W/m2</text>
+<text x="-380" y= "90">Rain <tspan id="rain_in"> </tspan> inch/Hr</text>
+<text x="-380" y= "120">Rain Total <tspan id="rain_day"> </tspan> inch/Day</text>
 
 
 </svg>

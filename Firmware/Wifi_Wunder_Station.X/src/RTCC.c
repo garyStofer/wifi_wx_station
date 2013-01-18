@@ -3,12 +3,36 @@
  * Real Time Clock Calender For PIC24F ffamily
  *
  *****************************************************************************/
-
+#include "TCPIP Stack/TCPIP.h"
 #include "Hardwareprofile.h"
 #include "rtcc.h"
-// #include "string.h"
+#include "wind_rain_cnt.h"
 
-BCD_RTCC _RTC_time;     // Global that holds the last read time read from the device
+BCD_RTCC _RTC_time; // Global that holds the last read time read from the device
+short RTC_1Sec_tic = 0; // A tic count that gets incremented once per second by the RTCC 1 second chime interrupt
+BOOL RTC_1Sec_flag = FALSE; // A flag that gets set each time the one second RTCC chime interrupt is set.
+
+// This is a one second interrupt from the RTCC Alarm/Chime function
+
+void _ISR __attribute__((__no_auto_psv__))
+_RTCCInterrupt(void)
+{
+    Wind_1Sec_count = WIND_COUNTER; // Read the anemometers count for the last second i.e. TMR2
+    WIND_COUNTER = 0; // reset the counter
+    RTC_1Sec_tic++; // ever increasing one second cound -- rolls overfrom +32767 to -32768
+    RTC_1Sec_flag = TRUE; // Flag to indicate that a new one second tick has arrived. -- for one second task to act upon
+    IFS3bits.RTCIF = 0;
+}
+
+short
+Get_1Sec_RTCC_tic_diff(short T1) // T1 beeing an earlier time tick
+{
+    if (RTC_1Sec_tic < T1)
+        return T1 + RTC_1Sec_tic; // just rolled over, numberline is inverted
+    else
+        return RTC_1Sec_tic - T1; // numberline is contineous
+}
+
 
 /*****************************************************************************
  * Arrays: _time_str and _date_str
@@ -20,7 +44,7 @@ BCD_RTCC _RTC_time;     // Global that holds the last read time read from the de
 static char time_str[17] = "                "; // "Sat 10:01:15    "
 static char date_str[17] = "                "; // "Sep 30, 2005    "
 
-
+/* Unlocks the RTCC hardware so that the timer counters and other protected registers can be written */
 static void
 RTC_Unlock(void)
 {
@@ -37,14 +61,40 @@ RTC_Unlock(void)
     asm ("BSET RCFGCAL, #13"); // set the RTCWREN bit -- RTCC registers are now writable
 }
 
+
+/* Locks the RTCC hardware from writes to it's timer counters */
 static void
 RTC_Lock(void)
 {
     RCFGCALbits.RTCWREN = 0;
 }
 
-/*****************************************************************************/
-void RTC_Init(void)    // configures the oscialltor to clock the RTC
+
+/* Initializes the RTCC so that it generates an interupt every second contineously, which is used as the to wind speed
+ * capture window and also provides a one second time tick for a once_per_second task in main orchestarting the sensor
+ * data accquisition.
+ * Called from the RTCC init function, starts the RTCC running upon exit
+ * */
+void
+RTC_SetChime1Sec(void)
+{
+    RTC_Unlock();               // Needed for RTCEN
+    ALCFGRPTbits.CHIME = 1;     // contineous alarms
+    ALCFGRPTbits.ALRMEN = 1;
+    ALCFGRPTbits.AMASK = 1;     // alarm/chime every second
+    IFS3bits.RTCIF = 0;
+    IEC3bits.RTCIE = 1;
+    RCFGCALbits.RTCEN = 1; // Start the clock to run
+    RTC_Lock();
+
+}
+
+/* Configures the SOSC (32khz xtal) to run (with unlock sequence)
+ * Configures tmr2 to capture wind speed counts
+ * Enables the RTCC to generate 1 seonds interrupts and enables the RTCC to run
+ */
+void
+RTC_Init(void) // configures the oscialltor to clock the RTC
 {
     // Enables the SOSC for RTCC operation with unlocking sequene, basically OSCCONbits.SOSCEN =1;
     asm("mov #OSCCON,W1");
@@ -55,20 +105,24 @@ void RTC_Init(void)    // configures the oscialltor to clock the RTC
     asm("mov.b	W3, [W1]");
     asm("mov.b	W0, [W1]");
 
+    // Start the RTC running so that the OneSecondTask can start up,  even though the time is not set
+    RTC_SetChime1Sec(); // Enables the one second alarm and starts RTC running
 }
-
 
 /*****************************************************************************/
 BCD_RTCC *
 RTC_Read_BCD_Time(void)
 {
-    if (!RCFGCALbits.RTCEN)     // Clock not enabled --
+    if (!RCFGCALbits.RTCEN) // Clock not enabled --
         return NULL;
 
     while (_RTCSYNC) // in case a rollover is in process wait until complete
     {
+
+
         ;
     }
+
     do // Read the RTC values and check at the end if a rollover occured during the read
     {
         _RTCPTR = 3;
@@ -78,14 +132,26 @@ RTC_Read_BCD_Time(void)
         _RTC_time.prt00 = RTCVAL;
     } while (_RTCSYNC);
 
-    return & _RTC_time;
+
+return & _RTC_time;
 }
 
+BOOL
+RTC_is_Set(void)
+{
+    if (!RCFGCALbits.RTCEN) // Clock not enabled --
+        return FALSE;
+
+    return TRUE;
+}
 /*********************************************************************************************/
 char *
-RTC_Convert_BCD_Date_to_String (BCD_RTCC * t)
+RTC_Convert_BCD_Date_to_String(BCD_RTCC * t)
 {
-    switch (t->mth)     // since months are from 1-12 no BCD to bin conversion  nescessary
+   if (t == NULL)
+        t = &_RTC_time;
+
+   switch (t->mth) // since months are from 1-12 no BCD to bin conversion  nescessary
     {
         default:
         case 0x01:
@@ -162,12 +228,15 @@ RTC_Convert_BCD_Date_to_String (BCD_RTCC * t)
     date_str[10] = (t->yr >> 4) + '0';
     date_str[11] = (t->yr & 0xF) + '0';
     return date_str;
-};
+}
 
 /*******************************************************************************************/
 char *
 RTC_Convert_BCD_Time_to_String(BCD_RTCC * t)
 {
+    if (t == NULL)
+        t = &_RTC_time;
+
     switch (t->wkd)
     {
         default:
@@ -230,7 +299,6 @@ RTC_Convert_BCD_Time_to_String(BCD_RTCC * t)
 
 }
 
-
 /*****************************************************************************
  * Function: RTCCCalculateWeekDay
  *
@@ -247,7 +315,7 @@ RTC_Convert_BCD_Time_to_String(BCD_RTCC * t)
  *
  *****************************************************************************/
 void
-RTC_CalculateWeekDay( BCD_RTCC *t)  // Calculate the day of the week for century 2000
+RTC_CalculateWeekDay(BCD_RTCC *t) // Calculate the day of the week for century 2000
 {
     const char MonthOffset[] =
             //jan feb mar apr may jun jul aug sep oct nov dec
@@ -280,11 +348,20 @@ RTC_CalculateWeekDay( BCD_RTCC *t)  // Calculate the day of the week for century
     t->wkd = mRTCCbin2bcd(Offset);
 }
 
-
- /*****************************************************************************/
-void RTC_Set_BCD_time( BCD_RTCC * t)        // RTC BCD time structure
+/*****************************************************************************
+ * Function: RTC_Set_BCD_time
+ *
+ * Overview: The function Sets the RTCC hardware to to time conveid in the function argument
+ * Input: The BCD formatted time.
+ * The RTCC is stopped monentarily to set the time and then re-enabled upon exit for a running clock
+ * A Unlock/Lock sequence is executed to enable the writing of the RTCC counters.
+ * Output: none
+ *
+ *****************************************************************************/
+void
+RTC_Set_BCD_time(BCD_RTCC * t) // RTC BCD time structure
 {
-    RTC_CalculateWeekDay( t );
+    RTC_CalculateWeekDay(t);
     RTC_Unlock(); // Unlock the RTCC so we can write
     RCFGCALbits.RTCEN = 0; // Stop the clock from running should it be running already
     // Set the time
@@ -293,10 +370,33 @@ void RTC_Set_BCD_time( BCD_RTCC * t)        // RTC BCD time structure
     RTCVAL = t->prt10;
     RTCVAL = t->prt01;
     RTCVAL = t->prt00;
-
+    // Note: Alarm resistors do not need to be set since we want an interrupt every one second. 
     RCFGCALbits.RTCEN = 1; // Start the clock to run
 
     RTC_Lock(); // Lock the RTCC from beeing written
 
+   if (t->TT > 0 && t->TT <=50 )      // daylightsavings is in effect
+       _RTC_time.daylight = 1;
+   else
+       _RTC_time.daylight = 0;
+
 }
 
+BOOL RTC_isMidnight( BCD_RTCC * t, short  timezone_offset)
+{
+    short hour; // hour in decimal
+
+    // it's always midnight unless we have time
+     if (t == NULL)
+        return  TRUE;
+
+    timezone_offset += t->daylight;
+
+    hour = (t->hr >> 4) *10 + (t->hr & 0xF);   // convert to decimal
+    hour = (24 + timezone_offset)%24;
+
+    if (hour == 00 && t->sec ==0 && t->min == 0)
+        return TRUE;
+
+    return FALSE;
+}

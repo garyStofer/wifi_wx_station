@@ -3,23 +3,9 @@
 #include "APP_cfg.h"
 #include "Configs/Wunder_cfg.h"
 
-
-t_WX_Sensor_data SensorReading;
+t_WX_Sensor_data SensorReading = {0};
 t_WX_perm_data WX;       // all WX station related data
 
-void
-WX_Sensor_fakeInit()
-{
-   SensorReading.BaromIn = 29.82;
-   SensorReading.TempF = 80.1;
-   SensorReading.DewptF = 42.2;
-   SensorReading.RH = 20.0;
-   SensorReading.SolRad = 0;
-   SensorReading.Wind_dir = 0;
-   SensorReading.Wind_gust = 0;
-   SensorReading.Wind_speed = 0.0;
-
-}
 void
 WX_writePerm_data(void)
 {
@@ -27,6 +13,9 @@ WX_writePerm_data(void)
 
     if (loc + sizeof (WX) >= MPFS_RESERVE_BLOCK)
     {
+#if defined(STACK_USE_UART)
+        putrsUART((ROM char*) "#define MPFS_RESERVE_BLOCK is too small !!");
+#endif
         while (1);
     }
 
@@ -42,6 +31,7 @@ WX_readPerm_data(void)
 
     if (loc + sizeof (WX) >= MPFS_RESERVE_BLOCK)
     {
+        loc += sizeof (WX);
 #if defined(STACK_USE_UART)
         putrsUART((ROM char*) "#define MPFS_RESERVE_BLOCK is too small !!");
 #endif
@@ -58,12 +48,14 @@ void WX_perm_data_init_toDefault( void)
 
    strcpy(WX.Wunder.StationID,MY_DEFAULT_WUNDER_STATION_ID);
    strcpy(WX.Wunder.StationPW,MY_DEFAULT_WUNDER_STATION_PWD);
-   WX.Wunder.StationElev = 0;
+   strcpy(WX.Station.User_name,HTTP_USERNAME);
+   strcpy(WX.Station.password,HTTP_PASSWORD);
+   // WX.Wunder.StationElev = 0;
    WX.Wunder.Wunder_IP.v[0] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE1;
    WX.Wunder.Wunder_IP.v[1] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE2;
    WX.Wunder.Wunder_IP.v[2] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE3;
    WX.Wunder.Wunder_IP.v[3] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE4;
-   WX.Wunder.Enabled=0;
+   // WX.Wunder.Enabled=0;
 
    WX.TimeServer.NIST1.v[0] =MY_DEFAULT_NIST1_IP_ADDR_BYTE1 ;
    WX.TimeServer.NIST1.v[1] =MY_DEFAULT_NIST1_IP_ADDR_BYTE2 ;
@@ -75,9 +67,11 @@ void WX_perm_data_init_toDefault( void)
    WX.TimeServer.NIST2.v[2] =MY_DEFAULT_NIST2_IP_ADDR_BYTE3;
    WX.TimeServer.NIST2.v[3] =MY_DEFAULT_NIST2_IP_ADDR_BYTE4;
 
-   WX.Calib.Baro_offs = WX.Calib.Hyg_offs = WX.Calib.WDir_offs = 0;
-   WX.Calib.Hyg_gain = WX.Calib.Sol_gain = WX.Calib.Temp_gain = 1000;
-
+   //  WX.Calib.Baro_offs = WX.Calib.WDir_offs = 0;
+   WX.Calib.Sol_gain = 1000;
+   WX.Calib.Rain_counts = 100;
+   
+   WX.Mail.port = 25;
    WX_writePerm_data();
 }
 
@@ -119,6 +113,7 @@ stoa_dec( char * buff,  short data, short dec_places)
                 *buff++ = '0';
 
             *buff++ = '.';
+            leading0 =0;
         }
 
         digit = data/div;
@@ -128,8 +123,7 @@ stoa_dec( char * buff,  short data, short dec_places)
             continue;
 
         *buff++ = digit +'0';
-        leading0=0;
-       
+        leading0 =0;
      }
 
     *buff++ = 0;

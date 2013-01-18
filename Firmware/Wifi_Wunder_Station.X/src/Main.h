@@ -54,6 +54,12 @@
 
 #define BAUD_RATE       (19200)		// bps
 
+#define WX_UPLINK_INTERVAL 60
+#define BARO_HYG_TEMP_MEAS_Interval 5 // not too fast because of sensor self heating
+#define RAIN_MEAS_Interval (60*5)    // Read and reset the rain counter every 5 minutes
+#define RAIN_SAMPLES_P_HOUR   (60*60/RAIN_MEAS_Interval) // sum up this many samples for one hours worth of rain
+#define AN_CAL_FACTOR 0.32142 // for 7 pol magnet ring
+
 #if !defined(THIS_IS_STACK_APPLICATION)
 	extern BYTE AN0String[8];
 #endif

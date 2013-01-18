@@ -16,32 +16,50 @@ typedef  struct
 {
     float BaromIn;
     float TempF;
+    float TempC;
     float DewptF;
+    float DewptC;
     float RH;
-    unsigned short Wind_dir;
-    float Wind_speed;
-    float Wind_gust;
+    short Wind_dir;             // momentary wind direction (1 sec)
+    float Wind_speed;           // momentary wind speed     (1 sec)
+    float Wind_gust;            // Wind peak over wunderground update interval
+    float Wind_gust_10min;      // Wind peak over last 10 minutes
+    short AvgWindDir;           // Average wind direction over wunderground update interval
+    float AvgWindSpd;           // Average wind speed  ""
     short SolRad;
+    float RainIn;
+    float RainDaily;
 } t_WX_Sensor_data;
 
 typedef struct __attribute__((__packed__))
 {
-    short Temp_gain;
-    short Hyg_gain;
+    short Rain_counts;
+    short Hyg_offs;
     short Sol_gain;
     short Baro_offs;
     short WDir_offs;
-    short Hyg_offs;
- 
+    short Temp_offs;
+    short unused[2];
+
 }t_cal_data;
 
 typedef  struct __attribute__((__packed__))
 {
-   char Enabled;
+   char unused;
    IP_ADDR Wunder_IP;
    char StationID[13];
    char StationPW[13];
    short StationElev;
+   struct tag_Report_enables
+    {
+       short Station:1;
+       short Wind :1;
+       short Hyg : 1;
+       short Sol : 1;
+       short Rain : 1;
+       short unused: 11;
+    }report_enable;
+     short unused2[2];
 }t_wunder_data;
 
 typedef struct __attribute__((__packed__))
@@ -50,11 +68,36 @@ typedef struct __attribute__((__packed__))
    IP_ADDR   NIST2;
 } t_WX_NIST_data;
 
+typedef  struct __attribute__((__packed__))
+{
+   char SendTo[31];
+   char Server[31];
+   char User_name[21];
+   char password[21];
+   short port;
+   // short unused[2];
+}t_MAIL_data;
+
+typedef  struct __attribute__((__packed__))
+{
+   char User_name[13];
+   char password[13];
+}t_ST_data;
+
+typedef struct __attribute__((__packed__))
+{
+    unsigned char enable;
+    short adc_thresh[4];
+} t_ALARM_Data;
+
 typedef struct __attribute__((__packed__))
 {
     t_cal_data Calib;
     t_wunder_data Wunder;
     t_WX_NIST_data TimeServer;
+    t_MAIL_data Mail;
+    t_ST_data Station;
+    t_ALARM_Data Alarms;
 } t_WX_perm_data;
 
 

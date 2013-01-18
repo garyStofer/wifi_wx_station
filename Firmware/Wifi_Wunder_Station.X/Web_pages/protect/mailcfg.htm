@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../styles.css" rel="stylesheet" type="text/css" >
+</head>
+<body class="inframe" >
+	<h3>Mail Configuration</h3>
+	
+	<div class="result fail" style="display:~status_fail~">
+		<p>Error: ~status_msg~ </p>
+		<p>Try again...</p>
+	</div>
+
+	<form action="" method="GET" name="Mailconfig" > <!-- action="" == self posting form -->
+		<fieldset>
+			<legend>Mail Account Properties:</legend>
+			<div> <label>Send Mail To:</label> <input type="text" name="M_TO" size ="20" maxlength="30" value="~M_TO~"/> </div>
+			<div> <label>SMTP Server :</label> 	<input type="text" name="M_SRV" size ="20" maxlength="30" value="~M_SRV~"/><span style="font-size:x-small"> i.e. smtp.isp.net</span></div>
+			<div> <label>SMTP Port :</label>	<input type="text" name="M_PRT"  size ="5"  maxlength="4" value="~M_PRT~"/><span style="font-size:x-small"> default 25</span> </div>
+            <div> <label>User Name:</label> <input type="text" name="M_USR" size ="20" maxlength="20" value="~M_USR~"/> </div>
+            <div> <label>Password:</label> <input type="password" name="M_PWD" size ="20" maxlength="20" value="~M_PWD~"/> </div>
+			<div> <input type="submit" class="sm" name="_SAVE" value="Save"/> </div>
+		</fieldset>
+	</form>
+	
+	<form action="" method="GET" name="TestMail" > <!-- action="" == self posting form -->
+	<fieldset>
+			<legend>Test Mail:</legend>
+			<textarea name="_MSG" style="width: 366px; height: 49px;">This message was sent by your Weather Underground Station.</textarea>
+			<div> <input type="submit" class="sm" name="_TSTMAIL" value="Send"/> </div>
+
+	</fieldset>
+	</form>
+
+
+  
+</body>
+</html>
+

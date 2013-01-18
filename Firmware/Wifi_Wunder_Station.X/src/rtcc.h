@@ -19,6 +19,8 @@ typedef union tagRTCC
             unsigned char mth;
             unsigned char yr;
             unsigned char nil;
+            unsigned char TT;
+            unsigned char daylight;       // T>0 && <51 indicatses Daylight savings time in effect
     };
     struct {
             unsigned int prt00;
@@ -29,16 +31,18 @@ typedef union tagRTCC
 } BCD_RTCC;
 
 extern BCD_RTCC _RTC_time;
+extern short RTC_1Sec_tic;              // A tic count that gets incremented once per second by the RTCC 1 second chime interrupt
+extern BOOL RTC_1Sec_flag;              // A flag that gets set each time the one second RTCC chime interrupt is set.
 
-extern void RTC_Init(void);    // configures the oscialltor to clock the RTC
-
-
-extern BCD_RTCC * RTC_Read_BCD_Time(void); // reads RTC and stores BCD time in global _RTC_time
+extern short Get_1Sec_RTCC_tic_diff ( short T1 );   // T1 beeing an earlier time tick
+extern void RTC_Init(void);                         // configures the oscialltor to clock the RTC
+extern BCD_RTCC * RTC_Read_BCD_Time(void);          // reads RTC and stores BCD time in global _RTC_time
 extern char * RTC_Convert_BCD_Date_to_String (BCD_RTCC * t);
 extern char * RTC_Convert_BCD_Timer_to_String(BCD_RTCC * t);
-extern void RTC_CalculateWeekDay( BCD_RTCC *t);  // Calculate the day of the week for century 2000
+extern void RTC_CalculateWeekDay( BCD_RTCC *t);     // Calculate the day of the week for century 2000
 extern void RTC_Set_BCD_time( BCD_RTCC * t);        // RTC BCD time structure
-
+extern BOOL RTC_isMidnight( BCD_RTCC * t, short  timezone_offset);
+extern BOOL RTC_is_Set(void);
 
 
 #endif

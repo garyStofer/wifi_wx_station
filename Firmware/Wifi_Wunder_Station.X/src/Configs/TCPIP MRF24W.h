@@ -73,7 +73,7 @@
 #define STACK_USE_DHCP_CLIENT			// Dynamic Host Configuration Protocol client for obtaining IP address and other parameters
 //#define STACK_USE_DHCP_SERVER			// Single host DHCP server
 //#define STACK_USE_FTP_SERVER			// File Transfer Protocol (old)
-//#define STACK_USE_SMTP_CLIENT			// Simple Mail Transfer Protocol for sending email
+#define STACK_USE_SMTP_CLIENT			// Simple Mail Transfer Protocol for sending email
 //#define STACK_USE_SNMP_SERVER			// Simple Network Management Protocol v2C Community Agent
 //#define STACK_USE_SNMPV3_SERVER		// Simple Network Management Protocol v3 Agent
 //#define STACK_USE_TFTP_CLIENT			// Trivial File Transfer Protocol client
@@ -130,7 +130,7 @@
  *   For MPFS Classic, this setting must match the Reserved setting
  *	 on the Advanced Settings page of the MPFS2 Utility.
  */
-#define MPFS_RESERVE_BLOCK				(220ul)
+#define MPFS_RESERVE_BLOCK				(400ul)
 
 /* MPFS File Handles
  *   Maximum number of simultaneously open MPFS2 files.
@@ -234,10 +234,10 @@
  */
 	// Allocate how much total RAM (in bytes) you want to allocate
 	// for use by your TCP TCBs, RX FIFOs, and TX FIFOs.
-	#define TCP_ETH_RAM_SIZE					(4369ul)
-	#define TCP_PIC_RAM_SIZE					(0ul)
-	#define TCP_SPI_RAM_SIZE					(0ul)
-	#define TCP_SPI_RAM_BASE_ADDRESS			(0x00)
+	#define TCP_ETH_RAM_SIZE			(4369ul)
+	#define TCP_PIC_RAM_SIZE			(0ul)
+	#define TCP_SPI_RAM_SIZE			(0ul)
+	#define TCP_SPI_RAM_BASE_ADDRESS		(0x00)
 
 	// Define names of socket types
 	#define TCP_SOCKET_TYPES
@@ -289,17 +289,18 @@
 			//{TCP_PURPOSE_TCP_PERFORMANCE_TX, TCP_ETH_RAM, 200, 1},
 			//{TCP_PURPOSE_TCP_PERFORMANCE_RX, TCP_ETH_RAM, 40, 1500},
 			//{TCP_PURPOSE_UART_2_TCP_BRIDGE, TCP_ETH_RAM, 256, 256},
-			{TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // Note these are sized so as to use up use up
-			{TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // All the rest
 			//{TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 1000, 1000},
 			//{TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 1000, 1000},
-			//{TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 1000, 1000},
-			//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
+        		//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
 			//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
 			//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
 			//{TCP_PURPOSE_BERKELEY_CLIENT, TCP_ETH_RAM, 125, 100},
-                        {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},
-                        {TCP_PURPOSE_WUNDER_CLIENT, TCP_ETH_RAM, 300,50 },       
+
+                    {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // Note these are sized so as to use up use up
+                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // all the available memory in the ethernet controller
+                     {TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 65,65},
+                     {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},
+                     {TCP_PURPOSE_WUNDER_CLIENT, TCP_ETH_RAM, 300,50 },
 		};
 		#define END_OF_TCP_CONFIGURATION
 	#endif
@@ -381,8 +382,8 @@
 	#define STACK_USE_HTTP_APP_RECONFIG		// Use the AppConfig web page in the Demo App (~2.5kb ROM, ~0b RAM)
 	//#define STACK_USE_HTTP_MD5_DEMO		// Use the MD5 Demo web page (~5kb ROM, ~160b RAM)
 	//#define STACK_USE_HTTP_EMAIL_DEMO		// Use the e-mail demo web page
-        #define HTTP_USERNAME "admin"                 // user anme and password for http protected directories
-        #define HTTP_PASSWORD "password"
+        #define HTTP_USERNAME "admin"                 // user Name and password for http protected directories
+        #define HTTP_PASSWORD "admin"
 // -- SSL Options --------------------------------------------------------
 
 	#define MAX_SSL_CONNECTIONS		(2ul)	// Maximum connections via SSL
@@ -423,8 +424,8 @@
 	//#define TELNET_REJECT_UNSECURED
 
 	// Default username and password required to login to the Telnet server.
-	#define TELNET_USERNAME			"admin"
-	#define TELNET_PASSWORD			"password"
+	#define TELNET_USERNAME			"WX_Wunder"
+	#define TELNET_PASSWORD			"Weather427"
 
 
 // -- SNMP Options -------------------------------------------------------

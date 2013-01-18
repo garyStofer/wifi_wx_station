@@ -1,7 +1,3 @@
-// Copyright © 2002-2010 Microchip Technology Inc.  All rights reserved.
-// See Microchip TCP/IP Stack documentation for license information.
-
-
 // Determines when a request is considered "timed out"
 var timeOutMS = 5000; //ms
  
@@ -82,7 +78,7 @@ function pollAJAX() {
 				curAjax.container(null);
 			} else {
 				// Alert the user
-				alert("Command failed.\nConnection to development board was lost.");
+				alert("Command failed.\nConnection to WX board was lost.");
 			}
 
 	    	curAjax.ajaxReq.abort();

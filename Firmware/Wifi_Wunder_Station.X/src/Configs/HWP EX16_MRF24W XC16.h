@@ -73,8 +73,12 @@
 		_CONFIG1(JTAGEN_OFF & ICS_PGx2 & FWDTEN_OFF);		// Watchdog timer off, ICD debugging on PGEC2/PGED2 pins, JTAG off
 	#elif defined(__PIC24F__)
 		// All other PIC24F PIMs
-		_CONFIG2(FNOSC_PRIPLL & POSCMOD_XT)		// Primary XT OSC with 4x PLL
+		//_CONFIG2(FNOSC_PRIPLL & POSCMOD_XT)		// Primary XT OSC with 4x PLL
+                _CONFIG2(FNOSC_FRCPLL & POSCMOD_NONE & OSCIOFNC_ON  ) // FAST RC x4 pll, no xtal running, OSC pins used for io
 		_CONFIG1(JTAGEN_OFF & FWDTEN_OFF)		// JTAG off, watchdog timer off
+                        #pragma config POSCMOD = NONE           // Primary Oscillator Select (Primary oscillator disabled)
+
+
 	#elif defined(__dsPIC33F__) || defined(__PIC24H__) || defined(__dsPIC33E__)|| defined(__PIC24E__)
 		// All dsPIC33F and PIC24H PIMs
 		_FOSCSEL(FNOSC_PRIPLL)			// PLL enabled
@@ -120,7 +124,8 @@
 #define LED7_IO				(LATAbits.LATA7)
 #define LED_GET()			(*((volatile unsigned char*)(&LATA)))
 #define LED_PUT(a)			(*((volatile unsigned char*)(&LATA)) = (a))
-
+#define All_LEDS_on()                  LATA = 0x7f
+#define All_LEDS_off()                 LATA = 0
 // Momentary push buttons
 #define BUTTON0_TRIS		(TRISDbits.TRISD13)	// Ref S4
 #define	BUTTON0_IO			(PORTDbits.RD13)

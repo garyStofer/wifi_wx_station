@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../styles.css" rel="stylesheet" type="text/css" >
+</head>
+<body class="inframe" >
+	<h3>Reboot</h3>
+<p><b>Your board is located at: <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></b></p>
+<p>To restore factory default settings proceed as follows:</p>
+<ul>
+<li>Disconnect power to the device.</li>
+<li>Press and hold button S1.</li>
+<li>Apply power while holding Button S1.</li>
+<li>Wait until 3 LEDs flash rapidly after about 5 seconds.</li>
+<li>Release the button. </li>
+
+</ul>
+<p> The device will re-start with the following connection defaults:</p>
+<ol>
+<li>WIFI SSID : <b>linksys</b></li>
+<li>WIFI encryption : <b>None</b></li>
+<li>Netbios name : <b>WXBOARD</b></li>
+<li>DHCP : <b>Enabled</b></li>
+<li>Login Username : <b>admin</b></li>
+<li>Login Password : <b>admin</b></li>
+</ol>
+<p>During the boot process the device displays the current connection parameters via its USB COM port.
+ Use a terminal emulator program configured to 19.2kbd, 8N1 to connect</p>
+
+	<hr/>
+	<form name ="frmRst" method="POST" action="ipcfg.htm">
+	<input type="hidden" name="Reboot" value="Now"/>
+	<label> </label> <input type="submit" value="Reboot Now"/>
+	</form>
+</body>
+</html>

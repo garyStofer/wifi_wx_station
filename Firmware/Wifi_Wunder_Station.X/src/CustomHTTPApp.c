@@ -61,6 +61,8 @@
 #include "Main.h"
 #include "WX_perm_data.h"		// Needed for SaveAppConfig() prototype
 #include "APP_cfg.h"
+#include "rtcc.h"
+#include "Mail_Alarm.h"
 
 /****************************************************************************
   Section:
@@ -70,7 +72,11 @@
 // RAM allocated for DDNS parameters
 #if defined(STACK_USE_DYNAMICDNS_CLIENT)
 static BYTE DDNSData[100];
-#endif 
+static HTTP_IO_RESULT HTTPPostExecDDNSConfig(void);
+#endif
+#if defined(STACK_USE_SMTP_CLIENT)&& defined (HAS_HTTP_FORM_POSTMAIL)
+static HTTP_IO_RESULT HTTPPostExecEmail(void);
+#endif
 
 // Sticky status message variable.
 // This is used to indicated whether or not the previous POST operation was 
@@ -104,10 +110,6 @@ HTTPNeedsAuth(BYTE* cFile)
     if (memcmppgm2ram(cFile, (ROM void*) "protect", 7) == 0)
         return 0x00; // Authentication will be needed later
 
-    // If the filename begins with the folder "snmp", then require auth
-    if (memcmppgm2ram(cFile, (ROM void*) "snmp", 4) == 0)
-        return 0x00; // Authentication will be needed later
-
     // If the filename begins with the folder "admin", then require auth
     if (memcmppgm2ram(cFile, (ROM void*) "admin", 5) == 0)
         return 0x00; // Authentication will be needed later
@@ -138,16 +140,9 @@ HTTPNeedsAuth(BYTE* cFile)
 BYTE
 HTTPCheckAuth(BYTE* cUser, BYTE* cPass)
 {
-    if (strcmppgm2ram((char *) cUser, (ROM char *) HTTP_USERNAME) == 0
-            && strcmppgm2ram((char *) cPass, (ROM char *) HTTP_PASSWORD) == 0)
-        return 0x80; // We accept this combination
-
-    // You can add additional user/pass combos here.
-    // If you return specific "realm" values above, you can base this
-    //   decision on what specific file or folder is being accessed.
-    // You could return different values (0x80 to 0xff) to indicate
-    //   various users or groups, and base future processing decisions
-    //   in HTTPExecuteGet/Post or HTTPPrint callbacks on this value.
+     if (   strcmp((char *) cUser, WX.Station.User_name) == 0
+         && strcmp((char *) cPass,  WX.Station.password) == 0)
+         return 0x80; // We accept this combination
 
     return 0x00; // Provided user/pass is invalid
 }
@@ -158,6 +153,7 @@ HTTP_GetExec_wuncgf_htm()
 {
     BYTE *ptr;
     BYTE err = 0;
+    BOOL enaRain = FALSE, enaStation = FALSE,enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_SID")) != NULL )
         strncpy((char *) WX.Wunder.StationID, (char *) ptr, sizeof (WX.Wunder.StationID));
@@ -191,17 +187,30 @@ HTTP_GetExec_wuncgf_htm()
     }
 
 
-    // this is a checkbox input, only checked items are transmitted
+    // these are checkbox input, only checked items are transmitted, so we have to assume that they are notc checked if we don recive them
+    // since there are multiple forms on the page we have to special case them and only set or clear when we know that the wunder config
+    // form sent the form submit
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_ENB"))
-        WX.Wunder.Enabled = 1;
-    else
-        WX.Wunder.Enabled = 0;
+        enaStation  = 1;
 
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALtg")) != NULL)
-        WX.Calib.Temp_gain =  atoi((char *) ptr);
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_WND"))
+        enaWind=1;
 
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALhg")) != NULL)
-        WX.Calib.Hyg_gain =  atoi((char *) ptr);
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_HYG"))
+       enaHyg=1;
+
+
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_SOL"))
+        enaSol= 1;
+
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_RAIN"))
+        enaRain= 1;
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALto")) != NULL)
+        WX.Calib.Temp_offs =  atoi((char *) ptr);
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALho")) != NULL)
+        WX.Calib.Hyg_offs =  atoi((char *) ptr);
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALsg")) != NULL)
         WX.Calib.Sol_gain =  atoi((char *) ptr);
@@ -209,58 +218,160 @@ HTTP_GetExec_wuncgf_htm()
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALbo")) != NULL)
         WX.Calib.Baro_offs =  atoi((char *) ptr);
 
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALho")) != NULL)
-        WX.Calib.Hyg_offs =  atoi((char *) ptr);
-
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwo")) != NULL)
+     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwo")) != NULL)
         WX.Calib.WDir_offs =  atoi((char *) ptr);
 
-
-    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVE"))
-        WX_writePerm_data();
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALra")) != NULL)
+        WX.Calib.Rain_counts =  atoi((char *) ptr);
     
-    // TODO if error change something and possibly redirect the page
 
-}
-
-
-// TODO : can be used for relay control
-static void
-HTTP_GetExec_leds_cgi()
-{
-    BYTE *ptr;
-
-
-    // Determine which LED to toggle
-    ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "led");
-
-    // Toggle the specified LED
-    switch (*ptr)
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV1")) != NULL)
     {
-        case '1':
-            LED1_IO ^= 1;
-            break;
-        case '2':
-            LED2_IO ^= 1;
-            break;
-        case '3':
-            LED3_IO ^= 1;
-            break;
-        case '4':
-            LED4_IO ^= 1;
-            break;
-        case '5':
-            LED5_IO ^= 1;
-            break;
-        case '6':
-            LED6_IO ^= 1;
-            break;
-        case '7':
-            LED7_IO ^= 1;
-            break;
+              WX.Wunder.report_enable.Station  = enaStation;
+              WX.Wunder.report_enable.Wind = enaWind;
+              WX.Wunder.report_enable.Hyg = enaHyg;
+              WX.Wunder.report_enable.Sol = enaSol;
+              WX.Wunder.report_enable.Rain= enaRain;
+    }
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV1") || HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVE") )
+    {
+        WX_writePerm_data();
     }
 }
 
+static void
+HTTP_GetExec_mailcgf_htm()
+{
+    BYTE *ptr;
+   
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "M_TO")) != NULL )
+        strncpy((char *) WX.Mail.SendTo, (char *) ptr, sizeof (WX.Mail.SendTo));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "M_SRV")) != NULL)
+        strncpy((char *) WX.Mail.Server, (char*) ptr, sizeof (WX.Mail.Server));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "M_USR")) != NULL)
+        strncpy((char *) WX.Mail.User_name, (char*) ptr, sizeof (WX.Mail.User_name));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "M_PWD")) != NULL)
+        strncpy((char *) WX.Mail.password, (char*) ptr, sizeof (WX.Mail.password));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "M_PRT")) != NULL)
+        WX.Mail.port = atoi((char *) ptr);
+
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVE") )
+    {
+        WX_writePerm_data();
+    }
+
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_TSTMAIL") )
+    {
+        if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_MSG")) != NULL)
+            SMTP_trigger_mail( (char *)  ptr);
+    }
+}
+
+static void
+HTTP_GetExec_stcgf_htm()
+{
+    BYTE *ptr;
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "ST_USR")) != NULL)
+        strncpy((char *) WX.Station.User_name, (char*) ptr, sizeof (WX.Station.User_name));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "ST_PWD")) != NULL)
+        strncpy((char *) WX.Station.password, (char*) ptr, sizeof (WX.Station.password));
+
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVE") )
+    {
+        WX_writePerm_data();
+    }
+}
+
+
+
+static void
+HTTP_GetExec_togg_outputs_cgi()
+{
+    BYTE *ptr;
+
+    // Determine which LED/output to toggle
+    ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "out");
+    if (ptr)
+    {
+        // Toggle the specified outputs
+// TODO: need to change this to the actual outputs on the WX board
+        switch (*ptr)
+        {
+            case '1':
+                LED1_IO ^= 1;
+                break;
+            case '2':
+                LED2_IO ^= 1;
+                break;
+            case '3':
+                LED3_IO ^= 1;
+                break;
+            case '4':
+                LED4_IO ^= 1;
+                break;
+            case '5':
+                LED5_IO ^= 1;
+                break;
+            case '6':
+                LED6_IO ^= 1;
+                break;
+            case '7':
+                LED7_IO ^= 1;
+                break;
+        }
+    }
+    else
+    {
+        ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "led");
+        if (ptr)
+        {
+            switch (*ptr)
+            {
+                case '1':
+                    LED1_IO ^= 1;
+                    break;
+                case '2':
+                    LED2_IO ^= 1;
+                    break;
+                case '3':
+                    LED3_IO ^= 1;
+                    break;
+             }
+        }
+    }
+
+}
+
+static void
+HTTP_GetExec_alarmcfg_htm()
+{
+    BYTE *ptr;
+    BYTE tmp =0;
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_1")) != NULL)
+         tmp |= 1<<1;
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_2")) != NULL)
+         tmp |= 1<<2;
+
+     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_3")) != NULL)
+         tmp |= 1<<3;
+
+     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_4")) != NULL)
+         tmp |= 1<<4;
+
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVAL") )
+    {
+        WX.Alarms.enable =tmp;
+        WX_writePerm_data();
+    }
+}
 /****************************************************************************
   Section:
         GET Form Handlers
@@ -284,10 +395,21 @@ HTTPExecuteGet(void)
     MPFSGetFilename(curHTTP.file, filename, 24);
 
     // If it's the LED updater file
-    if (!memcmppgm2ram(filename, "leds.cgi", 8))
-        HTTP_GetExec_leds_cgi();
+    if (!memcmppgm2ram(filename, "togg.cgi", 8))
+        HTTP_GetExec_togg_outputs_cgi();
     else if (!memcmppgm2ram(filename, "protect/wuncfg.htm", 18))
         HTTP_GetExec_wuncgf_htm();
+    else if (!memcmppgm2ram(filename, "protect/snscfg.htm", 18))
+        HTTP_GetExec_wuncgf_htm();
+    else if (!memcmppgm2ram(filename, "protect/nistcfg.htm", 19))
+        HTTP_GetExec_wuncgf_htm();
+    else if (!memcmppgm2ram(filename, "protect/mailcfg.htm", 19))
+        HTTP_GetExec_mailcgf_htm();
+    else if (!memcmppgm2ram(filename, "protect/stcfg.htm", 17))
+        HTTP_GetExec_stcgf_htm();
+    else if (!memcmppgm2ram(filename, "protect/alarmcfg.htm", 20))
+        HTTP_GetExec_alarmcfg_htm();
+
 
     return HTTP_IO_DONE;
 }
@@ -388,7 +510,7 @@ process_MAC(BYTE *ptr, APP_CONFIG *aptr)
         HTTP_IO_NEED_DATA - data needed by this function has not yet arrived
  ***************************************************************************/
 static HTTP_IO_RESULT
-HTTPPostExecConfig(void)
+HTTPPostExecConfig(char *filename)
 {
     APP_CONFIG newAppConfig;
     BYTE *value;
@@ -440,7 +562,7 @@ HTTPPostExecConfig(void)
 
     while (curHTTP.byteCount > 0) // Read all POSDTed name/value pairs
     {
-        if (HTTPReadPostValue(curHTTP.data, sizeof (curHTTP.data)) != HTTP_READ_OK) // terurns two null terminated strings in sequence
+        if (HTTPReadPostValue(curHTTP.data, sizeof (curHTTP.data)) != HTTP_READ_OK) // returns two null terminated strings in sequence
         {
             lastFailure = "Could not Read POST data";
             goto ConfigFailure;
@@ -598,6 +720,7 @@ HTTPPostExecConfig(void)
 
     return HTTP_IO_DONE;
 
+    //reload the page in the browser so the error shows up
 ConfigFailure:
     if (lastFailure == NULL)
     {
@@ -605,7 +728,7 @@ ConfigFailure:
         strcat(lastErrorMsg, lastParse);
         lastFailure = lastErrorMsg;
     }
-    strcpypgm2ram((char*) curHTTP.data, "/protect/config.htm");
+    strcpy((char*) curHTTP.data, filename);
     curHTTP.httpStatus = HTTP_REDIRECT;
 
     return HTTP_IO_DONE;
@@ -631,11 +754,12 @@ HTTPExecutePost(void)
     MPFSGetFilename(curHTTP.file, filename, sizeof (filename));
 
 #if defined(STACK_USE_HTTP_APP_RECONFIG)
-    if (!memcmppgm2ram(filename, "protect/config.htm", 18))
-        return HTTPPostExecConfig();
+    if (!memcmppgm2ram(filename, "protect/ipcfg.htm", 17) || !memcmppgm2ram(filename, "protect/wificfg.htm", 19) )
+        return HTTPPostExecConfig((char *)filename);
+
 #endif
 
-#if defined(STACK_USE_SMTP_CLIENT)
+#if defined(STACK_USE_SMTP_CLIENT) && defined( HAS_HTTP_FORM_POSTMAIL)
     if (!strcmppgm2ram((char*) filename, "email/index.htm"))
         return HTTPPostExecEmail();
 #endif
@@ -648,424 +772,6 @@ HTTPExecutePost(void)
     return HTTP_IO_DONE;
 }
 
-/*****************************************************************************
-  Function:
-        static HTTP_IO_RESULT HTTPPostEmail(void)
-
-  Summary:
-        Processes the e-mail form on email/index.htm
-
-  Description:
-        This function sends an e-mail message using the SMTP client and
-        optionally encrypts the connection to the SMTP server using SSL.  It
-        demonstrates the use of the SMTP client, waiting for asynchronous
-        processes in an HTTP callback, and how to send e-mail attachments using
-        the stack.
-
-        Messages with attachments are sent using multipart/mixed MIME encoding,
-        which has three sections.  The first has no headers, and is only to be
-        displayed by old clients that cannot interpret the MIME format.  (The
-        overwhelming majority of these clients have been obseleted, but the
-        so-called "ignored" section is still used.)  The second has a few
-        headers to indicate that it is the main body of the message in plain-
-        text encoding.  The third section has headers indicating an attached
-        file, along with its name and type.  All sections are separated by a
-        boundary string, which cannot appear anywhere else in the message.
-	
-  Precondition:
-        None
-
-  Parameters:
-        None
-
-  Return Values:
-        HTTP_IO_DONE - the message has been sent
-        HTTP_IO_WAITING - the function is waiting for the SMTP process to complete
-        HTTP_IO_NEED_DATA - data needed by this function has not yet arrived
- ***************************************************************************/
-#if defined(STACK_USE_SMTP_CLIENT)
-
-static HTTP_IO_RESULT
-HTTPPostExecEmail(void)
-{
-    static BYTE *ptrData;
-    static BYTE *szPort;
-#if defined(STACK_USE_SSL_CLIENT)
-    static BYTE *szUseSSL;
-#endif
-    WORD len, rem;
-    BYTE cName[8];
-
-#define SM_EMAIL_CLAIM_MODULE				(0u)
-#define SM_EMAIL_READ_PARAM_NAME			(1u)
-#define SM_EMAIL_READ_PARAM_VALUE			(2u)
-#define SM_EMAIL_PUT_IGNORED				(3u)
-#define SM_EMAIL_PUT_BODY					(4u)
-#define SM_EMAIL_PUT_ATTACHMENT_HEADER		(5u)
-#define SM_EMAIL_PUT_ATTACHMENT_DATA_BTNS	(6u)
-#define SM_EMAIL_PUT_ATTACHMENT_DATA_LEDS	(7u)
-#define SM_EMAIL_PUT_ATTACHMENT_DATA_POT	(8u)
-#define SM_EMAIL_PUT_TERMINATOR				(9u)
-#define SM_EMAIL_FINISHING					(10u)
-
-#define EMAIL_SPACE_REMAINING				(HTTP_MAX_DATA_LEN - (ptrData - curHTTP.data))
-
-    switch (curHTTP.smPost)
-    {
-        case SM_EMAIL_CLAIM_MODULE:
-            // Try to claim module
-            if (SMTPBeginUsage())
-            {// Module was claimed, so set up static parameters
-                SMTPClient.Subject.szROM = (ROM BYTE*) "Microchip TCP/IP Stack Status Update";
-                SMTPClient.ROMPointers.Subject = 1;
-                SMTPClient.From.szROM = (ROM BYTE*) "\"SMTP Service\" <mchpboard@picsaregood.com>";
-                SMTPClient.ROMPointers.From = 1;
-
-                // The following two lines indicate to the receiving client that
-                // this message has an attachment.  The boundary field *must not*
-                // be included anywhere in the content of the message.  In real
-                // applications it is typically a long random string.
-                SMTPClient.OtherHeaders.szROM = (ROM BYTE*) "MIME-version: 1.0\r\nContent-type: multipart/mixed; boundary=\"frontier\"\r\n";
-                SMTPClient.ROMPointers.OtherHeaders = 1;
-
-                // Move our state machine forward
-                ptrData = curHTTP.data;
-                szPort = NULL;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_NAME;
-            }
-            return HTTP_IO_WAITING;
-
-        case SM_EMAIL_READ_PARAM_NAME:
-            // Search for a parameter name in POST data
-            if (HTTPReadPostName(cName, sizeof (cName)) == HTTP_READ_INCOMPLETE)
-                return HTTP_IO_NEED_DATA;
-
-            // Try to match the name value
-            if (!strcmppgm2ram((char*) cName, (ROM char*) "server"))
-            {// Read the server name
-                SMTPClient.Server.szRAM = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            } else if (!strcmppgm2ram((char*) cName, (ROM char*) "port"))
-            {// Read the server port
-                szPort = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            }#if defined(STACK_USE_SSL_CLIENT)
-            else if (!strcmppgm2ram((char*) cName, (ROM char*) "ssl"))
-            {// Read the server port
-                szUseSSL = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            }#endif
-            else if (!strcmppgm2ram((char*) cName, (ROM char*) "user"))
-            {// Read the user name
-                SMTPClient.Username.szRAM = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            } else if (!strcmppgm2ram((char*) cName, (ROM char*) "pass"))
-            {// Read the password
-                SMTPClient.Password.szRAM = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            } else if (!strcmppgm2ram((char*) cName, (ROM char*) "to"))
-            {// Read the To string
-                SMTPClient.To.szRAM = ptrData;
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            } else if (!strcmppgm2ram((char*) cName, (ROM char*) "msg"))
-            {// Done with headers, move on to the message
-                // Delete paramters that are just null strings (no data from user) or illegal (ex: password without username)
-                if (SMTPClient.Server.szRAM)
-                    if (*SMTPClient.Server.szRAM == 0x00u)
-                        SMTPClient.Server.szRAM = NULL;
-                if (SMTPClient.Username.szRAM)
-                    if (*SMTPClient.Username.szRAM == 0x00u)
-                        SMTPClient.Username.szRAM = NULL;
-                if (SMTPClient.Password.szRAM)
-                    if ((*SMTPClient.Password.szRAM == 0x00u) || (SMTPClient.Username.szRAM == NULL))
-                        SMTPClient.Password.szRAM = NULL;
-
-                // Decode server port string if it exists
-                if (szPort)
-                    if (*szPort)
-                        SMTPClient.ServerPort = (WORD) atol((char*) szPort);
-
-                // Determine if SSL should be used
-#if defined(STACK_USE_SSL_CLIENT)
-                if (szUseSSL)
-                    if (*szUseSSL == '1')
-                        SMTPClient.UseSSL = TRUE;
-#endif
-
-                // Start sending the message
-                SMTPSendMail();
-                curHTTP.smPost = SM_EMAIL_PUT_IGNORED;
-                return HTTP_IO_WAITING;
-            } else
-            {// Don't know what we're receiving
-                curHTTP.smPost = SM_EMAIL_READ_PARAM_VALUE;
-            }
-
-            // No break...continue to try reading the value
-
-        case SM_EMAIL_READ_PARAM_VALUE:
-            // Search for a parameter value in POST data
-            if (HTTPReadPostValue(ptrData, EMAIL_SPACE_REMAINING) == HTTP_READ_INCOMPLETE)
-                return HTTP_IO_NEED_DATA;
-
-            // Move past the data that was just read
-            ptrData += strlen((char*) ptrData);
-            if (ptrData < curHTTP.data + HTTP_MAX_DATA_LEN - 1)
-                ptrData += 1;
-
-            // Try reading the next parameter
-            curHTTP.smPost = SM_EMAIL_READ_PARAM_NAME;
-            return HTTP_IO_WAITING;
-
-        case SM_EMAIL_PUT_IGNORED:
-            // This section puts a message that is ignored by compatible clients.
-            // This text will not display unless the receiving client is obselete
-            // and does not understand the MIME structure.
-            // The "--frontier" indicates the start of a section, then any
-            // needed MIME headers follow, then two CRLF pairs, and then
-            // the actual content (which will be the body text in the next state).
-
-            // Check to see if a failure occured
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 90u)
-                return HTTP_IO_WAITING;
-
-            // Write the ignored text
-            SMTPPutROMString((ROM BYTE*) "This is a multi-part message in MIME format.\r\n");
-            SMTPPutROMString((ROM BYTE*) "--frontier\r\nContent-type: text/plain\r\n\r\n");
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_PUT_BODY;
-
-        case SM_EMAIL_PUT_BODY:
-            // Write as much body text as is available from the TCP buffer
-            // return HTTP_IO_NEED_DATA or HTTP_IO_WAITING
-            // On completion, => PUT_ATTACHMENT_HEADER and continue
-
-            // Check to see if a failure occurred
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // Loop as long as data remains to be read
-            while (curHTTP.byteCount)
-            {
-                // See if space is available to write
-                len = SMTPIsPutReady();
-                if (len == 0u)
-                    return HTTP_IO_WAITING;
-
-                // See if data is ready to be read
-                rem = TCPIsGetReady(sktHTTP);
-                if (rem == 0u)
-                    return HTTP_IO_NEED_DATA;
-
-                // Only write as much as we can handle
-                if (len > rem)
-                    len = rem;
-                if (len > HTTP_MAX_DATA_LEN - 2)
-                    len = HTTP_MAX_DATA_LEN - 2;
-
-                // Read the data from HTTP POST buffer and send it to SMTP
-                curHTTP.byteCount -= TCPGetArray(sktHTTP, curHTTP.data, len);
-                curHTTP.data[len] = '\0';
-                HTTPURLDecode(curHTTP.data);
-                SMTPPutString(curHTTP.data);
-                SMTPFlush();
-            }
-
-            // We're done with the POST data, so continue
-            curHTTP.smPost = SM_EMAIL_PUT_ATTACHMENT_HEADER;
-
-        case SM_EMAIL_PUT_ATTACHMENT_HEADER:
-            // This section writes the attachment to the message.
-            // This portion generally will not display in the reader, but
-            // will be downloadable to the local machine.  Use caution
-            // when selecting the content-type and file name, as certain
-            // types and extensions are blocked by virus filters.
-
-            // The same structure as the message body is used.
-            // Any attachment must not include high-bit ASCII characters or
-            // binary data.  If binary data is to be sent, the data should
-            // be encoded using Base64 and a MIME header should be added:
-            // Content-transfer-encoding: base64
-
-            // Check to see if a failure occurred
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 100u)
-                return HTTP_IO_WAITING;
-
-            // Write the attachment header
-            SMTPPutROMString((ROM BYTE*) "\r\n--frontier\r\nContent-type: text/csv\r\nContent-Disposition: attachment; filename=\"status.csv\"\r\n\r\n");
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_PUT_ATTACHMENT_DATA_BTNS;
-
-        case SM_EMAIL_PUT_ATTACHMENT_DATA_BTNS:
-            // The following states output the system status as a CSV file.
-
-            // Check to see if a failure occurred
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 36u)
-                return HTTP_IO_WAITING;
-
-            // Write the header and button strings
-            SMTPPutROMString((ROM BYTE*) "SYSTEM STATUS\r\n");
-            SMTPPutROMString((ROM BYTE*) "Buttons:,");
-            SMTPPut(BUTTON0_IO + '0');
-            SMTPPut(',');
-            SMTPPut(BUTTON1_IO + '0');
-            SMTPPut(',');
-            SMTPPut(BUTTON2_IO + '0');
-            SMTPPut(',');
-            SMTPPut(BUTTON3_IO + '0');
-            SMTPPut('\r');
-            SMTPPut('\n');
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_PUT_ATTACHMENT_DATA_LEDS;
-
-        case SM_EMAIL_PUT_ATTACHMENT_DATA_LEDS:
-            // Check to see if a failure occurred
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 30u)
-                return HTTP_IO_WAITING;
-
-            // Write the header and button strings
-            SMTPPutROMString((ROM BYTE*) "LEDs:,");
-            SMTPPut(LED0_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED1_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED2_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED3_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED4_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED5_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED6_IO + '0');
-            SMTPPut(',');
-            SMTPPut(LED7_IO + '0');
-            SMTPPut('\r');
-            SMTPPut('\n');
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_PUT_ATTACHMENT_DATA_POT;
-
-        case SM_EMAIL_PUT_ATTACHMENT_DATA_POT:
-            // Check to see if a failure occurred
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 16u)
-                return HTTP_IO_WAITING;
-
-            // Do the A/D conversion
-#if defined(__18CXX)
-            // Wait until A/D conversion is done
-            ADCON0bits.GO = 1;
-            while (ADCON0bits.GO);
-            // Convert 10-bit value into ASCII string
-            len = (WORD) ADRES;
-            uitoa(len, (BYTE*) & curHTTP.data[1]);
-#else
-            len = (WORD) ADC1BUF0;
-            uitoa(len, (BYTE*) & curHTTP.data[1]);
-#endif
-
-            // Write the header and button strings
-            SMTPPutROMString((ROM BYTE*) "Pot:,");
-            SMTPPutString(&curHTTP.data[1]);
-            SMTPPut('\r');
-            SMTPPut('\n');
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_PUT_TERMINATOR;
-
-        case SM_EMAIL_PUT_TERMINATOR:
-            // This section finishes the message
-            // This consists of two dashes, the boundary, and two more dashes
-            // on a single line, followed by a CRLF pair to terminate the message.
-
-            // Check to see if a failure occured
-            if (!SMTPIsBusy())
-            {
-                curHTTP.smPost = SM_EMAIL_FINISHING;
-                return HTTP_IO_WAITING;
-            }
-
-            // See if we're ready to write data
-            if (SMTPIsPutReady() < 16u)
-                return HTTP_IO_WAITING;
-
-            // Write the ignored text
-            SMTPPutROMString((ROM BYTE*) "--frontier--\r\n");
-            SMTPPutDone();
-            SMTPFlush();
-
-            // Move to the next state
-            curHTTP.smPost = SM_EMAIL_FINISHING;
-
-        case SM_EMAIL_FINISHING:
-            // Wait for status
-            if (!SMTPIsBusy())
-            {
-                // Release the module and check success
-                // Redirect the user based on the result
-                if (SMTPEndUsage() == SMTP_SUCCESS)
-                    lastSuccess = TRUE;
-                else
-                    lastFailure = TRUE;
-
-                // Redirect to the page
-                strcpypgm2ram((char*) curHTTP.data, "/email/index.htm");
-                curHTTP.httpStatus = HTTP_REDIRECT;
-                return HTTP_IO_DONE;
-            }
-
-            return HTTP_IO_WAITING;
-    }
-
-    return HTTP_IO_DONE;
-}
-#endif	// #if defined(STACK_USE_SMTP_CLIENT)
 
 /****************************************************************************
   Function:
@@ -1217,11 +923,11 @@ void
 HTTPPrint_builddate(void)
 {
     curHTTP.callbackPos = 0x01;
-    if (TCPIsPutReady(sktHTTP) < strlenpgm((ROM char*) __DATE__" ""00:08:00"))
+    if (TCPIsPutReady(sktHTTP) < strlenpgm((ROM char*) __DATE__))
         return;
 
     curHTTP.callbackPos = 0x00;
-    TCPPutROMString(sktHTTP, (ROM void*) __DATE__" ""00:08:00");
+    TCPPutROMString(sktHTTP, (ROM void*) __DATE__);
 }
 
 void
@@ -1231,13 +937,8 @@ HTTPPrint_version(void)
 }
 
 
-
-
-ROM BYTE HTML_UP_ARROW[] = "up";
-ROM BYTE HTML_DOWN_ARROW[] = "dn";
-
 void
-HTTPPrint_btn(WORD num)
+HTTPPrint_inp(WORD num)
 {
     // Determine which button
     switch (num)
@@ -1259,11 +960,36 @@ HTTPPrint_btn(WORD num)
     }
 
     // Print the output
-    TCPPutROMString(sktHTTP, (num ? HTML_UP_ARROW : HTML_DOWN_ARROW));
+    TCPPutROMString(sktHTTP, (num ? "up": "dn"));
 }
-
 void
 HTTPPrint_led(WORD num)
+{
+    // Determine which LED
+    switch (num)
+    {
+        case 0:
+            num = LED0_IO;
+            break;
+        case 1:
+            num = LED1_IO;
+            break;
+        case 2:
+            num = LED2_IO;
+            break;
+       
+        default:
+            num = 0;
+    }
+
+    // Print the output
+    TCPPut(sktHTTP, (num ? '1' : '0'));
+}
+
+// TODO: change this to the output controls of the WX board PORT D  10 bits on SV2
+//  for now connected to explorer 16  LEDS
+void
+HTTPPrint_out(WORD num)
 {
     // Determine which LED
     switch (num)
@@ -1302,71 +1028,68 @@ HTTPPrint_led(WORD num)
 }
 
 void
-HTTPPrint_ledSelected(WORD num, WORD state)
-{
-    // Determine which LED to check
-    switch (num)
-    {
-        case 0:
-            num = LED0_IO;
-            break;
-        case 1:
-            num = LED1_IO;
-            break;
-        case 2:
-            num = LED2_IO;
-            break;
-        case 3:
-            num = LED3_IO;
-            break;
-        case 4:
-            num = LED4_IO;
-            break;
-        case 5:
-            num = LED5_IO;
-            break;
-        case 6:
-            num = LED6_IO;
-            break;
-        case 7:
-            num = LED7_IO;
-            break;
-
-        default:
-            num = 0;
-    }
-
-    // Print output if TRUE and ON or if FALSE and OFF
-    if ((state && num) || (!state && !num))
-        TCPPutROMString(sktHTTP, (ROM BYTE*) "SELECTED");
-}
-
-void
-HTTPPrint_pot(void)
+HTTPPrint_adc(WORD num)
 {
     BYTE AN0String[8];
     WORD ADval;
 
 #if defined(__18CXX)
-    // Wait until A/D conversion is done
-    ADCON0bits.GO = 1;
-    while (ADCON0bits.GO);
-
-    // Convert 10-bit value into ASCII string
-    ADval = (WORD) ADRES;
-    //ADval *= (WORD)10;
-    //ADval /= (WORD)102;
-    uitoa(ADval, AN0String);
-#else
-    ADval = (WORD) ADC1BUF0;
-    //ADval *= (WORD)10;
-    //ADval /= (WORD)102;
-    uitoa(ADval, (BYTE*) AN0String);
+#error "no support for this ADC"
 #endif
 
+// Note: the ADC1BUFn are assigned on a dynamic basisand do not necessarily map to correspoinding AN inputs.
+// A 1:1 mapping is only achieved if all analog inputs are ennabled  in the ADC configuration.
+    switch (num)
+    {
+        case 0:
+            ADval = (WORD) ADC1BUF0;
+            break;
+        case 1:
+            ADval = (WORD) ADC1BUF1;
+            break;
+        case 2:
+            ADval = (WORD) ADC1BUF2;
+            break;
+        case 3:
+            ADval = (WORD) ADC1BUF3;
+            break;
+        case 4:
+            ADval = (WORD) ADC1BUF4;
+            break;
+        case 5:
+            ADval = (WORD) ADC1BUF5;
+            break;
+        case 6:
+            ADval =(WORD) ADC1BUF6;
+            break;
+        case 7:
+            ADval = (WORD) ADC1BUF7;
+            break;
+        default:
+            ADval =0;
+
+    }
+    uitoa(ADval, (BYTE*) AN0String);
     TCPPutString(sktHTTP, AN0String);
 }
+HTTPPrint_time(void)
+{
+    BCD_RTCC *date_time;
 
+    if ((date_time = RTC_Read_BCD_Time()) != NULL)
+    {
+        TCPPutString(sktHTTP, (BYTE *) RTC_Convert_BCD_Time_to_String(date_time));
+    }
+}
+HTTPPrint_date(void)
+{
+    BCD_RTCC *date_time;
+
+    if ((date_time = RTC_Read_BCD_Time()) != NULL)
+    {
+        TCPPutString(sktHTTP, (BYTE *) RTC_Convert_BCD_Date_to_String(date_time));
+    }
+}
 void
 HTTPPrint_lcdtext(void)
 {
@@ -1399,22 +1122,6 @@ HTTPPrint_lcdtext(void)
 #else
     TCPPutROMString(sktHTTP, (ROM BYTE*) "No LCD Present");
 #endif
-
-}
-
-void
-HTTPPrint_hellomsg(void)
-{
-    BYTE *ptr;
-
-    ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE*) "name");
-
-    // We omit checking for space because this is the only data being written
-    if (ptr != NULL)
-    {
-        TCPPutROMString(sktHTTP, (ROM BYTE*) "Hello, ");
-        TCPPutString(sktHTTP, ptr);
-    }
 
 }
 
@@ -1457,15 +1164,59 @@ HTTPPrint_W_PASS(void)
     TCPPutString(sktHTTP, (BYTE *) WX.Wunder.StationPW);
 }
 
+
+
+ROM BYTE HTML_checked[] = "checked";
+ROM BYTE HTML_off[] = "Off";
 void
 HTTPPrint_W_ENB(void)
 {
-    if (WX.Wunder.Enabled)
-        TCPPutROMString(sktHTTP, (ROM BYTE*) "checked");
+    if (WX.Wunder.report_enable.Station)
+        TCPPutROMString(sktHTTP, HTML_checked);
     else
-        TCPPutROMString(sktHTTP, (ROM BYTE*) "");
+        TCPPutROMString(sktHTTP, HTML_off);
+}
+void
+HTTPPrint_R_WND(void)
+{
+    if ( WX.Wunder.report_enable.Wind)
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
+void
+HTTPPrint_R_HYG(void)
+{
+    if ( WX.Wunder.report_enable.Hyg)
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
+void
+HTTPPrint_R_SOL(void)
+{
+    if ( WX.Wunder.report_enable.Sol)
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
+void
+HTTPPrint_R_RAIN(void)
+{
+    if ( WX.Wunder.report_enable.Rain)
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
 }
 
+void
+HTTPPrint_Ala(WORD num)
+{
+    if (WX.Alarms.enable & 1<<num )
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
 void
 HTTPPrint_ELEV(void)
 {
@@ -1532,6 +1283,21 @@ HTTPPrint_Baro_In(void)
 }
 
 void
+HTTPPrint_Rain_In(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, SensorReading.RainIn * 100, 2);
+    TCPPutString(sktHTTP, temp);
+}
+
+void
+HTTPPrint_RainDay(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, SensorReading.RainDaily * 100, 2);
+    TCPPutString(sktHTTP, temp);
+}
+void
 HTTPPrint_Sol_W(void)
 {
     BYTE temp[8];
@@ -1544,21 +1310,20 @@ HTTPPrint_wifiSSID(void)
 {
     TCPPutString(sktHTTP, AppConfig.MySSID);
 }
+
+void HTTPPrint_CALho(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Calib.Hyg_offs, 0);
+    TCPPutString(sktHTTP, temp);
+}
 void
-HTTPPrint_CALtg(void)
+HTTPPrint_CALto(void)
 {
     BYTE temp[8];
-    stoa_dec((char*) temp, WX.Calib.Temp_gain, 0);
+    stoa_dec((char*) temp, WX.Calib.Temp_offs, 0);
     TCPPutString(sktHTTP, temp);
 }
-
-void HTTPPrint_CALhg(void)
-{
-    BYTE temp[8];
-    stoa_dec((char*) temp, WX.Calib.Hyg_gain, 0);
-    TCPPutString(sktHTTP, temp);
-}
-
 void HTTPPrint_CALsg(void)
 {
     BYTE temp[8];
@@ -1572,19 +1337,19 @@ void HTTPPrint_CALbo(void)
     stoa_dec((char*) temp, WX.Calib.Baro_offs, 0);
     TCPPutString(sktHTTP, temp);
 }
-void HTTPPrint_CALho(void)
-{
-    BYTE temp[8];
-    stoa_dec((char*) temp, WX.Calib.Hyg_offs, 0);
-    TCPPutString(sktHTTP, temp);
-}
+
 void HTTPPrint_CALwo(void)
 {
     BYTE temp[8];
     stoa_dec((char*) temp, WX.Calib.WDir_offs, 0);
     TCPPutString(sktHTTP, temp);
 }
-
+void HTTPPrint_CALra(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Calib.Rain_counts, 0);
+    TCPPutString(sktHTTP, temp);
+}
 void
 HTTPPrint_wifiEnc(WORD num)
 {
@@ -1597,6 +1362,7 @@ HTTPPrint_wifiEnc(WORD num)
     TCPPutString(sktHTTP, temp);
     TCPPutROMString(sktHTTP, (ROM BYTE*) "\"");
 }
+
 
 void
 HTTPPrint_wifiKey(void)
@@ -1653,7 +1419,9 @@ void
 HTTPPrint_config_dhcpchecked(void)
 {
     if (AppConfig.Flags.bIsDHCPEnabled)
-        TCPPutROMString(sktHTTP, (ROM BYTE*) "checked");
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
 
 }
 
@@ -1739,7 +1507,7 @@ HTTPPrint_rebootaddr(void)
 {// This is the expected address of the board upon rebooting
     TCPPutString(sktHTTP, AppConfig.NetBIOSName);
 }
-
+#if defined(STACK_USE_DYNAMICDNS_CLIENT)
 void
 HTTPPrint_ddns_user(void)
 {
@@ -1852,7 +1620,7 @@ HTTPPrint_ddns_status_msg(void)
     curHTTP.callbackPos = 0x00;
 }
 
-
+#endif
 void
 HTTPPrint_status_ok(void)
 {
@@ -1880,6 +1648,53 @@ HTTPPrint_status_msg(void)
         TCPPutROMString(sktHTTP, (ROM BYTE*) lastFailure);
 }
 
+void
+HTTPPrint_M_TO(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Mail.SendTo);
+}
+
+void
+HTTPPrint_M_SRV(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Mail.Server);
+}
+
+void
+HTTPPrint_M_USR(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Mail.User_name);
+}
+void
+HTTPPrint_M_PWD(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Mail.password);
+}
+void
+HTTPPrint_M_PRT(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Mail.port, 0);
+    TCPPutString(sktHTTP, temp);
+}
+
+void
+HTTPPrint_ST_USR(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Station.User_name);
+}
+void
+HTTPPrint_ST_PWD(void)
+{
+    TCPPutString(sktHTTP, (BYTE*) WX.Station.password);
+}
+void HTTPPrint_smtps_en(void) {
+#if defined(STACK_USE_SSL_CLIENT)
+    TCPPutROMString(sktHTTP, (ROM BYTE*) "inline");
+#else
+    TCPPutROMString(sktHTTP, (ROM BYTE*) "none");
+#endif
+}
 #endif //defined(STACK_USE_HTTP2_SERVER)
 
 

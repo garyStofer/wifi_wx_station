@@ -29,12 +29,15 @@ NIST_Time_Status ( void )
 void
 NIST_DAYTIME_Client(void)
 {
-    static DWORD NistIP_addr =0;
     WORD w;
-    static DWORD Timer;
-    static TCP_SOCKET sock = INVALID_SOCKET;
     char NistRspBuffer[31];
     BCD_RTCC rtc_time;
+   
+
+    static DWORD NistIP_addr =0;
+    static DWORD Timer;
+    static TCP_SOCKET sock = INVALID_SOCKET;
+    
 
     switch (ThisState)
     {
@@ -98,7 +101,7 @@ NIST_DAYTIME_Client(void)
             if (TCPIsGetReady(sock) >= w)
             {
                 NistRspBuffer[28] = 0xff;
-                w = TCPGetArray(sock, NistRspBuffer, w);
+                w = TCPGetArray(sock, (unsigned char *)NistRspBuffer, w);
 
                 if (NistRspBuffer[28] - '0' < 2)  // The time servers health status
                 {
@@ -113,6 +116,10 @@ NIST_DAYTIME_Client(void)
                     rtc_time.hr = ((NistRspBuffer[16] - '0') << 4) + (NistRspBuffer[17] - '0');
                     rtc_time.min = ((NistRspBuffer[19] - '0') << 4) + (NistRspBuffer[20] - '0');
                     rtc_time.sec = ((NistRspBuffer[22] - '0') << 4) + (NistRspBuffer[23] - '0');
+                    // TT field ==0 indicates Standard time in efect, NOTE sotred in decimal format
+                    rtc_time.TT = ((NistRspBuffer[25] - '0') *10) + (NistRspBuffer[26] - '0');
+
+
                     RTC_Set_BCD_time(&rtc_time);           // SET THE RTC with the current time
                     NistGotGoodTime = TRUE;
 
@@ -153,7 +160,9 @@ NIST_DAYTIME_Client(void)
             TCPDisconnect(sock);
             sock = INVALID_SOCKET;
             if (NistGotGoodTime )
+            {
                 ThisState = SM_IDLE;
+            }
             else
                 ThisState = SM_RETRY;
             break;
@@ -170,10 +179,6 @@ NIST_DAYTIME_Client(void)
 
         case SM_IDLE:
         default:
-            // Do nothing unless the user pushes BUTTON1
-            // TODO: This needs to be connected to a trigger or interval
-            if (BUTTON1_IO == 0u)
-                ThisState = SM_START;
             break;
 
     }

@@ -4,7 +4,6 @@
 #include "math.h"
 #include "i2c1.h"
 
-#define HP03_MEAS_INTVAL 5
 
 //////////////////////////////////////////// HP03 sensor  //////////////////////
 // The Device is actially two individual i2c Devices inside one package, hence the two addresses
@@ -119,12 +118,19 @@ enum _HP03_READ_SM {
     SM_STOP,
     SM_IDLE
 };
+static enum _HP03_READ_SM ThisState = SM_IDLE;
 
+void
+HP03_startMeasure( void )
+{
+    if ( ThisState == SM_IDLE )
+        ThisState = SM_START;
+}
 BOOL
 HP03_Read_Process(void )
 {
     static DWORD Timer;
-    static enum _HP03_READ_SM ThisState = SM_START;
+    
 
     static union {
         BYTE bytes[2];
@@ -225,7 +231,6 @@ HP03_Read_Process(void )
             WORD Y;
             float X, Z;
             float dUT;
-            float Temp;
             float Offs;
             float Sens;
             float Pressure;
@@ -249,8 +254,9 @@ HP03_Read_Process(void )
             for (Y = 1, i = 0; i < HP03_Cal.Coeff.D; i++)
                 Y *= 2;
 
-            Temp = (250.0 + (dUT * HP03_Cal.Coeff.C6 / 65536.0) - (dUT / Y)) / 10;
-            Temp = Temp * 9 / 5 + 32; // Conversion to deg F
+            SensorReading.TempC = (250.0 + (dUT * HP03_Cal.Coeff.C6 / 65536.0) - (dUT / Y)) / 10;
+            SensorReading.TempF = SensorReading.TempC * 9.0 / 5 + 32; // Conversion to deg F
+            SensorReading.TempF  += WX.Calib.Temp_offs/10.0;
 
             Offs = (HP03_Cal.Coeff.C2 + (HP03_Cal.Coeff.C4 - 1024.0) * dUT / 16384.0)* 4;
             Sens = HP03_Cal.Coeff.C1 + (HP03_Cal.Coeff.C3 * dUT / 1024.0);
@@ -259,8 +265,7 @@ HP03_Read_Process(void )
             Pressure = Pressure * 0.0295299830714; // Conversion factor to inches Hg
             Pressure += Alt_comp; // add the altitude compensation of the barometer due to elevation
             // assigne values to global sensor struct
-            SensorReading.TempF = Temp;
-            SensorReading.BaromIn = Pressure;
+            SensorReading.BaromIn = Pressure + WX.Calib.Baro_offs/100.0;
             ThisState = SM_STOP;
         }
             break;
@@ -275,9 +280,7 @@ HP03_Read_Process(void )
             ThisState++;
             break;
 
-        case SM_IDLE: // wait until measure interval time elapsed, then restart sequence
-            if (TickGet() - Timer > HP03_MEAS_INTVAL * TICK_SECOND)
-                ThisState = SM_START;
+        case SM_IDLE: // park here until someone starts the process again.
             break;
     }
     

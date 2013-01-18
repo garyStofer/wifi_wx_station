@@ -1355,7 +1355,7 @@ void FormatNetBIOSName(BYTE Name[])
         }
         *p2 = '\0';         // teminate the new string
 
-        p1 = Name + strlen(Name);// append spaces to name to make up 15 char name as required by netbios 
+        p1 = Name + strlen((char *)Name);// append spaces to name to make up 15 char name as required by netbios
         p2 = Name + 15;
 	while(p1 < p2)
 	{
