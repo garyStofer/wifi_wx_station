@@ -1,0 +1,16 @@
+BOM Stuff
+
+Fan 	Digikey 259-1468-ND  92x92 mm $2.7@1 , 2.45@10
+
+
+			Digikey		Newark		Mouser		Allied	Future
+HIH 6130:	17.70		11.00		14.90		11.00
+HIH 6120: 	24.80
+HIH 6131: 	21.80		13.50*		16.90		13.50					Filter	
+HIH 6121:	30.50														Filter
+
+BMP085:		8.19										4.79 noStock  	(+/1 1mBar)
+LPS331AP 	4.80*					4.83   					   		 	(+/- 0.1mBar)
+
+AS5030		6.50					4.86@10				4.19@10
+

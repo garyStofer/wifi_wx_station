@@ -1,0 +1,11 @@
+"Qty";"Value";"Device";"Package";"Parts";"Description";"";
+"1";"";"PINHD-1X6";"1X06";"JP1";"PIN HEADER";"";
+"1";"0o";"R-US_R0603";"R0603";"R4";"RESISTOR, American symbol";"";
+"1";"100nF";"C-USC0805";"C0805";"C1";"CAPACITOR, American symbol";"";
+"2";"100nF";"C-USC0805K";"C0805K";"C2, C4";"CAPACITOR, American symbol";"";
+"1";"10uF";"CPOL-USSMCP";"SMC_P";"C3";"POLARIZED CAPACITOR, American symbol";"";
+"1";"2.2K";"R-US_R0603";"R0603";"R3";"RESISTOR, American symbol";"";
+"2";"470o";"R-US_R0603";"R0603";"R1, R2";"RESISTOR, American symbol";"";
+"1";"CB3LV";"CB3LV";"SMD7.5X5MM";"OSC1";"";"";
+"1";"HIH_6130";"HIH_6130";"SOIC8";"U1";"";"";
+"1";"HP03S";"HP03S";"HP03S";"U2";"";"";

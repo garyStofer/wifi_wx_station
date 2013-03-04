@@ -1,0 +1,9 @@
+"Qty";"Value";"Device";"Package";"Parts";"Description";"";
+"1";"";"PINHD-1X3";"1X03";"JP1";"PIN HEADER";"";
+"1";"100nF";"C-USC0805";"C0805";"C2";"CAPACITOR, American symbol";"";
+"1";"22nF";"C-USC0805";"C0805";"C1";"CAPACITOR, American symbol";"";
+"1";"4.7uF";"CPOL-USR/2012-12R";"R/2012-12R";"C4";"POLARIZED CAPACITOR, American symbol";"";
+"1";"47K";"R-US_R0805";"R0805";"R2";"RESISTOR, American symbol";"";
+"1";"CPC1822";"CPC1822";"SO08";"U1";"Micro Solar Cell";"";
+"1";"MAX4330";"MAX4330";"SOT23-5";"IC1";"OP AMP";"";
+"2";"TPB1,27";"TPB1,27";"B1,27";"TP1, TP2";"";"";
