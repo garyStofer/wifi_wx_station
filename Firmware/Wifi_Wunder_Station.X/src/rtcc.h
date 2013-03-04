@@ -1,4 +1,9 @@
-
+/*
+ * File:   rtcc.h
+ * Author: gary
+ *
+ * Created on September 27, 2012, 11:25 AM
+ */
 #ifndef RTCC_H
 #define RTCC_H
 

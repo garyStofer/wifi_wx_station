@@ -112,9 +112,8 @@ extern void ReenablePowerSaveMode(void);
 extern short g_isPSK_Ready;
 void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
 {
-    #if defined(STACK_USE_UART)
+
     char buf[8];
-    #endif  /* defined(STACK_USE_UART) */
 
     /* this function tells the WF driver that we are in this function */
     WFSetFuncState(WF_PROCESS_EVENT_FUNC, WF_ENTERING_FUNCTION);
@@ -124,11 +123,8 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
         /*--------------------------------------*/
         case WF_EVENT_CONNECTION_SUCCESSFUL:
         /*--------------------------------------*/   
-#if defined(STACK_USE_UART)
-            putrsUART("Event: Connection Successful\r\n"); 
- #endif
-     
-           g_isPSK_Ready = 1;
+            putrsUART("WiFi Connection Successful\r\n");
+            g_isPSK_Ready = 1;
             break;
         
         /*--------------------------------------*/            
@@ -136,28 +132,28 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
         case WF_EVENT_CONNECTION_TEMPORARILY_LOST:
         case WF_EVENT_CONNECTION_PERMANENTLY_LOST:            
         /*--------------------------------------*/
-            #if defined(STACK_USE_UART)       
+         
             WF_OutputConnectionDebugMsg(event, eventInfo);
-            #endif
+
             break;
 
         /*--------------------------------------*/    
         case WF_EVENT_CONNECTION_REESTABLISHED:
         /*--------------------------------------*/
-            #if defined(STACK_USE_UART)
+
             putrsUART("Event: Connection Reestablished\r\n");
-            #endif
+
             break;
             
         /*--------------------------------------*/
         case WF_EVENT_SCAN_RESULTS_READY:
         /*--------------------------------------*/  
-            #if defined(STACK_USE_UART)
+     
             putrsUART("Event: Scan Results Ready,");
             sprintf(buf, " %d", eventInfo);
             putsUART(buf);
             putrsUART("results\r\n");
-            #endif /* STACK_USE_UART */
+       
 
             #if defined ( EZ_CONFIG_SCAN ) && !defined(__18CXX)
             WFScanEventHandler(eventInfo);
@@ -176,6 +172,110 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
     WFSetFuncState(WF_PROCESS_EVENT_FUNC, WF_LEAVING_FUNCTION);
 }    
 
+// Global variables
+UINT8 ConnectionProfileID;
 
+/*****************************************************************************
+ * FUNCTION: WF_Connect
+ *
+ * RETURNS:  None
+ *
+ * PARAMS:   None
+ *
+ *  NOTES:   Connects to an 802.11 network.  Customize this function as needed
+ *           for your application.
+ *****************************************************************************/
+void
+WF_Connect(void)
+{
+    UINT8 channelList[] = MY_DEFAULT_CHANNEL_LIST;
+
+    /* create a Connection Profile */
+    WF_CPCreate(&ConnectionProfileID);
+    WF_SetRegionalDomain(MY_DEFAULT_DOMAIN);
+
+    WF_CPSetSsid(ConnectionProfileID,
+            AppConfig.MySSID,
+            AppConfig.SsidLength);
+
+    WF_CPSetNetworkType(ConnectionProfileID, MY_DEFAULT_NETWORK_TYPE);
+    WF_CASetScanType(MY_DEFAULT_SCAN_TYPE);
+    WF_CASetChannelList(channelList, sizeof (channelList));
+
+    // The Retry Count parameter tells the WiFi Connection manager how many attempts to make when trying
+    // to connect to an existing network.  In the Infrastructure case, the default is to retry forever so that
+    // if the AP is turned off or out of range, the radio will continue to attempt a connection until the
+    // AP is eventually back on or in range.  In the Adhoc case, the default is to retry 3 times since the
+    // purpose of attempting to establish a network in the Adhoc case is only to verify that one does not
+    // initially exist.  If the retry count was set to WF_RETRY_FOREVER in the AdHoc mode, an AdHoc network
+    // would never be established.
+    WF_CASetListRetryCount(MY_DEFAULT_LIST_RETRY_COUNT);
+    WF_CASetEventNotificationAction(MY_DEFAULT_EVENT_NOTIFICATION_LIST);
+    WF_CASetBeaconTimeout(MY_DEFAULT_BEACON_TIMEOUT);
+
+#if defined(MRF24WG)
+
+    if (gRFModuleVer1209orLater)
+    {
+        // If WEP security is used, set WEP Key Type.  The default WEP Key Type is Shared Key.
+        if (AppConfig.SecurityMode == WF_SECURITY_WEP_40 || AppConfig.SecurityMode == WF_SECURITY_WEP_104)
+        {
+            WF_CPSetWepKeyType(ConnectionProfileID, MY_DEFAULT_WIFI_SECURITY_WEP_KEYTYPE);
+        }
+    }
+    // Error check items specific to WPS Push Button mode
+#if (MY_DEFAULT_WIFI_SECURITY_MODE==WF_SECURITY_WPS_PUSH_BUTTON)
+#if !defined(WF_P2P)
+    WF_ASSERT(strlen(AppConfig.MySSID) == 0); // SSID must be empty when using WPS
+    WF_ASSERT(sizeof (channelList) == 11); // must scan all channels for WPS
+#endif
+
+#if (MY_DEFAULT_NETWORK_TYPE == WF_P2P)
+    WF_ASSERT(strcmp((char *) AppConfig.MySSID, "DIRECT-") == 0);
+    WF_ASSERT(sizeof (channelList) == 3);
+    WF_ASSERT(channelList[0] == 1);
+    WF_ASSERT(channelList[1] == 6);
+    WF_ASSERT(channelList[2] == 11);
+#endif
+#endif
+
+#endif /* MRF24WG */
+
+    WF_CPSetSecurity(ConnectionProfileID,
+            AppConfig.SecurityMode,
+            AppConfig.WepKeyIndex, /* only used if WEP enabled */
+            AppConfig.SecurityKey,
+            AppConfig.SecurityKeyLength);
+
+#if MY_DEFAULT_PS_POLL == WF_ENABLED
+    WF_PsPollEnable(TRUE);
+#if !defined(MRF24WG)
+    if (gRFModuleVer1209orLater)
+        WFEnableDeferredPowerSave();
+#endif	/* !defined(MRF24WG) */
+#else	/* MY_DEFAULT_PS_POLL != WF_ENABLED */
+    WF_PsPollDisable();
+#endif	/* MY_DEFAULT_PS_POLL == WF_ENABLED */
+
+#ifdef WF_AGGRESSIVE_PS
+#if !defined(MRF24WG)
+    if (gRFModuleVer1209orLater)
+        WFEnableAggressivePowerSave();
+#endif
+#endif
+
+
+    WF_OutputConnectionInfo(&AppConfig);
+
+
+#if defined(DISABLE_MODULE_FW_CONNECT_MANAGER_IN_INFRASTRUCTURE)
+    WF_DisableModuleConnectionManager();
+#endif
+
+#if defined(MRF24WG)
+    WFEnableDebugPrint(ENABLE_WPS_PRINTS | ENABLE_P2P_PRINTS);
+#endif
+    WF_CMConnect(ConnectionProfileID);
+}
 #endif /* WF_CS_TRIS */
 

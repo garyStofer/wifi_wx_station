@@ -5,19 +5,37 @@
 #include "i2c1.h"
 
 //////////////////////////////////////////// Humidity sensor HIH6130  //////////////////////
-// The Device is actially two individual i2c Devices inside one package, hence the two addresses
+
 #define HIH6130_ADDR (0x27 <<1)
 
+static BOOL HIH6130_BusErr = TRUE;
+
+void
+HIH6130_init(void)
+{
+    if (I2C1_Xfer(Open, 0) != 0)
+    {
+        HIH6130_BusErr = TRUE;     // i2c bus could not be opened
+        return;
+    }
+
+    if (I2C1_Xfer(Start, 0) == 0)
+    {
+        I2C1_Xfer(Close, 0);    // i2c bus could not assume start condition
+        HIH6130_BusErr = TRUE;
+        return;
+    }
+
+    if (I2C1_Xfer(AddrTX, HIH6130_ADDR) == 0)
+        HIH6130_BusErr = FALSE; // The device acknowledged an address cycle
+    else
+        HIH6130_BusErr = TRUE; // The device failed to acknowledged an address cycle on the EEPROM address
+
+    I2C1_Xfer(Stop, 0); // and finish by transition into stop state
+
+}
 
 // Structure to read the on chip calibration values
-
-/*
- *  Initialize the HP03 device by reading the calibration coefficients from it's 24c02-like eeprom memory
- *  and calculating the pressure offset due to the station elevation.
- */
-
-
-
 enum _HIH6130_READ_SM {
     SM_START = 0,
     SM_Wait_Results,
@@ -39,13 +57,17 @@ BOOL
 HIH6130_Read_Process(void )
 {
     static DWORD Timer;
-    
-
     static union {
         BYTE bytes[2];
         WORD val;
     } ADC_RH;
+    union {
+        unsigned char  bytes[2];
+        unsigned short val;
+    } ADC_TEMP;
 
+    if (HIH6130_BusErr )    // Device did not init or failed
+        return;
 
     switch (ThisState)
     {
@@ -78,18 +100,32 @@ HIH6130_Read_Process(void )
 
         case SM_Read_Results:
         {
-            float Y,tmp;
+            volatile float Y,tmp;
             // get Temp result now
             I2C1_Xfer(Start, 0);
             I2C1_Xfer(AddrRX, HIH6130_ADDR);
+
             I2C1_Xfer(RX, 0); // read rh data msb
             I2C1_Xfer(M_ACK, 0);
             ADC_RH.bytes[1] = I2C1_GetRX_Byte();
+
             I2C1_Xfer(RX, 0);
-            I2C1_Xfer(M_NACK, 0); // read rh data lsb
+            I2C1_Xfer(M_ACK, 0); // read rh data lsb
             ADC_RH.bytes[0] = I2C1_GetRX_Byte();
+            // temp
+            ADC_TEMP.val =0;
+            I2C1_Xfer(RX, 0); // read temp data msb
+            I2C1_Xfer(M_ACK, 0);
+            ADC_TEMP.bytes[1] = I2C1_GetRX_Byte();
+
+            I2C1_Xfer(RX, 0); // read temp data lsb
+            I2C1_Xfer(M_NACK, 0);
+            ADC_TEMP.bytes[1] = I2C1_GetRX_Byte();
+            ADC_TEMP.val >>= 2; // Lower two bits of tempdata is not valid
 
             I2C1_Xfer(Stop, 0);
+
+            tmp = (ADC_TEMP.val/16382.0 * 165)-40.0;
 
             // assigne values to global sensor struct
             SensorReading.RH = ADC_RH.val / 16382.0 * 100;      // need to do this in FP
@@ -131,6 +167,7 @@ HIH6130_Read_Process(void )
 
         case SM_ERROR:
             I2C1_Xfer(Stop, 0);
+            HIH6130_BusErr = TRUE;
             // don't break -- fall through to stop
         case SM_STOP:
             Timer = TickGet();

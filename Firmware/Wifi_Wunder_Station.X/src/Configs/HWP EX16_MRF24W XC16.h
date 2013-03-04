@@ -56,39 +56,6 @@
 // Define a macro describing this hardware set up (used in other files)
 #define EXPLORER_16
 
-// Set configuration fuses (but only in MainDemo.c where THIS_IS_STACK_APPLICATION is defined)
-#if defined(THIS_IS_STACK_APPLICATION)
-	#if defined(__PIC24FJ256GB210__)
-		// PIC24FJ256GB210 PIM
-		_CONFIG3(ALTPMP_ALPMPDIS & SOSCSEL_EC); 										// PMP in default location, disable Timer1 oscillator so that RC13 can be used as a GPIO
-		_CONFIG2(FNOSC_PRIPLL & POSCMOD_XT & IOL1WAY_OFF & PLL96MHZ_ON & PLLDIV_DIV2);	// Primary XT OSC with 96MHz PLL (8MHz crystal input), IOLOCK can be set and cleared
-		_CONFIG1(FWDTEN_OFF & ICS_PGx2 & JTAGEN_OFF & ALTVREF_ALTVREDIS);				// Watchdog timer off, ICD debugging on PGEC2/PGED2 pins, JTAG off, AVREF and CVREF in default locations
-	#elif defined(__PIC24FJ256GB110__)
-		// PIC24FJ256GB110 PIM
-		_CONFIG2(PLLDIV_DIV2 & PLL_96MHZ_ON & FNOSC_PRIPLL & IOL1WAY_OFF & POSCMOD_XT); // Primary XT OSC with 96MHz PLL (8MHz crystal input), IOLOCK can be set and cleared
-		_CONFIG1(JTAGEN_OFF & ICS_PGx2 & FWDTEN_OFF);									// Watchdog timer off, ICD debugging on PGEC2/PGED2 pins, JTAG off
-	#elif defined(__PIC24FJ256GA110__)
-		// PIC24FJ256GA110 PIM
-		_CONFIG2(FNOSC_PRIPLL & IOL1WAY_OFF & POSCMOD_XT);	// Primary XT OSC with PLL, IOLOCK can be set and cleared
-		_CONFIG1(JTAGEN_OFF & ICS_PGx2 & FWDTEN_OFF);		// Watchdog timer off, ICD debugging on PGEC2/PGED2 pins, JTAG off
-	#elif defined(__PIC24F__)
-		// All other PIC24F PIMs
-		//_CONFIG2(FNOSC_PRIPLL & POSCMOD_XT)		// Primary XT OSC with 4x PLL
-                _CONFIG2(FNOSC_FRCPLL & POSCMOD_NONE & OSCIOFNC_ON  ) // FAST RC x4 pll, no xtal running, OSC pins used for io
-		_CONFIG1(JTAGEN_OFF & FWDTEN_OFF)		// JTAG off, watchdog timer off
-                        #pragma config POSCMOD = NONE           // Primary Oscillator Select (Primary oscillator disabled)
-
-
-	#elif defined(__dsPIC33F__) || defined(__PIC24H__) || defined(__dsPIC33E__)|| defined(__PIC24E__)
-		// All dsPIC33F and PIC24H PIMs
-		_FOSCSEL(FNOSC_PRIPLL)			// PLL enabled
-		_FOSC(OSCIOFNC_OFF & POSCMD_XT)	// XT Osc
-		_FWDT(FWDTEN_OFF)				// Disable Watchdog timer
-		// JTAG should be disabled as well
-	#endif
-#endif
-
-
 // Clock frequency values
 // Create a PIC dependant macro for the maximum supported internal clock
 #if defined(__PIC24F__) || defined(__PIC24FK__)
@@ -136,10 +103,12 @@
 #define BUTTON3_TRIS		(TRISDbits.TRISD6)	// Ref S3
 #define	BUTTON3_IO			(PORTDbits.RD6)
 
-#define UARTTX_TRIS			(TRISFbits.TRISF5)
-#define UARTTX_IO			(PORTFbits.RF5)
-#define UARTRX_TRIS			(TRISFbits.TRISF4)
-#define UARTRX_IO			(PORTFbits.RF4)
+#define BARO_CS_TRIS   ( TRISGbits.TRISG0)
+#define BARO_CS_IO     ( LATGbits.LATG0)
+#define UART2TX_TRIS			(TRISFbits.TRISF5)
+#define UART2TX_IO			(PORTFbits.RF5)
+#define UART2RX_TRIS			(TRISFbits.TRISF4)
+#define UART2RX_IO			(PORTFbits.RF4)
 
 //// ENC28J60 I/O pins
 //#if defined(__PIC24FJ256GA110__) || defined(__dsPIC33E__)|| defined(__PIC24E__)	// PIC24FJ256GA110 must place the ENC28J60 on SPI2 because PIC rev A3 SCK1 output pin is a PPS input only (fixed on A5, but demos use SPI2 for simplicity)
@@ -599,21 +568,26 @@
 // Select which UART the STACK_USE_UART and STACK_USE_UART2TCP_BRIDGE 
 // options will use.  You can change these to U1BRG, U1MODE, etc. if you 
 // want to use the UART1 module instead of UART2.
+#define UARTTX_TRIS                     UART2TX_TRIS
+#define UARTTX_IO                       UART2TX_IO
+#define UARTRX_TRIS                     UART2RX_TRIS
+#define UARTRX_IO                       UART2RX_IO
 #define UBRG				U2BRG
 #define UMODE				U2MODE
 #define USTA				U2STA
 #define BusyUART()			BusyUART2()
 #define CloseUART()			CloseUART2()
-#define ConfigIntUART(a)	ConfigIntUART2(a)
-#define DataRdyUART()		DataRdyUART2()
-#define OpenUART(a,b,c)		OpenUART2(a,b,c)
+#define ConfigIntUART(a)                ConfigIntUART2(a)
+#define DataRdyUART()                   DataRdyUART2()
+#define OpenUART(a,b,c)                 OpenUART2(a,b,c)
 #define ReadUART()			ReadUART2()
-#define WriteUART(a)		WriteUART2(a)
-#define getsUART(a,b,c)		getsUART2(a,b,c)
+#define WriteUART(a)                    WriteUART2(a)
+#define getsUART(a,b,c)                 getsUART2(a,b,c)
 #define putsUART(a)			putsUART2((unsigned int*)a)
 #define getcUART()			getcUART2()
 #define putcUART(a)			do{while(BusyUART()); WriteUART(a); while(BusyUART()); }while(0)
-#define putrsUART(a)		putrsUART2(a)
+#define putrsUART(a)                    putrsUART2(a)
 
-
+#define WIND_COUNTER  TMR2    // the count the anemometer generates in one second as captured by the RTCC one second interrupt
+#define RAIN_COUNTER  TMR4    // The count the Rain bucket generates in the Rain Measure Interval
 #endif // #ifndef HARDWARE_PROFILE_H

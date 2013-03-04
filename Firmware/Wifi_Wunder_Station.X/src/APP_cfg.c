@@ -199,8 +199,12 @@ SaveAppConfig(const APP_CONFIG *ptrAppConfig)
     // You must increase MPFS_RESERVE_BLOCK to allocate more space.
 #if defined(STACK_USE_MPFS2)
     if (sizeof (NVM_VALIDATION_STRUCT) + sizeof (APP_CONFIG) > MPFS_RESERVE_BLOCK)
-        while (1);
+    {
 
+        putrsUART((ROM char*) "MPFS_RESERVE_BLOCK too small!");
+
+        while (1);
+    }
 #endif
 
     // Get proper values for the validation structure indicating that we can use

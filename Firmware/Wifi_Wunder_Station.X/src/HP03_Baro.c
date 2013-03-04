@@ -10,7 +10,7 @@
 #define HP03_EEPROM_ADDR 0xA0
 #define HP03_ADC_ADDR 0xEE
 
-static BOOL i2cBusErr = TRUE;
+static BOOL HP03_BusErr = TRUE;
 
 // Structure to read the on chip calibration values
 
@@ -44,36 +44,33 @@ calc_alt_comp(short Station_elev)
  *  and calculating the pressure offset due to the station elevation.
  */
 
-
 void
 HP03_init(short station_elevation)
 {
 
     BYTE i;
     calc_alt_comp(station_elevation);
-    
 
-    TRISGbits.TRISG0 = 0;
-    LATGbits.LATG0 = 0; //  HP03  XCLR signal low, device inactive
+    BARO_CS_TRIS = 0;
+    BARO_CS_IO = 0; //  HP03  XCLR signal low, device inactive
 
     if (I2C1_Xfer(Open, 0) != 0)
     {
-        i2cBusErr = TRUE;
+        HP03_BusErr = TRUE;     // i2c bus could not be opened
         return;
     }
 
     if (I2C1_Xfer(Start, 0) == 0)
     {
-        I2C1_Xfer(Close, 0);
-        i2cBusErr = TRUE;
+        I2C1_Xfer(Close, 0);    // i2c bus could not assume start condition
+        HP03_BusErr = TRUE;
         return;
     }
 
     if (I2C1_Xfer(AddrTX, HP03_EEPROM_ADDR) == 0)
     {
-        i2cBusErr = FALSE;
-        // The HP03 acknowledged an address cycle on the EEPROM address
-        I2C1_Xfer(TX, 16); // Set word pointer to 16 for read of first coefficient, -- will auto increment
+        HP03_BusErr = FALSE; // The HP03 acknowledged an address cycle on the EEPROM address
+        I2C1_Xfer(TX, 16);   // Set word pointer to 16 for read of first coefficient, -- will auto increment
 
         I2C1_Xfer(ReStart, 0); // switch to master read mode
         I2C1_Xfer(AddrRX, HP03_EEPROM_ADDR); // readdress in read mode
@@ -102,7 +99,7 @@ HP03_init(short station_elevation)
         I2C1_Xfer(M_NACK, 0);
     }
     else
-        i2cBusErr = TRUE; // The HP03 failed to acknowledged an address cycle on the EEPROM address
+        HP03_BusErr = TRUE; // The HP03 failed to acknowledged an address cycle on the EEPROM address
     I2C1_Xfer(Stop, 0); // and finish by transition into stop state
 
 }
@@ -126,27 +123,23 @@ HP03_startMeasure( void )
     if ( ThisState == SM_IDLE )
         ThisState = SM_START;
 }
-BOOL
+void
 HP03_Read_Process(void )
 {
     static DWORD Timer;
-    
-
     static union {
         BYTE bytes[2];
         WORD val;
     } D2, D1; // D2 = raw Temperatur data , D1 = Raw Pressure data
 
-
-
-    if (i2cBusErr) // Disable the device from further reads if it failed to init or ever failed to communicate
-        return FALSE;
+    if (HP03_BusErr) // Disable the device from further reads if it failed to init
+        return;
 
     switch (ThisState)
     {
         case SM_START:
-            TRISGbits.TRISG0 = 0;
-            LATGbits.LATG0 = 1; //  HP03  XCLR signal, take device out of reset)
+            BARO_CS_TRIS = 0;
+            BARO_CS_IO = 1; //  HP03  XCLR signal, take device out of reset)
 
             // initiate the temperature Reading
             if ((I2C1_Xfer(Start, 0)) == 0)
@@ -255,8 +248,9 @@ HP03_Read_Process(void )
                 Y *= 2;
 
             SensorReading.TempC = (250.0 + (dUT * HP03_Cal.Coeff.C6 / 65536.0) - (dUT / Y)) / 10;
-            SensorReading.TempF = SensorReading.TempC * 9.0 / 5 + 32; // Conversion to deg F
-            SensorReading.TempF  += WX.Calib.Temp_offs/10.0;
+            SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset
+            SensorReading.TempF = SensorReading.TempC * 9.0 / 5 + 32;           // Conversion to deg F
+           
 
             Offs = (HP03_Cal.Coeff.C2 + (HP03_Cal.Coeff.C4 - 1024.0) * dUT / 16384.0)* 4;
             Sens = HP03_Cal.Coeff.C1 + (HP03_Cal.Coeff.C3 * dUT / 1024.0);
@@ -271,11 +265,11 @@ HP03_Read_Process(void )
             break;
 
         case SM_ERROR:
-            i2cBusErr = TRUE;
+            HP03_BusErr = TRUE;  // enabling this stops the device from beeing read if it ever failed to ack
             I2C1_Xfer(Stop, 0);
             // don't break -- fall through to stop
         case SM_STOP:
-            LATGbits.LATG0 = 0; //  HP03  XCLR signal , device inactive
+            BARO_CS_TRIS = 0; //  HP03  XCLR signal , device inactive
             Timer = TickGet();
             ThisState++;
             break;
@@ -284,5 +278,5 @@ HP03_Read_Process(void )
             break;
     }
     
-    return TRUE;
+    return ;
 }

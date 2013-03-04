@@ -12,20 +12,36 @@ setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 </head>
 
 <body class="inframe" >
-	<h3>Inputs/Alarms:</h3>
+	
 	<div id="loading" style="display:none">Error: Connection was lost.</div>
 	<div id="display">
-		<table style="margin-top:20px" cellspacing="10px"  >
+		<h5>Inputs/Alarms:</h5>
+		<table style="margin-top:10px" cellspacing="10px"  >
 		<tr style="text-align:center">
-			<td>1</td><td>2</td><td>3</td><td>4</td>
+			<td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
 		</tr>
 		<tr class="leds" >
 			<td id="in0">&bull;</td>
 			<td id="in1">&bull;</td>
 			<td id="in2">&bull;</td>
 			<td id="in3">&bull;</td>
+			<td id="in4">&bull;</td>
+			<td id="in5">&bull;</td>
+			<td id="in6">&bull;</td>
+			<td id="in7">&bull;</td>
 		</tr>
 		</table>
+		<h5>Buttons:</h5>
+		<table style="margin-top:10px" cellspacing="10px"  >
+		<tr style="text-align:center">
+			<td>1</td><td>2</td>
+		</tr>
+		<tr class="leds" >
+			<td id="btn1">&bull;</td>
+			<td id="btn2">&bull;</td>
+		</tr>
+		</table>
+
 	</div>
 </body>
 </html>

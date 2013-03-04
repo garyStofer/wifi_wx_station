@@ -94,33 +94,23 @@ void SMTP_Mail_alarm(void)
 	{
 // TODO: this needs to be cleaned up so that an interrupt on edge change triggers the mail -- not level sensitive 
 		case MAIL_HOME:
-                        if( BUTTON3_IO == 0u && (WX.Alarms.enable & 1<< 4))
+                        if( BUTTON2_IO == 0u && (WX.Alarms.enable & 1 << 3))
                         {
-                                strncpy( RAMStringBody, "Message from WX_Station: IO_4 active", sizeof(RAMStringBody));
-			        MailState++;
-                                break;
-                        }
-
-                        if( BUTTON2_IO == 0u && (WX.Alarms.enable & 1<< 3))
-                        {
-                                strncpy( RAMStringBody, "Message from WX_Station: IO_3 active", sizeof(RAMStringBody));
+                                strncpy( RAMStringBody, "Message from WX_Station: Button2 active", sizeof(RAMStringBody));
 			        MailState++;
                                 break;
                         }
 
                         if( BUTTON1_IO == 0u && (WX.Alarms.enable & 1<< 2))
                         {
-                                strncpy( RAMStringBody, "Message from WX_Station: IO_2 active", sizeof(RAMStringBody));
+                                strncpy( RAMStringBody, "Message from WX_Station: Button1 active", sizeof(RAMStringBody));
 			        MailState++;
                                 break;
                         }
+// TODO fix the WX.Alarms.enable bits to match  the input
+// TODO change this to the alarm/input bits
 
-                        if( BUTTON0_IO == 0u && (WX.Alarms.enable & 1<< 1))
-                        {
-                                strncpy( RAMStringBody, "Message from WX_Station: IO_1 active", sizeof(RAMStringBody));
-			        MailState++;
-                                break;
-                        }
+
         		break;
 
 		case MAIL_BEGIN:

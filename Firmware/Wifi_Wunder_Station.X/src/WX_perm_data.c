@@ -1,5 +1,6 @@
 #include <string.h>
 #include "WX_perm_data.h"
+#include "Configs/Wunder_cfg.h"
 #include "APP_cfg.h"
 #include "Configs/Wunder_cfg.h"
 
@@ -13,9 +14,8 @@ WX_writePerm_data(void)
 
     if (loc + sizeof (WX) >= MPFS_RESERVE_BLOCK)
     {
-#if defined(STACK_USE_UART)
-        putrsUART((ROM char*) "#define MPFS_RESERVE_BLOCK is too small !!");
-#endif
+        putrsUART((ROM char*) "MPFS_RESERVE_BLOCK too small!");
+
         while (1);
     }
 
@@ -32,13 +32,18 @@ WX_readPerm_data(void)
     if (loc + sizeof (WX) >= MPFS_RESERVE_BLOCK)
     {
         loc += sizeof (WX);
-#if defined(STACK_USE_UART)
-        putrsUART((ROM char*) "#define MPFS_RESERVE_BLOCK is too small !!");
-#endif
+
+        putrsUART((ROM char*) "MPFS_RESERVE_BLOCK too small!");
+
         while (1);
     }
 
     XEEReadArray(loc, (BYTE*) & WX, sizeof (WX));
+
+    // if EEPROM is empty
+    if (WX.Calib.Rain_counts == 0xffff)
+        WX_perm_data_init_toDefault();
+
 
 }
 
@@ -50,11 +55,9 @@ void WX_perm_data_init_toDefault( void)
    strcpy(WX.Wunder.StationPW,MY_DEFAULT_WUNDER_STATION_PWD);
    strcpy(WX.Station.User_name,HTTP_USERNAME);
    strcpy(WX.Station.password,HTTP_PASSWORD);
+
+
    // WX.Wunder.StationElev = 0;
-   WX.Wunder.Wunder_IP.v[0] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE1;
-   WX.Wunder.Wunder_IP.v[1] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE2;
-   WX.Wunder.Wunder_IP.v[2] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE3;
-   WX.Wunder.Wunder_IP.v[3] =MY_DEFAULT_WUNDER_IP_ADDR_BYTE4;
    // WX.Wunder.Enabled=0;
 
    WX.TimeServer.NIST1.v[0] =MY_DEFAULT_NIST1_IP_ADDR_BYTE1 ;
@@ -70,8 +73,13 @@ void WX_perm_data_init_toDefault( void)
    //  WX.Calib.Baro_offs = WX.Calib.WDir_offs = 0;
    WX.Calib.Sol_gain = 1000;
    WX.Calib.Rain_counts = 100;
+   WX.Calib.WDir_min = 1023;
    
    WX.Mail.port = 25;
+   WX.Wunder.UplnkInterval =60;
+   WX.Wunder.TZ_offset =-8;
+   WX.Calib.Wind_counts = 7;
+   WX.Calib.Wind_AN_CalFactor = AN_CAL_FACTOR;
    WX_writePerm_data();
 }
 

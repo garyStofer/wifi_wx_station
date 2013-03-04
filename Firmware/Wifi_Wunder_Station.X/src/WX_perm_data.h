@@ -1,5 +1,5 @@
 /* 
- * File:   WX.h
+ * File:   WX_perm_data.h
  * Author: gary
  *
  * Created on August 16, 2012, 3:54 PM
@@ -29,6 +29,7 @@ typedef  struct
     short SolRad;
     float RainIn;
     float RainDaily;
+    float Plus5V;
 } t_WX_Sensor_data;
 
 typedef struct __attribute__((__packed__))
@@ -39,14 +40,17 @@ typedef struct __attribute__((__packed__))
     short Baro_offs;
     short WDir_offs;
     short Temp_offs;
-    short unused[2];
+    short WDir_min;
+    short WDir_max;
+    short Wind_counts;
+    float Wind_AN_CalFactor;
 
 }t_cal_data;
 
 typedef  struct __attribute__((__packed__))
 {
-   char unused;
-   IP_ADDR Wunder_IP;
+   unsigned char UplnkInterval;
+   DWORD unused1;
    char StationID[13];
    char StationPW[13];
    short StationElev;
@@ -59,7 +63,8 @@ typedef  struct __attribute__((__packed__))
        short Rain : 1;
        short unused: 11;
     }report_enable;
-     short unused2[2];
+    char TZ_offset;
+    char unused2[3];
 }t_wunder_data;
 
 typedef struct __attribute__((__packed__))
@@ -92,12 +97,12 @@ typedef struct __attribute__((__packed__))
 
 typedef struct __attribute__((__packed__))
 {
-    t_cal_data Calib;
     t_wunder_data Wunder;
     t_WX_NIST_data TimeServer;
     t_MAIL_data Mail;
     t_ST_data Station;
     t_ALARM_Data Alarms;
+    t_cal_data Calib;
 } t_WX_perm_data;
 
 

@@ -3,7 +3,7 @@
   <projectmakefile>Makefile</projectmakefile>
   <defaultConf>0</defaultConf>
   <confs>
-    <conf name="default" type="2">
+    <conf name="WX-Wunder_brd_128Ga008" type="2">
       <platformToolSN>:=MPLABCommUSB:=04D8:=900A:=0002:=Microchip Technology Inc.:=PICkit 3:=DEFAULT_PK3 :=x:=en</platformToolSN>
       <languageToolchainDir>C:\Program Files\Microchip\MPLAB C30\bin</languageToolchainDir>
       <mdbdebugger version="1">
@@ -21,7 +21,7 @@
         </environment>
       </runprofile>
     </conf>
-    <conf name="Copy_of_default" type="2">
+    <conf name="WX-Wunder_brd_256_GA108" type="2">
       <platformToolSN>:=MPLABCommUSB:=04D8:=900A:=0002:=Microchip Technology Inc.:=PICkit 3:=DEFAULT_PK3 :=x:=en</platformToolSN>
       <languageToolchainDir>C:\Program Files\Microchip\MPLAB C30\bin</languageToolchainDir>
       <mdbdebugger version="1">

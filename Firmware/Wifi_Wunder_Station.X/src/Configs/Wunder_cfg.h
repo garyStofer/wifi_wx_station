@@ -29,7 +29,14 @@ extern "C" {
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE3        (141ul)
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE4        (172ul)
 
+#define MAX_UPLINK_INTERVAL 120
+#define MIN_UPLINK_INTERVAL 2
+#define WIND_GUST_INTERVAL 120
 
+#define AN_CAL_FACTOR 2.25 // Anemometer calibration factor from DAVIS Instruments
+#define BARO_HYG_TEMP_MEAS_Interval 5 // not too fast because of sensor self heating
+#define RAIN_MEAS_Interval (60*1)    // Read and reset the rain counter every 1 minutes
+#define RAIN_SAMPLES_P_HOUR   (60*60/RAIN_MEAS_Interval) // sum up this many samples for one hours worth of rain
 
 #ifdef	__cplusplus
 }

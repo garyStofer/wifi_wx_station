@@ -61,7 +61,7 @@
  *   Uncomment or comment the following lines to enable or
  *   disabled the following high-level application modules.
  */
-#define STACK_USE_UART					// Application demo using UART for IP address display and stack configuration
+#define STACK_USE_UART				// Application demo using UART for IP address display and stack configuration
 //#define STACK_USE_UART2TCP_BRIDGE		// UART to TCP Bridge application example
 //#define STACK_USE_IP_GLEANING
 #define STACK_USE_ICMP_SERVER			// Ping query and response capability
@@ -117,10 +117,10 @@
 #define MPFS_USE_EEPROM
 //#define MPFS_USE_SPI_FLASH
 
-/* EEPROM Addressing Selection
- *   If using the 1Mbit EEPROM, uncomment this line
- */
+/* EEPROM device selection */
 //#define USE_EEPROM_25LC1024
+#define USE_EEPROM_25LC512
+//#define USE_EEPROM_25LC256
 
 /* EEPROM Reserved Area
  *   Number of EEPROM bytes to be reserved before MPFS storage starts.
@@ -130,7 +130,7 @@
  *   For MPFS Classic, this setting must match the Reserved setting
  *	 on the Advanced Settings page of the MPFS2 Utility.
  */
-#define MPFS_RESERVE_BLOCK				(400ul)
+#define MPFS_RESERVE_BLOCK				(512ul)
 
 /* MPFS File Handles
  *   Maximum number of simultaneously open MPFS2 files.
@@ -235,7 +235,7 @@
 	// Allocate how much total RAM (in bytes) you want to allocate
 	// for use by your TCP TCBs, RX FIFOs, and TX FIFOs.
 	#define TCP_ETH_RAM_SIZE			(4369ul)
-	#define TCP_PIC_RAM_SIZE			(0ul)
+	#define TCP_PIC_RAM_SIZE			(500ul)
 	#define TCP_SPI_RAM_SIZE			(0ul)
 	#define TCP_SPI_RAM_BASE_ADDRESS		(0x00)
 
@@ -296,11 +296,11 @@
 			//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
 			//{TCP_PURPOSE_BERKELEY_CLIENT, TCP_ETH_RAM, 125, 100},
 
-                    {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // Note these are sized so as to use up use up
-                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 900, 900},       // all the available memory in the ethernet controller
+                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // Note these are sized so as to use up use up
+                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // all the available memory in the ethernet controller
                      {TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 65,65},
                      {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},
-                     {TCP_PURPOSE_WUNDER_CLIENT, TCP_ETH_RAM, 300,50 },
+                     {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 400,55 },
 		};
 		#define END_OF_TCP_CONFIGURATION
 	#endif
@@ -350,11 +350,11 @@
 	#define HTTP_DEFAULT_FILE		"index.htm"
 	#define HTTPS_DEFAULT_FILE		"index.htm"
 	#define HTTP_DEFAULT_LEN		(10u)		// For buffer overrun protection.
-												// Set to longest length of above two strings.
+								// Set to longest length of above two strings.
 
 	// Configure MPFS over HTTP updating
 	// Comment this line to disable updating via HTTP
-	#define HTTP_MPFS_UPLOAD		"mpfsupload"
+	#define HTTP_MPFS_UPLOAD		"web_upload"
 	//#define HTTP_MPFS_UPLOAD_REQUIRES_AUTH	// Require password for MPFS uploads
 		// Certain firewall and router combinations cause the MPFS2 Utility to fail
 		// when uploading.  If this happens, comment out this definition.
@@ -380,8 +380,7 @@
 	#define HTTP_MIN_CALLBACK_FREE	(16u)
 
 	#define STACK_USE_HTTP_APP_RECONFIG		// Use the AppConfig web page in the Demo App (~2.5kb ROM, ~0b RAM)
-	//#define STACK_USE_HTTP_MD5_DEMO		// Use the MD5 Demo web page (~5kb ROM, ~160b RAM)
-	//#define STACK_USE_HTTP_EMAIL_DEMO		// Use the e-mail demo web page
+
         #define HTTP_USERNAME "admin"                 // user Name and password for http protected directories
         #define HTTP_PASSWORD "admin"
 // -- SSL Options --------------------------------------------------------

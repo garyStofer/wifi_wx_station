@@ -4,17 +4,16 @@
 <link href="../styles.css" rel="stylesheet" type="text/css" >
 </head>
 <body class="inframe" >
-	<h3>Reboot</h3>
-<p><b>Your board is located at: <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></b></p>
+<h5>Your board is located at: <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></h5>
 <p>To restore factory default settings proceed as follows:</p>
 <ul>
-<li>Disconnect power to the device.</li>
-<li>Press and hold button S1.</li>
-<li>Apply power while holding Button S1.</li>
-<li>Wait until 3 LEDs flash rapidly after about 5 seconds.</li>
-<li>Release the button. </li>
-
+<li>Reset the device while pressing switch S1. </li>
+<li>You can reset via the <em>Reboot Now</em> button, by cycling power, or by 
+momentary connecting pin 1 &amp; 3 on JP1</li>
+<li>Wait until the 3 LEDs flash rapidly, after about 4-5 seconds.</li>
+<li>Release switch S1. </li>
 </ul>
+
 <p> The device will re-start with the following connection defaults:</p>
 <ol>
 <li>WIFI SSID : <b>linksys</b></li>
@@ -24,8 +23,26 @@
 <li>Login Username : <b>admin</b></li>
 <li>Login Password : <b>admin</b></li>
 </ol>
-<p>During the boot process the device displays the current connection parameters via its USB COM port.
- Use a terminal emulator program configured to 19.2kbd, 8N1 to connect</p>
+
+
+<p>To configure WiFi and TCP/IP settings via the USB link proceed as follows:</p>
+<ul>
+<li>Connect the device to a PC via the USB link. </li>
+<li>Using a terminal emulator configured to 38.4kbd,8N1, connect to the appropriate COM port.</li>
+<li>While pressing switch S1, Reset the device by momentarily connecting JP1 pin 1 
+&amp; 3.</li>
+<li>Release switch S1 after the initial flash of the 3 LEDs.</li>
+	<li>A menu is displayed that allows you to configure the essential WiFi and 
+	TCP/IP settings.</li>
+</ul>
+<!--
+	<p>During the regular boot process the device displays the current connection parameters via its USB COM port.
+ Use a terminal emulator program configured to 38.4kbd, 8N1 to connect.</p>
+<p>&dagger; In order for your PC to connect to the USB port you need to install 
+the appropriate VCP driver kit from&nbsp;
+<a href="http://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx">
+http://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx</a></p>
+-->
 
 	<hr/>
 	<form name ="frmRst" method="POST" action="ipcfg.htm">

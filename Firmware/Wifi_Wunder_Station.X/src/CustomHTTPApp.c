@@ -1,56 +1,4 @@
-/*********************************************************************
- *
- *  Application to Demo HTTP2 Server
- *  Support for HTTP2 module in Microchip TCP/IP Stack
- *	 -Implements the application 
- *	 -Reference: RFC 1002
- *
- *********************************************************************
- * FileName:        CustomHTTPApp.c
- * Dependencies:    TCP/IP stack
- * Processor:       PIC18, PIC24F, PIC24H, dsPIC30F, dsPIC33F, PIC32
- * Compiler:        Microchip C32 v1.05 or higher
- *					Microchip C30 v3.12 or higher
- *					Microchip C18 v3.30 or higher
- *					HI-TECH PICC-18 PRO 9.63PL2 or higher
- * Company:         Microchip Technology, Inc.
- *
- * Software License Agreement
- *
- * Copyright (C) 2002-2010 Microchip Technology Inc.  All rights
- * reserved.
- *
- * Microchip licenses to you the right to use, modify, copy, and
- * distribute:
- * (i)  the Software when embedded on a Microchip microcontroller or
- *      digital signal controller product ("Device") which is
- *      integrated into Licensee's product; or
- * (ii) ONLY the Software driver source files ENC28J60.c, ENC28J60.h,
- *		ENCX24J600.c and ENCX24J600.h ported to a non-Microchip device
- *		used in conjunction with a Microchip ethernet controller for
- *		the sole purpose of interfacing with the ethernet controller.
- *
- * You should refer to the license agreement accompanying this
- * Software for additional information regarding your rights and
- * obligations.
- *
- * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- * MICROCHIP BE LIABLE FOR ANY INCIDENTAL, SPECIAL, INDIRECT OR
- * CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE.
- *
- *
- * Author               Date    Comment
- *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Elliott Wood     	6/18/07	Original
- ********************************************************************/
+
 #define __CUSTOMHTTPAPP_C
  
 #include "TCPIPConfig.h"
@@ -63,6 +11,8 @@
 #include "APP_cfg.h"
 #include "rtcc.h"
 #include "Mail_Alarm.h"
+#include "Once_per_second.h"
+#include "Configs/Wunder_cfg.h"
 
 /****************************************************************************
   Section:
@@ -115,7 +65,7 @@ HTTPNeedsAuth(BYTE* cFile)
         return 0x00; // Authentication will be needed later
 
 #if defined(HTTP_MPFS_UPLOAD_REQUIRES_AUTH)
-    if (memcmppgm2ram(cFile, (ROM void*) "mpfsupload", 10) == 0)
+    if (memcmppgm2ram(cFile, (ROM void*) "HTTP_MPFS_UPLOAD", 10) == 0)
         return 0x00;
 #endif
 
@@ -162,17 +112,33 @@ HTTP_GetExec_wuncgf_htm()
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_PASS")) != NULL)
         strncpy((char *) WX.Wunder.StationPW, (char*) ptr, sizeof (WX.Wunder.StationPW));
 
-     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "ELEV")) != NULL)
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "ELEV")) != NULL)
         WX.Wunder.StationElev = atoi((char *) ptr);
 
-    
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_IP")) != NULL)
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "UpInt")) != NULL)
     {
-        if (!StringToIPAddress(ptr, &WX.Wunder.Wunder_IP))
-            err++;
+        WX.Wunder.UplnkInterval= atoi((char *) ptr);
+
+        // limitto sane values
+        if (WX.Wunder.UplnkInterval >MAX_UPLINK_INTERVAL )
+            WX.Wunder.UplnkInterval = MAX_UPLINK_INTERVAL;
+
+        if (WX.Wunder.UplnkInterval < MIN_UPLINK_INTERVAL )
+            WX.Wunder.UplnkInterval = MIN_UPLINK_INTERVAL;
+
     }
 
-    
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "TZoff")) != NULL)
+    {
+        WX.Wunder.TZ_offset= atoi((char *) ptr);
+        // limit to valid GMT timezone offsets
+        if (WX.Wunder.TZ_offset < (-12))
+            WX.Wunder.TZ_offset = -12;
+
+        if (WX.Wunder.TZ_offset > 13)
+            WX.Wunder.TZ_offset = 13;
+    }
+
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "NIST_1")) != NULL)
     {
         if (!StringToIPAddress(ptr, &WX.TimeServer.NIST1))
@@ -218,26 +184,91 @@ HTTP_GetExec_wuncgf_htm()
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALbo")) != NULL)
         WX.Calib.Baro_offs =  atoi((char *) ptr);
 
-     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwo")) != NULL)
-        WX.Calib.WDir_offs =  atoi((char *) ptr);
-
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALra")) != NULL)
+    {
         WX.Calib.Rain_counts =  atoi((char *) ptr);
-    
+        
+        // to prevent div/0 potential
+        if (WX.Calib.Rain_counts < 1 )
+            WX.Calib.Rain_counts = 1;
+    }
 
-    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV1")) != NULL)
+    // allows manual entry of the north offset without having to go on top of the roof
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwo")) != NULL)
+    {
+        WX.Calib.WDir_offs =  atoi((char *) ptr);
+    }
+
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALws")) != NULL)
+    {    
+        WX.Calib.Wind_counts =  atoi((char *) ptr);
+       
+        // to prevent div/0 potential
+        if ( WX.Calib.Wind_counts <1 )
+            WX.Calib.Wind_counts = 1;
+    }
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwf")) != NULL)
+    {
+        WX.Calib.Wind_AN_CalFactor =  atof((char *) ptr);
+
+        // no negative numbers
+        if ( WX.Calib.Wind_AN_CalFactor <= 0 )
+            WX.Calib.Wind_AN_CalFactor = 0;
+
+        if ( WX.Calib.Wind_AN_CalFactor > 20 )
+            WX.Calib.Wind_AN_CalFactor = 20;
+    }
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_CALwd")) != NULL)
+    {
+        WDIR_cal_tmp.WindDir_max = 0;
+        WDIR_cal_tmp.WindDir_min = 1023;    // reset earlier calibrations
+        WDIR_cal_tmp.DoWindDirCal = TRUE;    // turns on the wind dir calibration function in main which reads the vane min/max and north
+    }
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_CANc")) != NULL)
+    {
+        WDIR_cal_tmp.DoWindDirCal = FALSE;
+    }
+
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV1") )
     {
               WX.Wunder.report_enable.Station  = enaStation;
               WX.Wunder.report_enable.Wind = enaWind;
               WX.Wunder.report_enable.Hyg = enaHyg;
               WX.Wunder.report_enable.Sol = enaSol;
               WX.Wunder.report_enable.Rain= enaRain;
+              WX_writePerm_data();
+              WDIR_cal_tmp.DoWindDirCal = FALSE;
     }
-    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV1") || HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVE") )
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV2") )
     {
         WX_writePerm_data();
+        WDIR_cal_tmp.DoWindDirCal = FALSE;
+    }
+    
+    if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAV3") )
+    {
+        short tmp;
+        
+        if (WDIR_cal_tmp.DoWindDirCal)
+        {
+            tmp =  (WDIR_cal_tmp.WindDir_max - WDIR_cal_tmp.WindDir_north )/((WDIR_cal_tmp.WindDir_max - WDIR_cal_tmp.WindDir_min) / 360.0 );
+
+            if (tmp < 360 && tmp > 0)  // precaution in case the user did not spin the vane
+            {
+                WX.Calib.WDir_offs = tmp;
+                WX.Calib.WDir_min = WDIR_cal_tmp.WindDir_min;
+                WX.Calib.WDir_max = WDIR_cal_tmp.WindDir_max;
+                WX_writePerm_data();
+            }
+        }
+        WDIR_cal_tmp.DoWindDirCal = FALSE;
     }
 }
+
+
 
 static void
 HTTP_GetExec_mailcgf_htm()
@@ -303,27 +334,37 @@ HTTP_GetExec_togg_outputs_cgi()
 // TODO: need to change this to the actual outputs on the WX board
         switch (*ptr)
         {
+              case '0':
+                OUT0_IO ^= 1;
+                break;
             case '1':
-                LED1_IO ^= 1;
+                OUT1_IO ^= 1;
                 break;
             case '2':
-                LED2_IO ^= 1;
+                OUT2_IO ^= 1;
                 break;
             case '3':
-                LED3_IO ^= 1;
+                OUT3_IO ^= 1;
                 break;
             case '4':
-                LED4_IO ^= 1;
+                OUT4_IO ^= 1;
                 break;
             case '5':
-                LED5_IO ^= 1;
+                OUT5_IO ^= 1;
                 break;
             case '6':
-                LED6_IO ^= 1;
+                OUT6_IO ^= 1;
                 break;
-            case '7':
-                LED7_IO ^= 1;
+             case '7':
+                OUT7_IO ^= 1;
                 break;
+             case '8':
+                OUT8_IO ^= 1;
+                break;
+             case '9':
+                OUT9_IO ^= 1;
+                break;
+              
         }
     }
     else
@@ -936,31 +977,64 @@ HTTPPrint_version(void)
     TCPPutROMString(sktHTTP, (ROM void*) TCPIP_STACK_VERSION);
 }
 
-
 void
 HTTPPrint_inp(WORD num)
+{
+    // Determine which Inputs
+    switch (num)
+    {
+        case 0:
+            num = IN0_IO;
+            break;
+        case 1:
+            num = IN1_IO;
+            break;
+        case 2:
+            num = IN2_IO;
+            break;
+         case 3:
+            num = IN3_IO;
+            break;
+         case 4:
+            num = IN4_IO;
+            break;
+         case 5:
+            num = IN5_IO;
+            break;
+         case 6:
+            num = IN6_IO;
+            break;
+         case 7:
+            num = IN7_IO;
+            break;
+
+        default:
+            num = 0;
+    }
+
+    // Print the output
+    TCPPutROMString(sktHTTP, (num ? "-": "+"));
+}
+
+void
+HTTPPrint_btn(WORD num)
 {
     // Determine which button
     switch (num)
     {
-        case 0:
-            num = BUTTON0_IO;
-            break;
+
         case 1:
             num = BUTTON1_IO;
             break;
         case 2:
             num = BUTTON2_IO;
             break;
-        case 3:
-            num = BUTTON3_IO;
-            break;
         default:
             num = 0;
     }
 
     // Print the output
-    TCPPutROMString(sktHTTP, (num ? "up": "dn"));
+    TCPPutROMString(sktHTTP, (num ? "+": "-"));
 }
 void
 HTTPPrint_led(WORD num)
@@ -968,14 +1042,16 @@ HTTPPrint_led(WORD num)
     // Determine which LED
     switch (num)
     {
-        case 0:
-            num = LED0_IO;
-            break;
         case 1:
             num = LED1_IO;
             break;
+
         case 2:
             num = LED2_IO;
+            break;
+        
+        case 3:
+            num = LED3_IO;
             break;
        
         default:
@@ -983,59 +1059,105 @@ HTTPPrint_led(WORD num)
     }
 
     // Print the output
-    TCPPut(sktHTTP, (num ? '1' : '0'));
+    TCPPut(sktHTTP, (num ? '+' : '-'));
 }
 
-// TODO: change this to the output controls of the WX board PORT D  10 bits on SV2
-//  for now connected to explorer 16  LEDS
 void
 HTTPPrint_out(WORD num)
 {
-    // Determine which LED
+    // Determine which Output
     switch (num)
     {
         case 0:
-            num = LED0_IO;
+            num = OUT0_IO;
             break;
         case 1:
-            num = LED1_IO;
+            num = OUT1_IO;
             break;
         case 2:
-            num = LED2_IO;
+            num = OUT2_IO;
             break;
         case 3:
-            num = LED3_IO;
+            num = OUT3_IO;
             break;
         case 4:
-            num = LED4_IO;
+            num = OUT4_IO;
             break;
         case 5:
-            num = LED5_IO;
+            num = OUT5_IO;
             break;
         case 6:
-            num = LED6_IO;
+            num = OUT6_IO;
             break;
         case 7:
-            num = LED7_IO;
+            num = OUT7_IO;
             break;
-
+        case 8:
+            num = OUT8_IO;
+            break;
+        case 9:
+            num = OUT9_IO;
+            break;
         default:
             num = 0;
     }
 
     // Print the output
-    TCPPut(sktHTTP, (num ? '1' : '0'));
+    TCPPut(sktHTTP, (num ? '+' : '-'));
+}
+void
+HTTPPrint_pwr5V()
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, SensorReading.Plus5V * 100, 2);
+    TCPPutString(sktHTTP, temp);
+
 }
 
+void
+HTTPPrint_va_curr()
+{
+    BYTE temp[8];
+    
+    stoa_dec((char*) temp, WDIR_cal_tmp.WindDir_north, 0);
+    if (WDIR_cal_tmp.DoWindDirCal)
+        TCPPutString(sktHTTP, temp);
+    else
+        TCPPutROMString(sktHTTP, "-");
+
+    // Kludge to time out windir cal mode
+    // depends on the fact the Wind dir Cal page repeadetly calls this token to update the screen
+   WDIR_cal_tmp.timeout =  TickGet()+4 * TICK_SECOND;
+}
+
+void
+HTTPPrint_va_min()
+{
+    BYTE temp[8];
+
+    stoa_dec((char*) temp, WDIR_cal_tmp.WindDir_min, 0);
+
+    if (WDIR_cal_tmp.DoWindDirCal)
+        TCPPutString(sktHTTP, temp);
+    else
+        TCPPutROMString(sktHTTP, "-");
+}
+void
+HTTPPrint_va_max()
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WDIR_cal_tmp.WindDir_max * 1, 0);
+
+    if (WDIR_cal_tmp.DoWindDirCal)
+        TCPPutString(sktHTTP, temp);
+    else
+        TCPPutROMString(sktHTTP, "-");
+}
 void
 HTTPPrint_adc(WORD num)
 {
     BYTE AN0String[8];
     WORD ADval;
-
-#if defined(__18CXX)
-#error "no support for this ADC"
-#endif
 
 // Note: the ADC1BUFn are assigned on a dynamic basisand do not necessarily map to correspoinding AN inputs.
 // A 1:1 mapping is only achieved if all analog inputs are ennabled  in the ADC configuration.
@@ -1058,12 +1180,6 @@ HTTPPrint_adc(WORD num)
             break;
         case 5:
             ADval = (WORD) ADC1BUF5;
-            break;
-        case 6:
-            ADval =(WORD) ADC1BUF6;
-            break;
-        case 7:
-            ADval = (WORD) ADC1BUF7;
             break;
         default:
             ADval =0;
@@ -1090,40 +1206,7 @@ HTTPPrint_date(void)
         TCPPutString(sktHTTP, (BYTE *) RTC_Convert_BCD_Date_to_String(date_time));
     }
 }
-void
-HTTPPrint_lcdtext(void)
-{
-    WORD len;
 
-    // Determine how many bytes we can write
-    len = TCPIsPutReady(sktHTTP);
-
-#if defined(USE_LCD)
-    // If just starting, set callbackPos
-    if (curHTTP.callbackPos == 0u)
-        curHTTP.callbackPos = 32;
-
-    // Write a byte at a time while we still can
-    // It may take up to 12 bytes to write a character
-    // (spaces and newlines are longer)
-    while (len > 12u && curHTTP.callbackPos)
-    {
-        // After 16 bytes write a newline
-        if (curHTTP.callbackPos == 16u)
-            len -= TCPPutROMArray(sktHTTP, (ROM BYTE*) "<br />", 6);
-
-        if (LCDText[32 - curHTTP.callbackPos] == ' ' || LCDText[32 - curHTTP.callbackPos] == '\0')
-            len -= TCPPutROMArray(sktHTTP, (ROM BYTE*) "&nbsp;", 6);
-        else
-            len -= TCPPut(sktHTTP, LCDText[32 - curHTTP.callbackPos]);
-
-        curHTTP.callbackPos--;
-    }
-#else
-    TCPPutROMString(sktHTTP, (ROM BYTE*) "No LCD Present");
-#endif
-
-}
 
 static void
 printIP(IP_ADDR ip)
@@ -1152,11 +1235,6 @@ HTTPPrint_W_SID(void)
     TCPPutString(sktHTTP, (BYTE*) WX.Wunder.StationID);
 }
 
-void
-HTTPPrint_W_IP(void)
-{
-    printIP(WX.Wunder.Wunder_IP);
-}
 
 void
 HTTPPrint_W_PASS(void)
@@ -1222,6 +1300,20 @@ HTTPPrint_ELEV(void)
 {
     BYTE temp[8];
     stoa_dec((char*) temp, WX.Wunder.StationElev, 0);
+    TCPPutString(sktHTTP, temp);
+}
+void
+HTTPPrint_UpInt(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Wunder.UplnkInterval, 0);
+    TCPPutString(sktHTTP, temp);
+}
+void
+HTTPPrint_TZoff(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Wunder.TZ_offset, 0);
     TCPPutString(sktHTTP, temp);
 }
 
@@ -1344,12 +1436,28 @@ void HTTPPrint_CALwo(void)
     stoa_dec((char*) temp, WX.Calib.WDir_offs, 0);
     TCPPutString(sktHTTP, temp);
 }
+
 void HTTPPrint_CALra(void)
 {
     BYTE temp[8];
     stoa_dec((char*) temp, WX.Calib.Rain_counts, 0);
     TCPPutString(sktHTTP, temp);
 }
+
+void HTTPPrint_CALws(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Calib.Wind_counts, 0);
+    TCPPutString(sktHTTP, temp);
+}
+
+void HTTPPrint_CALwf(void)      // AN_CAL_FACTOR
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Calib.Wind_AN_CalFactor *100,2);
+    TCPPutString(sktHTTP, temp);
+}
+
 void
 HTTPPrint_wifiEnc(WORD num)
 {

@@ -48,7 +48,8 @@
 			#endif
 #elif	defined(CFG_INCLUDE_PICDN2_MRF24WB) || defined(CFG_INCLUDE_PICDN2_MRF24WG)           || \
 		defined(CFG_INCLUDE_PIC18EX_MRF24WB) || defined(CFG_INCLUDE_PIC18EX_MRF24WG) || \
-		defined(CFG_INCLUDE_EX16_MRF24WB) || defined(CFG_INCLUDE_EX16_MRF24WG)
+		defined(CFG_INCLUDE_EX16_MRF24WB) || defined(CFG_INCLUDE_EX16_MRF24WG) ||\
+                defined(CFG_INCLUDE_WX_WUNDER)
 			#if defined(CFG_INCLUDE_TCP_200_PERF)
 				#include "Configs/TCPIP MRF24W TCP_200_PERF.h"
 			#elif defined(CFG_INCLUDE_TCP_2000_PERF)

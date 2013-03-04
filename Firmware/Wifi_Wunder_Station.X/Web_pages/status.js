@@ -24,9 +24,9 @@ function updateLedStatus(xmlData)
 	
 	if ( timed_out(	xmlData) )
 		return;
-	document.getElementById('led0').style.color = (getXMLValue(xmlData, 'led0') == '1') ? '#090' : '#ddd';
-	document.getElementById('led1').style.color = (getXMLValue(xmlData, 'led1') == '1') ? '#f90' : '#ddd';
-	document.getElementById('led2').style.color = (getXMLValue(xmlData, 'led2') == '1') ? '#f00' : '#ddd';
+	document.getElementById('led1').style.color = (getXMLValue(xmlData, 'led1') == '+') ? '#090' : '#ddd';
+	document.getElementById('led2').style.color = (getXMLValue(xmlData, 'led2') == '+') ? '#f90' : '#ddd';
+	document.getElementById('led3').style.color = (getXMLValue(xmlData, 'led3') == '+') ? '#f00' : '#ddd';
 }
 
 
@@ -37,8 +37,8 @@ function updateOutputStatus(xmlData)
 		return;
 
 	// Loop over all the outputs
-	for(i = 0; i < 8; i++)
-		document.getElementById('out' + i).style.color = (getXMLValue(xmlData, 'out' + i) == '1') ? '#090' : '#ddd';
+	for(i = 0; i < 10; i++)
+		document.getElementById('out' + i).style.color = (getXMLValue(xmlData, 'out' + i) == '+') ? '#090' : '#ddd';
 
 }
 
@@ -49,8 +49,12 @@ function updateInputStatus(xmlData)
 		return;
 
 	// Loop over all the inputs
-	for(i = 0; i < 4; i++)
-		document.getElementById('in' + i).style.color = (getXMLValue(xmlData, 'in' + i) == 'up') ? '#ddd' :'#0A0';
+	for(i = 0; i < 8; i++)
+	{
+		document.getElementById('in' + i).style.color = (getXMLValue(xmlData, 'in' + i) == '+') ? '#ddd' :'#0A0';
+	}
+	document.getElementById('btn1').style.color = (getXMLValue(xmlData, 'btn1') == '+') ? '#ddd' :'#0A0';
+	document.getElementById('btn2').style.color = (getXMLValue(xmlData, 'btn2') == '+') ? '#ddd' :'#0A0';
 }
 
 function updateADCStatus(xmlData)
@@ -60,7 +64,7 @@ function updateADCStatus(xmlData)
 		return;
 
 	// Loop over all the ADCs
-	for(i = 0; i < 8; i++)
+	for(i = 0; i < 6; i++)
 		document.getElementById('adc'+i).innerHTML = getXMLValue(xmlData, 'adc'+i);
 }
 

@@ -13,8 +13,9 @@ volatile unsigned short Wind_1Sec_count = 0;
 void
 WindCounterInit(void)
 {
+    TRISCbits.TRISC1 = 1;
     T2CON = 0;
-    TMR2 = 0;
+    TMR2 = 0;       // WIND_COUNTER
     PR2 = 0xfffe; // the large number in the preset/compare register prevenst the counter to ever self reset
     T2CONbits.TCS = 1; // external clock input on T2CK
     T2CONbits.TON = 1; // Enable the counter
@@ -22,9 +23,17 @@ WindCounterInit(void)
 void
 RainCounterInit(void)
 {
+    // Timer 4 has a clock sync circuit on the external clock input 
+    // The clock input needs to be held low when the counter is enabled, otherwise it will miss the first count
+    
+    TRISCbits.TRISC3 = 0;
+    LATCbits.LATC3 = 0; LATCbits.LATC3 = 0; LATCbits.LATC3 = 0; LATCbits.LATC3 = 0; LATCbits.LATC3 = 0; // extra time ?
+   
     T4CON = 0;
-    TMR4 = 0;
-    PR4 = 0xfffe; // the large number in the preset/compare register prevenst the counter to ever self reset
+    TMR4 = 0;       // RAIN_COUNTER
+    PR4 = 0xfff0; // the large number in the preset/compare register prevenst the counter to ever self reset
     T4CONbits.TCS = 1; // external clock input on T4CK
     T4CONbits.TON = 1; // Enable the counter
+
+    TRISCbits.TRISC3 = 1; // remove the drive low on T4ck input
 }

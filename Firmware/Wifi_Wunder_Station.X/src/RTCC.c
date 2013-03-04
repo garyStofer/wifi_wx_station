@@ -393,9 +393,9 @@ BOOL RTC_isMidnight( BCD_RTCC * t, short  timezone_offset)
     timezone_offset += t->daylight;
 
     hour = (t->hr >> 4) *10 + (t->hr & 0xF);   // convert to decimal
-    hour = (24 + timezone_offset)%24;
+    hour = (hour + timezone_offset)%24;
 
-    if (hour == 00 && t->sec ==0 && t->min == 0)
+    if (hour == 00 && t->sec < 4 && t->min == 0)        // The first 3 seconds of a new day -- in case the function doesn't get called fast enough
         return TRUE;
 
     return FALSE;

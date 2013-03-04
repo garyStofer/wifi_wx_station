@@ -87,12 +87,17 @@
 #define MY_DEFAULT_NETWORK_TYPE             WF_INFRASTRUCTURE   /* CFG_WF_INFRASTRUCTURE, CFG_WF_P2P */
 #define MY_DEFAULT_DOMAIN                   WF_DOMAIN_FCC
 #define MY_DEFAULT_LIST_RETRY_COUNT         WF_RETRY_FOREVER            /* Number of times to try to connect to the SSID when using Infrastructure network type */
- 
+
+// Default pass phrase used for WF_SECURITY_WPA_WITH_PASS_PHRASE and
+// WF_SECURITY_WPA2_WITH_PASS_PHRASE security modes
+#define MY_DEFAULT_PSK_PHRASE  "dapassword"
+
 #if MY_DEFAULT_NETWORK_TYPE == WF_INFRASTRUCTURE
-    #define MY_DEFAULT_WIFI_SECURITY_MODE       WF_SECURITY_OPEN   
+    #define MY_DEFAULT_SSID_NAME                "linksys"
+    #define MY_DEFAULT_WIFI_SECURITY_MODE       WF_SECURITY_OPEN
+    //#define MY_DEFAULT_WIFI_SECURITY_MODE       WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE
     #define MY_DEFAULT_SCAN_TYPE                WF_ACTIVE_SCAN              /* WF_ACTIVE_SCAN or WF_PASSIVE_SCAN */
     #define MY_DEFAULT_BEACON_TIMEOUT           (40)                        /* Number of beacon periods          */
-    #define MY_DEFAULT_SSID_NAME                "linksys"
     #define MY_DEFAULT_CHANNEL_LIST         {1,2,3,4,5,6,7,8,9,10,11}   /* Default channel list for FCC */
 
     /* Select Infrastructure Power Save Mode */
@@ -132,7 +137,7 @@
 	*/
     #define MY_DEFAULT_WIFI_SECURITY_MODE              	WF_SECURITY_WEP_40
     #define MY_DEFAULT_SCAN_TYPE                       	WF_ACTIVE_SCAN   
-    #define MY_DEFAULT_SSID_NAME                       	"Dialup"    /* Fixed SSID. Do not change */
+    #define MY_DEFAULT_SSID_NAME                       	"linksys"    /* Fixed SSID. Do not change */
     #define MY_DEFAULT_CHANNEL_LIST                	{1,2,3,4,5,6,7,8,9,10,11}    /* Social channels. Do not change */
     #define MY_DEFAULT_BEACON_TIMEOUT                  	(40)   /* Number of beacon periods */
     #define MY_DEFAULT_PS_POLL                         	WF_DISABLED
@@ -184,9 +189,7 @@
 #define MY_DEFAULT_WEP_KEY_INDEX        (0u)     /* Valid Key Index: 0, 1, 2, 3  */
 
 
-// Default pass phrase used for WF_SECURITY_WPA_WITH_PASS_PHRASE and 
-// WF_SECURITY_WPA2_WITH_PASS_PHRASE security modes
-#define MY_DEFAULT_PSK_PHRASE  "WifiPassword"
+
 
 // The tool at http://www.wireshark.org/tools/wpa-psk.html can be used to generate this field gtom SSID and pass_phrase
 #define MY_DEFAULT_PSK "\
@@ -239,6 +242,9 @@
 
 #define USE_GRATUITOUS_ARP
 
+extern void WF_Connect(void);
+extern short g_isPSK_Ready;
+extern void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo);
 
 //#define WF_CONSOLE		
 

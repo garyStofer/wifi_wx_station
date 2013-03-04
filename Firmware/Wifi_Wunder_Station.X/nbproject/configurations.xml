@@ -1,122 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
-    <logicalFolder name="HeaderFiles"
-                   displayName="Header Files"
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
                    projectFiles="true">
-      <logicalFolder name="f1" displayName="Common" projectFiles="true">
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/Compiler.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/GenericTypeDefs.h</itemPath>
-      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="HeaderFiles"
+                   displayName="MyHeader Files"
+                   projectFiles="true">
       <logicalFolder name="f3" displayName="Configs" projectFiles="true">
         <itemPath>src/Configs/TCPIP MRF24W.h</itemPath>
         <itemPath>src/TCPIPConfig.h</itemPath>
         <itemPath>src/WF_Config.h</itemPath>
         <itemPath>src/Configs/Wunder_cfg.h</itemPath>
-        <itemPath>src/Configs/HWP EX16_MRF24W XC16.h</itemPath>
         <itemPath>src/HardwareProfile.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f2" displayName="Crypto" projectFiles="true">
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_CBC.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_CFB.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_CTR.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_ECB.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_ECB_PIC32.h</itemPath>
-        <itemPath>../../../../../../Microchip Solutions v2012-07-18/Microchip/Include/TCPIP Stack/AES_OFB.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="Include" displayName="Stack" projectFiles="true">
-        <logicalFolder name="TCPIP Stack" displayName="TCPIP Stack" projectFiles="true">
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_CBC.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_CFB.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_CTR.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_ECB.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_ECB_PIC32.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AES_OFB.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/aes_pic24f.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Announce.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ARCFOUR.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ARP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/AutoIP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/BerkeleyAPI.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/BigInt.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Delay.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/DHCP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/DNS.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/DynDNS.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ENC28J60.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ENCX24J600.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETH97J60.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhy.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhyDP83640.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhyDP83848.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhyRegs.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhySMSC8700.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ETHPIC32ExtPhySMSC8720.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/FileSystem.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/FTP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Hashes.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Helpers.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/HTTP2.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ICMP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/IP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/LCDBlocking.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/MAC.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/MPFS2.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/NBNS.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Random.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Reboot.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/regdef.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/RSA.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SMTP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SNMP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SNMPv3.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SNTP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SPIFlash.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SPIRAM.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SSL.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/SSLClientSize.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/StackTsk.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/TCP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/TCPIP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/TCPPerformanceTest.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Telnet.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/TFTPc.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/Tick.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/UART.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/UART2TCPBridge.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/UDP.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/UDPPerformanceTest.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFApi.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsole.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsoleIfconfig.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsoleIwconfig.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsoleIwpriv.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsoleMsgHandler.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFConsoleMsgs.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFDebugStrings.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFDriverPrv.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFDriverPrv_24G.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFEasyConfig.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFMac.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFMgmtMsg.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFRaw.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/WFRaw_24G.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/XEEPROM.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ZeroconfHelper.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ZeroconfLinkLocal.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/ZeroconfMulticastDNS.h</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TCPIP Stack/_HTTP2.h</itemPath>
-        </logicalFolder>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/Compiler.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/debug.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/GenericTypeDefs.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/LCDBlocking.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/struct_queue.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/TimeDelay.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/timer.h</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Include/uart2.h</itemPath>
+        <itemPath>src/Configs/WX_WUNDER_BRD_MRF24W.h</itemPath>
       </logicalFolder>
       <itemPath>src/APP_cfg.h</itemPath>
       <itemPath>src/WX_perm_data.h</itemPath>
@@ -127,10 +25,8 @@
       <itemPath>src/HTTPPrint.h</itemPath>
       <itemPath>src/Mail_Alarm.h</itemPath>
       <itemPath>src/wind_rain_cnt.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="LinkerScript"
-                   displayName="Linker Files"
-                   projectFiles="true">
+      <itemPath>src/HW_initialize.h</itemPath>
+      <itemPath>src/Once_per_second.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -153,83 +49,193 @@
         <itemPath>src/HIH_6130.c</itemPath>
         <itemPath>src/Mail_Alarm.c</itemPath>
         <itemPath>src/wind_rain_cnt.c</itemPath>
+        <itemPath>src/MCU_config_bits.c</itemPath>
+        <itemPath>src/HW_initialize.c</itemPath>
+        <itemPath>src/Once_per_second.c</itemPath>
       </logicalFolder>
-      <logicalFolder name="TCPIP Stack" displayName="Stack" projectFiles="true">
-        <logicalFolder name="WiFi" displayName="WiFi" projectFiles="true">
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConnectionAlgorithm.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConnectionManager.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConnectionProfile.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsole.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsoleIfconfig.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsoleIwconfig.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsoleIwpriv.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsoleMsgHandler.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFConsoleMsgs.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFDataTxRx.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFDebugStrings.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFDriverCom.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFDriverRaw.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFEasyConfig.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFEventHandler.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFInit.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFMac.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFMgmtMsg.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFMgmtMsgTest.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFParamMsg.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFPowerSave.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFScan.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WFTxPower.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WF_Eint.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WF_pbkdf2.c</itemPath>
-          <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WF_Spi.c</itemPath>
+      <logicalFolder name="TCPIP" displayName="TCPIP" projectFiles="true">
+        <logicalFolder name="Include" displayName="Include" projectFiles="true">
+          <logicalFolder name="TCPIP Stack" displayName="TCPIP Stack" projectFiles="true">
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_CBC.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_CFB.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_CTR.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_ECB.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_ECB_PIC32.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AES_OFB.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/aes_pic24f.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Announce.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ARCFOUR.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ARP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/AutoIP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/BerkeleyAPI.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/BigInt.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Delay.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/DHCP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/DNS.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/DynDNS.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ENC28J60.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ENCX24J600.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETH97J60.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhy.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhyDP83640.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhyDP83848.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhyRegs.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhySMSC8700.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ETHPIC32ExtPhySMSC8720.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/FileSystem.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/FTP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Hashes.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Helpers.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/HTTP2.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ICMP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/IP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/LCDBlocking.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/MAC.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/MPFS2.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/NBNS.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Random.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Reboot.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/regdef.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/RSA.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SMTP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SNMP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SNMPv3.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SNTP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SPIFlash.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SPIRAM.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SSL.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/SSLClientSize.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/StackTsk.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/TCP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/TCPIP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/TCPPerformanceTest.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Telnet.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/TFTPc.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/Tick.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/UART.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/UART2TCPBridge.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/UDP.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/UDPPerformanceTest.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFApi.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsole.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsoleIfconfig.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsoleIwconfig.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsoleIwpriv.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsoleMsgHandler.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFConsoleMsgs.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFDebugStrings.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFDriverPrv.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFDriverPrv_24G.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFEasyConfig.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFMac.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFMgmtMsg.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFRaw.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/WFRaw_24G.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/XEEPROM.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ZeroconfHelper.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ZeroconfLinkLocal.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/ZeroconfMulticastDNS.h</itemPath>
+            <itemPath>../TCPIP/Include/TCPIP Stack/_HTTP2.h</itemPath>
+          </logicalFolder>
+          <itemPath>../TCPIP/Include/Compiler.h</itemPath>
+          <itemPath>../TCPIP/Include/debug.h</itemPath>
+          <itemPath>../TCPIP/Include/GenericTypeDefs.h</itemPath>
+          <itemPath>../TCPIP/Include/LCDBlocking.h</itemPath>
+          <itemPath>../TCPIP/Include/struct_queue.h</itemPath>
+          <itemPath>../TCPIP/Include/TimeDelay.h</itemPath>
+          <itemPath>../TCPIP/Include/timer.h</itemPath>
+          <itemPath>../TCPIP/Include/uart2.h</itemPath>
         </logicalFolder>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Announce.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ARCFOUR.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ARP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/AutoIP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/BerkeleyAPI.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/BigInt.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Delay.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/DHCP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/DHCPs.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/DNS.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/DNSs.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/DynDNS.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/FileSystem.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/FTP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Hashes.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Helpers.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/HTTP2.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ICMP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/IP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/LCDBlocking.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/MPFS2.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/NBNS.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Random.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Reboot.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/RSA.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SMTP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SNMP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SNMPv3.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SNMPv3USM.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SNTP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SPIEEPROM.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SPIFlash.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SPIRAM.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/SSL.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/StackTsk.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/TCP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/TCPPerformanceTest.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Telnet.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/TFTPc.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/Tick.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/UART.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/UART2TCPBridge.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/UDP.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/UDPPerformanceTest.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ZeroconfHelper.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ZeroconfLinkLocal.c</itemPath>
-        <itemPath>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/ZeroconfMulticastDNS.c</itemPath>
+        <logicalFolder name="WiFi" displayName="WiFi" projectFiles="true">
+          <itemPath>../TCPIP/WiFi/WFConnectionAlgorithm.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConnectionManager.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConnectionProfile.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsole.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsoleIfconfig.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsoleIwconfig.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsoleIwpriv.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsoleMsgHandler.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFConsoleMsgs.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDataTxRx.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDebugStrings.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDriverCom.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDriverCom_24G.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDriverRaw.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFDriverRaw_24G.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFEasyConfig.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFEventHandler.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFInit.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFMac.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFMac_24G.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFMgmtMsg.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFMgmtMsgTest.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFMgmtMsg_24G.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFParamMsg.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFParamMsg_24G.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFPowerSave.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFScan.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WFTxPower.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WF_Eint.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WF_pbkdf2.c</itemPath>
+          <itemPath>../TCPIP/WiFi/WF_Spi.c</itemPath>
+        </logicalFolder>
+        <itemPath>../TCPIP/Announce.c</itemPath>
+        <itemPath>../TCPIP/ARCFOUR.c</itemPath>
+        <itemPath>../TCPIP/ARP.c</itemPath>
+        <itemPath>../TCPIP/AutoIP.c</itemPath>
+        <itemPath>../TCPIP/BerkeleyAPI.c</itemPath>
+        <itemPath>../TCPIP/BigInt.c</itemPath>
+        <itemPath>../TCPIP/Delay.c</itemPath>
+        <itemPath>../TCPIP/DHCP.c</itemPath>
+        <itemPath>../TCPIP/DHCPs.c</itemPath>
+        <itemPath>../TCPIP/DNS.c</itemPath>
+        <itemPath>../TCPIP/DNSs.c</itemPath>
+        <itemPath>../TCPIP/DynDNS.c</itemPath>
+        <itemPath>../TCPIP/ENC28J60.c</itemPath>
+        <itemPath>../TCPIP/ENCX24J600.c</itemPath>
+        <itemPath>../TCPIP/ETH97J60.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32ExtPhy.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32ExtPhyDP83640.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32ExtPhyDP83848.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32ExtPhySMSC8700.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32ExtPhySMSC8720.c</itemPath>
+        <itemPath>../TCPIP/ETHPIC32IntMac.c</itemPath>
+        <itemPath>../TCPIP/FileSystem.c</itemPath>
+        <itemPath>../TCPIP/FTP.c</itemPath>
+        <itemPath>../TCPIP/Hashes.c</itemPath>
+        <itemPath>../TCPIP/Helpers.c</itemPath>
+        <itemPath>../TCPIP/HTTP2.c</itemPath>
+        <itemPath>../TCPIP/ICMP.c</itemPath>
+        <itemPath>../TCPIP/IP.c</itemPath>
+        <itemPath>../TCPIP/LCDBlocking.c</itemPath>
+        <itemPath>../TCPIP/MPFS2.c</itemPath>
+        <itemPath>../TCPIP/NBNS.c</itemPath>
+        <itemPath>../TCPIP/Random.c</itemPath>
+        <itemPath>../TCPIP/Reboot.c</itemPath>
+        <itemPath>../TCPIP/RSA.c</itemPath>
+        <itemPath>../TCPIP/SMTP.c</itemPath>
+        <itemPath>../TCPIP/SNMP.c</itemPath>
+        <itemPath>../TCPIP/SNMPv3.c</itemPath>
+        <itemPath>../TCPIP/SNMPv3USM.c</itemPath>
+        <itemPath>../TCPIP/SNTP.c</itemPath>
+        <itemPath>../TCPIP/SPIEEPROM.c</itemPath>
+        <itemPath>../TCPIP/SPIFlash.c</itemPath>
+        <itemPath>../TCPIP/SPIRAM.c</itemPath>
+        <itemPath>../TCPIP/SSL.c</itemPath>
+        <itemPath>../TCPIP/StackTsk.c</itemPath>
+        <itemPath>../TCPIP/TCP.c</itemPath>
+        <itemPath>../TCPIP/TCPPerformanceTest.c</itemPath>
+        <itemPath>../TCPIP/Telnet.c</itemPath>
+        <itemPath>../TCPIP/TFTPc.c</itemPath>
+        <itemPath>../TCPIP/Tick.c</itemPath>
+        <itemPath>../TCPIP/UART.c</itemPath>
+        <itemPath>../TCPIP/UART2TCPBridge.c</itemPath>
+        <itemPath>../TCPIP/UDP.c</itemPath>
+        <itemPath>../TCPIP/UDPPerformanceTest.c</itemPath>
+        <itemPath>../TCPIP/ZeroconfHelper.c</itemPath>
+        <itemPath>../TCPIP/ZeroconfLinkLocal.c</itemPath>
+        <itemPath>../TCPIP/ZeroconfMulticastDNS.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="Web_pages" displayName="Web_pages" projectFiles="true">
@@ -251,8 +257,6 @@
       <itemPath>Web_pages/adcs.htm</itemPath>
       <itemPath>Web_pages/ajax.js</itemPath>
       <itemPath>Web_pages/compas.svg</itemPath>
-      <itemPath>Web_pages/footer.inc</itemPath>
-      <itemPath>Web_pages/header.inc</itemPath>
       <itemPath>Web_pages/index.htm</itemPath>
       <itemPath>Web_pages/inputs.htm</itemPath>
       <itemPath>Web_pages/leds.htm</itemPath>
@@ -275,17 +279,16 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
+    <Elem>../TCPIP</Elem>
     <Elem>src</Elem>
-    <Elem>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/Wifi_Wunder_Station.X/../../../../../../Microchip Solutions v2012-07-18/Microchip/TCPIP Stack</Elem>
     <Elem>Web_pages</Elem>
-    <Elem>C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="default" type="2">
+    <conf name="WX-Wunder_brd_128Ga008" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC24FJ128GA010</targetDevice>
+        <targetDevice>PIC24FJ128GA008</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
@@ -312,6 +315,156 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ENCX24J600.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETH97J60.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhy.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhyDP83640.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhyDP83848.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhySMSC8700.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhySMSC8720.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32IntMac.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverCom_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverRaw_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFMac_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFMgmtMsg_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFParamMsg_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WF_pbkdf2.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <C30>
         <property key="code-model" value="large-code"/>
         <property key="const-model" value="default"/>
@@ -326,12 +479,12 @@
         <property key="enable-short-double" value="false"/>
         <property key="enable-symbols" value="false"/>
         <property key="enable-unroll-loops" value="false"/>
-        <property key="extra-include-directories" value="..\TCPIP Stack\Include;src"/>
+        <property key="extra-include-directories" value="..\TCPIP\Include;src"/>
         <property key="isolate-each-function" value="false"/>
         <property key="optimization-level" value="0"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="CFG_INCLUDE_EX16_MRF24WB"/>
+        <property key="preprocessor-macros" value="CFG_INCLUDE_WX_WUNDER"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
@@ -342,10 +495,10 @@
         <property key="false-conditionals" value="false"/>
         <property key="keep-locals" value="false"/>
         <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
         <property key="list-section-info" value="false"/>
         <property key="list-source" value="false"/>
         <property key="list-symbols" value="false"/>
+        <property key="oXC16asm-list-to-file" value="false"/>
         <property key="omit-debug-dirs" value="false"/>
         <property key="omit-forms" value="false"/>
         <property key="preprocessor-macros" value=""/>
@@ -359,18 +512,6 @@
         <property key="legacy-libc" value="false"/>
         <property key="output-file-format" value="elf"/>
       </C30Global>
-      <item path="C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WF_pbkdf2.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
@@ -403,6 +544,8 @@
         <property key="UART 2" value="true"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="false"/>
+        <property key="memories.configurationmemory" value="false"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>
@@ -463,10 +606,10 @@
         </C30Global>
       </item>
     </conf>
-    <conf name="Copy_of_default" type="2">
+    <conf name="WX-Wunder_brd_256_GA108" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC24FJ128GA010</targetDevice>
+        <targetDevice>PIC24FJ256GA108</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
@@ -493,6 +636,156 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ENCX24J600.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETH97J60.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhy.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhyDP83640.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhyDP83848.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhySMSC8700.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32ExtPhySMSC8720.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/ETHPIC32IntMac.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverCom_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverRaw_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFMac_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFMgmtMsg_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WFParamMsg_24G.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../TCPIP/WiFi/WF_pbkdf2.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <C30>
         <property key="code-model" value="large-code"/>
         <property key="const-model" value="default"/>
@@ -507,12 +800,12 @@
         <property key="enable-short-double" value="false"/>
         <property key="enable-symbols" value="false"/>
         <property key="enable-unroll-loops" value="false"/>
-        <property key="extra-include-directories" value="..\TCPIP Stack\Include;src"/>
+        <property key="extra-include-directories" value="..\TCPIP\Include;src"/>
         <property key="isolate-each-function" value="false"/>
         <property key="optimization-level" value="0"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="CFG_INCLUDE_EX16_MRF24WB"/>
+        <property key="preprocessor-macros" value="CFG_INCLUDE_WX_WUNDER"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
@@ -523,10 +816,10 @@
         <property key="false-conditionals" value="false"/>
         <property key="keep-locals" value="false"/>
         <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
         <property key="list-section-info" value="false"/>
         <property key="list-source" value="false"/>
         <property key="list-symbols" value="false"/>
+        <property key="oXC16asm-list-to-file" value="false"/>
         <property key="omit-debug-dirs" value="false"/>
         <property key="omit-forms" value="false"/>
         <property key="preprocessor-macros" value=""/>
@@ -540,18 +833,6 @@
         <property key="legacy-libc" value="false"/>
         <property key="output-file-format" value="elf"/>
       </C30Global>
-      <item path="C:/Documents and Settings/gary/My Documents/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP Stack/WiFi/WF_pbkdf2.c"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
@@ -584,6 +865,8 @@
         <property key="UART 2" value="true"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="false"/>
+        <property key="memories.configurationmemory" value="false"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>

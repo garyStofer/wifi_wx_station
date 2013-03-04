@@ -15,18 +15,13 @@
         <form action ="" method="GET"  name="NISTconfig">
         <fieldset>
                 <legend>Time Server Configuration:</legend>
+                <div><label>GMT Timezone :</label><input type="text" name="TZoff"  size ="3"  maxlength="3" value="~TZoff~"/> (+/- Hours GMT to local time offset) </div>
                 <div><label>Primary NIST:</label><input type="text" name="NIST_1" size="15" maxlength="15" value="~nist_1~" /></div>
                 <div><label>Secondary NIST:</label>	<input type="text" name="NIST_2" size="15" maxlength="15" value="~nist_2~" /></div>
                 <span style="font-size:x-small">For a list of suitable <em>DayTime</em> 
 				server addresses<a  target="_blank" href="http://tf.nist.gov/tf-cgi/servers.cgi"> click here !</a></span>
-                <div><input type="submit" class="sm" name="_SAVE" value="Save" /></div>
+                <div><input type="submit" class="sm" name="_SAV2" value="Save" /></div>
         </fieldset>
-	</form>
-
-	<hr/>
-	<form name ="frmRst" method="POST" action="config.htm">
-	<input type="hidden" name="Reboot" value="Now"/>
-	<label> </label> <input type="submit" value="Reboot"/>
 	</form>
 </body>
 </html>

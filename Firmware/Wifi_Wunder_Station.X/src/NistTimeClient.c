@@ -58,18 +58,18 @@ NIST_DAYTIME_Client(void)
             // If this ever happens, you need to go add one to TCPIPConfig.h
             if (sock == INVALID_SOCKET)
             {
-#if defined(STACK_USE_UART)         
+        
                 putrsUART((ROM char*) "NIST ERROR: no Socket of proper type defined in .h file\r\n");
-#endif
+
                 ThisState = SM_IDLE;
                 break;
             }
 
             ThisState++;
             Timer = TickGet();
-#if defined(STACK_USE_UART)
+
             putrsUART((ROM char*) "NIST waiting for socket connect\r\n");
-#endif
+
             break;
 
         case SM_SOCKET_OBTAINED:
@@ -81,9 +81,9 @@ NIST_DAYTIME_Client(void)
                 // Time out if too much time is spent in this state
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
-#if defined(STACK_USE_UART)
+
                     putrsUART((ROM char*) "Nist timedout waiting for Socket connection,aborting\r\n");
-#endif
+
                     // Close the socket so it can be used by other modules
                     ThisState = SM_DISCONNECT;
                 }
@@ -105,9 +105,9 @@ NIST_DAYTIME_Client(void)
 
                 if (NistRspBuffer[28] - '0' < 2)  // The time servers health status
                 {
-#if defined(STACK_USE_UART)
+
                     putrsUART((ROM char*) "Nist got good time\r\n");
-#endif
+
                     //extracting the time from the response and setting the RTC clock
 
                     rtc_time.yr = ((NistRspBuffer[7] - '0') << 4) + (NistRspBuffer[8] - '0');
@@ -129,15 +129,15 @@ NIST_DAYTIME_Client(void)
             }
             else
             {
-#if defined(STACK_USE_UART)
+
                 //                putrsUART((ROM char*)"w");
-#endif
+
                 // wait to get data and abort if it takes too long
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
-#if defined(STACK_USE_UART)
+
                     putrsUART((ROM char*) "Nist timed-out waiting for Data, aborting\r\n");
-#endif
+
                     ThisState = SM_DISCONNECT;
                     break;
                 }
@@ -145,18 +145,17 @@ NIST_DAYTIME_Client(void)
 
             if (!TCPIsConnected(sock))
             {
-#if defined(STACK_USE_UART)
-                putrsUART((ROM char*) "NIST Server has disconnected\r\n");
-#endif
+
+                //putrsUART((ROM char*) "NIST Server has disconnected\r\n");
                 ThisState = SM_DISCONNECT;
             }
             break;
 
         case SM_DISCONNECT:
             // Close the socket so it can be used by other modules
-#if defined(STACK_USE_UART)
-            putrsUART((ROM char*) "Nist Disconnect\r\n");
-#endif
+
+            //putrsUART((ROM char*) "Nist Disconnect\r\n");
+
             TCPDisconnect(sock);
             sock = INVALID_SOCKET;
             if (NistGotGoodTime )
