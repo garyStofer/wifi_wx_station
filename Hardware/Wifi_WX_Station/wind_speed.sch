@@ -103,98 +103,6 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="1AA_Stofer">
-<packages>
-<package name="OSRAM-6">
-<smd name="P$1" x="0" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<smd name="P$6" x="0" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<smd name="P$2" x="1.27" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<smd name="P$3" x="2.54" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<smd name="P$4" x="2.54" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<smd name="P$5" x="1.27" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
-<wire x1="-1.27" y1="3.81" x2="-1.27" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="-1.27" x2="0.635" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="0.635" y1="-1.27" x2="3.81" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="3.81" y1="-1.27" x2="3.81" y2="3.81" width="0.127" layer="21"/>
-<wire x1="3.81" y1="3.81" x2="0.635" y2="3.81" width="0.127" layer="21"/>
-<wire x1="0.635" y1="3.81" x2="-1.27" y2="3.81" width="0.127" layer="21"/>
-<wire x1="0.635" y1="3.81" x2="0.635" y2="-1.27" width="0.127" layer="21"/>
-<text x="5.08" y="2.54" size="1.27" layer="25">&gt;Name</text>
-<text x="5.08" y="0" size="1.27" layer="27">&gt;Value</text>
-</package>
-</packages>
-<symbols>
-<symbol name="OSRAM_SFH">
-<description>Osram refectice opto interrupter</description>
-<text x="-7.62" y="12.7" size="1.27" layer="95">&gt;Name</text>
-<text x="5.08" y="12.7" size="1.27" layer="96">&gt;Value</text>
-<wire x1="7.62" y1="2.54" x2="5.588" y2="1.524" width="0.1524" layer="94"/>
-<wire x1="6.858" y1="-1.524" x2="7.62" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="7.62" y1="-2.54" x2="6.35" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="6.35" y1="-2.54" x2="6.858" y2="-1.524" width="0.1524" layer="94"/>
-<wire x1="6.62" y1="-2.04" x2="5.388" y2="-1.424" width="0.1524" layer="94"/>
-<wire x1="6.604" y1="-2.413" x2="7.366" y2="-2.413" width="0.254" layer="94"/>
-<wire x1="7.366" y1="-2.413" x2="6.858" y2="-1.778" width="0.254" layer="94"/>
-<wire x1="6.858" y1="-1.778" x2="6.604" y2="-2.286" width="0.254" layer="94"/>
-<wire x1="6.604" y1="-2.286" x2="6.985" y2="-2.286" width="0.254" layer="94"/>
-<wire x1="6.985" y1="-2.286" x2="6.858" y2="-2.032" width="0.254" layer="94"/>
-<rectangle x1="4.826" y1="-2.54" x2="5.588" y2="2.54" layer="94"/>
-<pin name="E" x="10.16" y="-5.08" visible="off" length="short" direction="pas" rot="R180"/>
-<pin name="C" x="10.16" y="7.62" visible="off" length="short" direction="pas" rot="R180"/>
-<wire x1="-6.35" y1="2.54" x2="-5.08" y2="0" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="0" x2="-3.81" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-6.35" y1="0" x2="-5.08" y2="0" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="0" x2="-3.81" y2="0" width="0.254" layer="94"/>
-<wire x1="-6.35" y1="2.54" x2="-5.08" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="2.54" x2="-3.81" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="2.54" x2="-5.08" y2="0" width="0.1524" layer="94"/>
-<wire x1="-3.048" y1="1.778" x2="-1.651" y2="0.381" width="0.1524" layer="94"/>
-<wire x1="-3.175" y1="0.635" x2="-1.778" y2="-0.762" width="0.1524" layer="94"/>
-<pin name="CATH" x="-7.62" y="-5.08" visible="off" length="short" direction="pas"/>
-<pin name="AN" x="-7.62" y="7.62" visible="off" length="short" direction="pas"/>
-<polygon width="0.1524" layer="94">
-<vertex x="-1.651" y="0.381"/>
-<vertex x="-2.032" y="1.27"/>
-<vertex x="-2.54" y="0.762"/>
-</polygon>
-<polygon width="0.1524" layer="94">
-<vertex x="-1.778" y="-0.762"/>
-<vertex x="-2.159" y="0.127"/>
-<vertex x="-2.667" y="-0.381"/>
-</polygon>
-<wire x1="5.08" y1="0" x2="2.54" y2="0" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="7.62" x2="-5.08" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="0" x2="-5.08" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="7.62" x2="7.62" y2="2.54" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-2.54" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
-<pin name="P$5" x="0" y="7.62" length="point" direction="nc"/>
-<pin name="P$2" x="0" y="-5.08" length="point" direction="nc"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="OSRAM_SHF9201">
-<description>Osram reflective opto interrupter</description>
-<gates>
-<gate name="G$1" symbol="OSRAM_SFH" x="15.24" y="-5.08"/>
-</gates>
-<devices>
-<device name="" package="OSRAM-6">
-<connects>
-<connect gate="G$1" pin="AN" pad="P$1"/>
-<connect gate="G$1" pin="C" pad="P$4"/>
-<connect gate="G$1" pin="CATH" pad="P$6"/>
-<connect gate="G$1" pin="E" pad="P$3"/>
-<connect gate="G$1" pin="P$2" pad="P$5"/>
-<connect gate="G$1" pin="P$5" pad="P$2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="transistor">
 <description>&lt;b&gt;Transistors&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
@@ -3652,51 +3560,126 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="solpad">
-<description>&lt;b&gt;Solder Pads/Test Points&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<library name="wifi_WX">
 <packages>
-<package name="LSP10">
-<description>&lt;b&gt;SOLDER PAD&lt;/b&gt;&lt;p&gt;
-drill 1.0 mm</description>
-<wire x1="-1.27" y1="0.254" x2="-1.27" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="0.254" x2="1.27" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="0.254" x2="1.143" y2="0.254" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="-0.254" x2="1.143" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="-0.254" x2="-1.143" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="0.254" x2="-1.143" y2="0.254" width="0.1524" layer="21"/>
-<wire x1="1.143" y1="0.254" x2="0.635" y2="0.254" width="0.1524" layer="51"/>
-<wire x1="-1.143" y1="-0.254" x2="-0.635" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="0.635" y1="0.254" x2="0.635" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="0.635" y1="0.254" x2="-0.635" y2="0.254" width="0.1524" layer="51"/>
-<wire x1="0.635" y1="-0.254" x2="1.143" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="-0.635" y1="0.254" x2="-0.635" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="-0.635" y1="0.254" x2="-1.143" y2="0.254" width="0.1524" layer="51"/>
-<wire x1="-0.635" y1="-0.254" x2="0.635" y2="-0.254" width="0.1524" layer="51"/>
-<pad name="MP" x="0" y="0" drill="1.016" diameter="2.159" shape="octagon"/>
-<text x="-1.27" y="1.27" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="0" y="0.254" size="0.0254" layer="27">&gt;VALUE</text>
+<package name="TP06R">
+<description>&lt;b&gt;TEST PAD&lt;/b&gt;</description>
+<smd name="TP_1" x="0" y="0" dx="0.6" dy="0.6" layer="1" roundness="100"/>
+<text x="-0.3" y="0.4001" size="1.016" layer="25">&gt;NAME</text>
+</package>
+<package name="TP_SOL">
+<pad name="P$1" x="0" y="0" drill="0.8" diameter="1.6764"/>
+<text x="-2.54" y="1.27" size="1.27" layer="21">&gt;NAME</text>
+</package>
+<package name="OSRAM-6">
+<smd name="P$1" x="0" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<smd name="P$6" x="0" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<smd name="P$2" x="1.27" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<smd name="P$3" x="2.54" y="-1.27" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<smd name="P$4" x="2.54" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<smd name="P$5" x="1.27" y="3.81" dx="1.27" dy="0.635" layer="1" rot="R90"/>
+<wire x1="-1.27" y1="3.81" x2="-1.27" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-1.27" x2="0.635" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="0.635" y1="-1.27" x2="3.81" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="3.81" y1="-1.27" x2="3.81" y2="3.81" width="0.127" layer="21"/>
+<wire x1="3.81" y1="3.81" x2="0.635" y2="3.81" width="0.127" layer="21"/>
+<wire x1="0.635" y1="3.81" x2="-1.27" y2="3.81" width="0.127" layer="21"/>
+<wire x1="0.635" y1="3.81" x2="0.635" y2="-1.27" width="0.127" layer="21"/>
+<text x="5.08" y="2.54" size="1.27" layer="25">&gt;Name</text>
+<text x="5.08" y="0" size="1.27" layer="27">&gt;Value</text>
 </package>
 </packages>
 <symbols>
-<symbol name="LSP">
-<wire x1="-1.016" y1="2.032" x2="1.016" y2="0" width="0.254" layer="94"/>
-<wire x1="-1.016" y1="0" x2="1.016" y2="2.032" width="0.254" layer="94"/>
-<circle x="0" y="1.016" radius="1.016" width="0.4064" layer="94"/>
-<text x="-1.27" y="2.921" size="1.778" layer="95">&gt;NAME</text>
-<pin name="MP" x="0" y="-2.54" visible="off" length="short" direction="pas" rot="R90"/>
+<symbol name="TP">
+<pin name="P$1" x="5.08" y="0" visible="off" length="middle" rot="R180"/>
+<text x="-2.54" y="2.54" size="1.27" layer="95">&gt;NAME</text>
+<circle x="0" y="0" radius="0.803215625" width="0.254" layer="94"/>
+</symbol>
+<symbol name="OSRAM_SFH">
+<description>Osram refectice opto interrupter</description>
+<text x="-2.54" y="5.08" size="1.27" layer="95">&gt;Name</text>
+<text x="-2.54" y="-10.16" size="1.27" layer="96">&gt;Value</text>
+<wire x1="7.62" y1="2.54" x2="5.588" y2="1.524" width="0.1524" layer="94"/>
+<wire x1="6.858" y1="-1.524" x2="7.62" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="7.62" y1="-2.54" x2="6.35" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="6.35" y1="-2.54" x2="6.858" y2="-1.524" width="0.1524" layer="94"/>
+<wire x1="6.62" y1="-2.04" x2="5.388" y2="-1.424" width="0.1524" layer="94"/>
+<wire x1="6.604" y1="-2.413" x2="7.366" y2="-2.413" width="0.254" layer="94"/>
+<wire x1="7.366" y1="-2.413" x2="6.858" y2="-1.778" width="0.254" layer="94"/>
+<wire x1="6.858" y1="-1.778" x2="6.604" y2="-2.286" width="0.254" layer="94"/>
+<wire x1="6.604" y1="-2.286" x2="6.985" y2="-2.286" width="0.254" layer="94"/>
+<wire x1="6.985" y1="-2.286" x2="6.858" y2="-2.032" width="0.254" layer="94"/>
+<rectangle x1="4.826" y1="-2.54" x2="5.588" y2="2.54" layer="94"/>
+<pin name="E" x="7.62" y="-7.62" visible="off" length="short" direction="pas" rot="R90"/>
+<pin name="C" x="7.62" y="10.16" visible="off" length="short" direction="pas" rot="R270"/>
+<wire x1="-6.35" y1="2.54" x2="-5.08" y2="0" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="0" x2="-3.81" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-6.35" y1="0" x2="-5.08" y2="0" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="0" x2="-3.81" y2="0" width="0.254" layer="94"/>
+<wire x1="-6.35" y1="2.54" x2="-5.08" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-3.81" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="0" width="0.1524" layer="94"/>
+<wire x1="-3.048" y1="1.778" x2="-1.651" y2="0.381" width="0.1524" layer="94"/>
+<wire x1="-3.175" y1="0.635" x2="-1.778" y2="-0.762" width="0.1524" layer="94"/>
+<pin name="CATH" x="-5.08" y="-7.62" visible="off" length="short" direction="pas" rot="R90"/>
+<pin name="AN" x="-5.08" y="10.16" visible="off" length="short" direction="pas" rot="R270"/>
+<polygon width="0.1524" layer="94">
+<vertex x="-1.651" y="0.381"/>
+<vertex x="-2.032" y="1.27"/>
+<vertex x="-2.54" y="0.762"/>
+</polygon>
+<polygon width="0.1524" layer="94">
+<vertex x="-1.778" y="-0.762"/>
+<vertex x="-2.159" y="0.127"/>
+<vertex x="-2.667" y="-0.381"/>
+</polygon>
+<wire x1="5.08" y1="0" x2="2.54" y2="0" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="7.62" x2="-5.08" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="0" x2="-5.08" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="7.62" x2="7.62" y2="2.54" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-2.54" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
+<pin name="P$5" x="0" y="7.62" visible="off" length="point" direction="nc"/>
+<pin name="P$2" x="0" y="-5.08" visible="off" length="point" direction="nc"/>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="LSP10" prefix="LSP">
-<description>&lt;b&gt;SOLDER PAD&lt;/b&gt;&lt;p&gt; drill 1.0 mm, distributor Buerklin, 12H555</description>
+<deviceset name="TP" prefix="TP">
 <gates>
-<gate name="1" symbol="LSP" x="0" y="0"/>
+<gate name="G$1" symbol="TP" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="LSP10">
+<device name="" package="TP06R">
 <connects>
-<connect gate="1" pin="MP" pad="MP"/>
+<connect gate="G$1" pin="P$1" pad="TP_1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="SOL" package="TP_SOL">
+<connects>
+<connect gate="G$1" pin="P$1" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="OSRAM_SHF9201">
+<description>Osram reflective opto interrupter</description>
+<gates>
+<gate name="G$1" symbol="OSRAM_SFH" x="15.24" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="OSRAM-6">
+<connects>
+<connect gate="G$1" pin="AN" pad="P$1"/>
+<connect gate="G$1" pin="C" pad="P$4"/>
+<connect gate="G$1" pin="CATH" pad="P$6"/>
+<connect gate="G$1" pin="E" pad="P$3"/>
+<connect gate="G$1" pin="P$2" pad="P$5"/>
+<connect gate="G$1" pin="P$5" pad="P$2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -3716,28 +3699,31 @@ drill 1.0 mm</description>
 </class>
 </classes>
 <parts>
-<part name="OPTO1" library="1AA_Stofer" deviceset="OSRAM_SHF9201" device=""/>
+<part name="OPTO1" library="wifi_WX" deviceset="OSRAM_SHF9201" device=""/>
 <part name="T1" library="transistor" deviceset="BC846" device="" value="MMBT3904"/>
-<part name="R1" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
-<part name="+5V" library="solpad" deviceset="LSP10" device=""/>
-<part name="GND" library="solpad" deviceset="LSP10" device=""/>
-<part name="OUT" library="solpad" deviceset="LSP10" device=""/>
+<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="10K"/>
 <part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="120o"/>
 <part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="120o"/>
+<part name="+5V" library="wifi_WX" deviceset="TP" device="SOL"/>
+<part name="GND" library="wifi_WX" deviceset="TP" device="SOL"/>
+<part name="OUT" library="wifi_WX" deviceset="TP" device="SOL"/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="OPTO1" gate="G$1" x="101.6" y="60.96"/>
-<instance part="T1" gate="G$1" x="139.7" y="63.5"/>
-<instance part="R1" gate="G$1" x="116.84" y="81.28" rot="R90"/>
-<instance part="+5V" gate="1" x="83.82" y="88.9" rot="R90"/>
-<instance part="GND" gate="1" x="83.82" y="48.26" rot="R90"/>
-<instance part="OUT" gate="1" x="142.24" y="86.36"/>
-<instance part="R2" gate="G$1" x="91.44" y="83.82" rot="R90"/>
-<instance part="R3" gate="G$1" x="91.44" y="73.66" rot="R90"/>
+<instance part="OPTO1" gate="G$1" x="101.6" y="60.96" smashed="yes">
+<attribute name="NAME" x="99.06" y="63.5" size="1.27" layer="95"/>
+<attribute name="VALUE" x="96.52" y="50.8" size="1.27" layer="96"/>
+</instance>
+<instance part="T1" gate="G$1" x="124.46" y="71.12"/>
+<instance part="R1" gate="G$1" x="109.22" y="83.82" rot="R90"/>
+<instance part="R2" gate="G$1" x="96.52" y="91.44" rot="R90"/>
+<instance part="R3" gate="G$1" x="96.52" y="78.74" rot="R90"/>
+<instance part="+5V" gate="G$1" x="83.82" y="96.52"/>
+<instance part="GND" gate="G$1" x="83.82" y="48.26"/>
+<instance part="OUT" gate="G$1" x="132.08" y="96.52" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -3746,50 +3732,46 @@ drill 1.0 mm</description>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="OPTO1" gate="G$1" pin="C"/>
-<wire x1="116.84" y1="76.2" x2="116.84" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="68.58" x2="111.76" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="111.76" y1="68.58" x2="124.46" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="124.46" y1="68.58" x2="124.46" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="78.74" x2="109.22" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="71.12" x2="121.92" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="T1" gate="G$1" pin="B"/>
-<wire x1="124.46" y1="63.5" x2="137.16" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="OPTO1" gate="G$1" pin="E"/>
-<wire x1="111.76" y1="55.88" x2="111.76" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="53.34" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="T1" gate="G$1" pin="E"/>
-<wire x1="111.76" y1="48.26" x2="142.24" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="48.26" x2="142.24" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="48.26" x2="127" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="127" y1="48.26" x2="127" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="OPTO1" gate="G$1" pin="CATH"/>
-<wire x1="111.76" y1="48.26" x2="86.36" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="86.36" y1="48.26" x2="86.36" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="86.36" y1="55.88" x2="93.98" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="GND" gate="1" pin="MP"/>
-<junction x="86.36" y="48.26"/>
+<wire x1="109.22" y1="48.26" x2="96.52" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="48.26" x2="96.52" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="48.26" x2="96.52" y2="53.34" width="0.1524" layer="91"/>
+<pinref part="GND" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="N$3" class="0">
 <segment>
-<wire x1="86.36" y1="88.9" x2="91.44" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="96.52" x2="96.52" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="91.44" y1="88.9" x2="116.84" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="88.9" x2="116.84" y2="86.36" width="0.1524" layer="91"/>
-<pinref part="+5V" gate="1" pin="MP"/>
+<wire x1="96.52" y1="96.52" x2="109.22" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="96.52" x2="109.22" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="2"/>
+<pinref part="+5V" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="T1" gate="G$1" pin="C"/>
-<wire x1="142.24" y1="68.58" x2="142.24" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="OUT" gate="1" pin="MP"/>
+<wire x1="127" y1="76.2" x2="127" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="OUT" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
 <pinref part="OPTO1" gate="G$1" pin="AN"/>
-<wire x1="91.44" y1="68.58" x2="93.98" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="73.66" x2="96.52" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 </segment>
 </net>
@@ -3797,6 +3779,7 @@ drill 1.0 mm</description>
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
 <pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="96.52" y1="86.36" x2="96.52" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

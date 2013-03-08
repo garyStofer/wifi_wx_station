@@ -1,37 +1,82 @@
-Partlist exported from //Dell/Eagle5_project/Wifi_WX_Station/Base.sch at 12/21/2012 9:37:46 AM
+Partlist
 
-Qty Value                 Device                Package            Parts                                  Description                                                  
-3                         FE10-1                FE10               SV1, SV2, SV3                          FEMALE HEADER                                                
-1                         PIKIT2_PRG            1X06_PIKIT         JP1                                    PIN HEADER                                                   
-4                         PINHD-1X3             1X03               FAN, I2C1, SUN, UART1                  PIN HEADER                                                   
-2   0                     R-US_R0603            R0603              R19, R20                               RESISTOR, American symbol                                    
-9   0.1u                  C-USC0805             C0805              C2, C4, C5, C6, C8, C13, C16, C17, C18 CAPACITOR, American symbol                                   
-1   100u/4v               CPOL-USR/2012-12R     R/2012-12R         C7                                     POLARIZED CAPACITOR, American symbol                         
-4   10k                   R-US_R0603            R0603              R3, R4, R11, R12                       RESISTOR, American symbol                                    
-1   10uf/6v               CPOL-USSMCA           SMC_A              C12                                    POLARIZED CAPACITOR, American symbol                         
-3   120                   R-US_R0603            R0603              R1, R2, R14                            RESISTOR, American symbol                                    
-1   14k                   R-US_R0603            R0603              R8                                     RESISTOR, American symbol                                    
-5   1k                    R-US_R0603            R0603              R7, R9, R16, R17, R18                  RESISTOR, American symbol                                    
-1   1u                    C-USC0805             C0805              C11                                    CAPACITOR, American symbol                                   
-2   2.2u                  C-USC1206             C1206              C9, C10                                CAPACITOR, American symbol                                   
-2   22p                   C-USC0603             C0603              C14, C15                               CAPACITOR, American symbol                                   
-1   22u/10v               CPOL-USR/2012-12R     R/2012-12R         C1                                     POLARIZED CAPACITOR, American symbol                         
-1   25LC512               25LC080SN             SO-08              U2                                     Serial EEPROM 4K/ 8K , SPI bus                               
-2   26.4K                 R-US_R0603            R0603              R6, R10                                RESISTOR, American symbol                                    
-1   3.3v                  78MXXL                DPACK              IC1                                    VOLTAGE REGULATOR                                            
-1   32Khz                 CRYSTALTC26V          TC26V              Q1                                     CRYSTAL                                                      
-2   4.7k                  R-US_R0603            R0603              R13, R15                               RESISTOR, American symbol                                    
-1   4.7u                  C-USC1210             C1210              C3                                     CAPACITOR, American symbol                                   
-1   6.8k                  R-US_R0603            R0603              R5                                     RESISTOR, American symbol                                    
-1   B140                  SCHOTTKY-DIODESMD     SMB                D1                                     Schottky Diode                                               
-1   CP2104-GM             CP2104-GM             QFN24_4X4          U1                                                                                                  
-1   FE06-1                FE06-1                FE06               ANA                                                                                                 
-1   M05X22X5FE            M05X22X5FE            2X5FEMALE          J6                                     Header 5x2                                                   
-1   MA1X06                MA1X06                1X06               J5                                                                                                  
-1   MINI-USB-32005-301    MINI-USB-32005-301    32005-301          USB                                    MINI USB-B Conector                                          
-1   PIC24FJ128GA008       PIC24FJ128GA008       TQFP80-12X12       U3                                     64/80/100-Pin General Purpose, 16-Bit Flash Microcontrollers 
-1   RJ45-8VERT            RJ45-8VERT            RJ45_VERT          J1                                     RJ45 Jack                                                    
-2   SWITCH-MOMENTARY-2SMD SWITCH-MOMENTARY-2SMD TACTILE_SWITCH_SMD S1, S2                                 Various NO switches- pushbuttons, reed, etc                  
-1   ambr                  LEDCHIP-LED0603       CHIP-LED0603       L4                                     LED                                                          
-2   grn                   LEDCHIP-LED0603       CHIP-LED0603       L2, L5                                 LED                                                          
-2   red                   LEDCHIP-LED0603       CHIP-LED0603       L1, L3                                 LED                                                          
+Exported from Base.brd at 3/5/2013 4:10:53 PM
+
+EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
+
+Assembly variant: 
+
+Part     Value                 Package            Library   Position (inch)       Orientation
+
+ANA                            1X04               wifi_WX   (1.15 0.5)            R90
+C1       22u/10v               SMC_B              rcl       (0.6875 0.9875)       R270
+C2       0.1uF                 C0805              rcl       (0.5625 1.0125)       R270
+C3       0.1uF                 C0805              rcl       (1.55 0.85)           R180
+C4       0.1uF                 C0805              rcl       (0.65 0.15)           R0
+C5       0.1uF                 C0805              rcl       (1.28 1)              R270
+C6       0.1uF                 C0805              rcl       (0.8625 1.8125)       MR180
+C7       330uF/6V              SMC_D              rcl       (3.1 1.65)            R180
+C8       0.1uF                 C0805              rcl       (3.075 0.9)           R270
+C9       2.2uF                 C0805              rcl       (1.115 1)             R270
+C10      2.2uF                 C0805              rcl       (1.445 1)             R270
+C11      0.1uF                 C0805              rcl       (1.0625 1.05)         MR0
+C12      22uF/10V              SMC_B              rcl       (2 1.6625)            MR0
+C13      0.1uF                 C0805              rcl       (2 1.525)             MR0
+C14      22p                   C0603              rcl       (2.175 1.2875)        MR270
+C15      22p                   C0603              rcl       (2.2625 1.2875)       MR270
+C16      0.1uF                 C0805              rcl       (3.1 1.5)             R180
+C18      0.1uF                 C0805              rcl       (2.1625 1.1375)       MR90
+C19      0.1uF                 C0805              rcl       (1.075 1.25)          MR0
+C20      0.1uF                 C0805              rcl       (1.55 0.7)            R180
+C21      0.1uF                 C0805              rcl       (1.55 0.55)           R180
+D1       B140                  SMB                diode     (0.4 1.1)             R90
+FAN                            1X3_MOLEX_KK       wifi_WX   (0.475 0.5375)        MR270
+I2C1                           1X03               wifi_WX   (2.85 0.5)            R0
+IC1      3.3v                  DPACK              wifi_WX   (0.75 0.375)          R270
+J1       RJ45-8VERT            RJ45_VERT          wifi_WX   (0.55 0.85)           MR90
+J5                             1X5_MOLEX_KK       wifi_WX   (3.125 0.9)           MR90
+J6       M05X22X5FE            2X5FEMALE          wifi_WX   (2.75 1.15)           R0
+JPROG                          1X06_PIKIT         wifi_WX   (1.75 0.15)           MR180
+L1       grn                   CHIP-LED0603       led       (1.125 1.6125)        R90
+L2       ambr                  CHIP-LED0603       led       (1.125 1.5)           R90
+L3       red                   CHIP-LED0603       led       (1.125 1.3875)        R90
+Q1       32.768khz             CRYSTAL32_SMT      wifi_WX   (2.55 1.625)          MR0
+R1       120o                  R0603              rcl       (1.0125 1.3125)       R0
+R2       120o                  R0603              rcl       (1.0125 1.225)        R0
+R3       10k                   R0603              rcl       (1.0125 1.1375)       R0
+R4       10k                   R0603              rcl       (1.3625 1)            R90
+R5       8.2k                  R0603              rcl       (1.0125 0.9625)       R0
+R6       26.1k                 R0603              rcl       (1.1975 1)            R90
+R7       14k                   R0603              rcl       (1.275 0.55)          R0
+R8       14k                   R0603              rcl       (1.0125 1.05)         R0
+R9       26.1K                 R0603              rcl       (1.4 0.55)            R180
+R10      26.1K                 R0603              rcl       (1.5275 1)            R90
+R11      10k                   R0603              rcl       (1.6 0.275)           R90
+R12      4.7K                  R0603              rcl       (2.9875 1.3125)       R270
+R13      4.7k                  R0603              rcl       (1.0625 1.1625)       MR0
+R14      4.7K                  R0603              rcl       (2.9875 1.025)        R90
+R15      4.7k                  R0603              rcl       (1.0625 0.9625)       MR0
+R16      1k                    R0603              rcl       (1.35 1.3875)         R180
+R17      1k                    R0603              rcl       (1.35 1.5)            R180
+R18      470o                  R0603              rcl       (1.35 1.6125)         R180
+R19      14k                   R0603              rcl       (1.275 0.7)           R0
+R20      14k                   R0603              rcl       (1.275 0.85)          R0
+R21      26.1K                 R0603              rcl       (1.4 0.7)             R180
+R22      26.1K                 R0603              rcl       (1.4 0.85)            R180
+R23      4.7K                  R0603              rcl       (2.8875 0.75)         R270
+R24      4.7K                  R0603              rcl       (2.7375 0.75)         R270
+RESET    SWITCH-MOMENTARY-2SMD TACTILE_SWITCH_SMD wifi_WX   (1.225 0.25)          R270
+S1       SWITCH-MOMENTARY-2SMD TACTILE_SWITCH_SMD wifi_WX   (3.25 0.3)            R270
+S2       SWITCH-MOMENTARY-2SMD TACTILE_SWITCH_SMD wifi_WX   (3.25 0.65)           R270
+SUN                            1X3_MOLEX_KK       wifi_WX   (0.5 0.525)           R0
+SV1      M10"                  1X10               wifi_WX   (2.15 0.15)           MR180
+SV2      M10"                  1X10               wifi_WX   (3.05 1.9)            MR0
+SV3      M10"                  1X10               wifi_WX   (2.05 1.9)            MR0
+TP1      TP                    TP06R              wifi_WX   (1.7 1.1)             R0
+TP2      TP                    TP06R              wifi_WX   (2.375 1.15)          R0
+TP3      TP                    TP06R              wifi_WX   (2.375 1.1125)        R0
+U1       CP2104-GM             QFN24_4X4          wifi_WX   (0.925 1.65)          R270
+U2       25LC512               SO-08              microchip (2 1.15)              MR0
+U3       PIC24FJ128GA008       TQFP80-12X12       wifi_WX   (2.05 1.15)           R0
+UART1                          1X03               wifi_WX   (2.45 0.5)            R180
+USB      MINI-USB-32005-301    32005-301          wifi_WX   (0.525 1.7625)        R270

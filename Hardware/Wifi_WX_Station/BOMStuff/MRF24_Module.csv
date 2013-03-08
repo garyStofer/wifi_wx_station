@@ -1,7 +1,0 @@
-"Qty";"Value";"Device";"Package";"Parts";"Description";"";
-"2";"0.1uF";"C-USC0805";"C0805";"C1, C2";"CAPACITOR, American symbol";"";
-"1";"10K";"R-US_R0603";"R0603";"R2";"RESISTOR, American symbol";"";
-"1";"4.7K";"R-US_R0603";"R0603";"R1";"RESISTOR, American symbol";"";
-"1";"4.7uF";"CPOL-USR/2012-12R";"R/2012-12R";"C3";"POLARIZED CAPACITOR, American symbol";"";
-"1";"M05X2";"M05X2";"2X5-RA-HEADER";"JP1";"Header 5x2";"";
-"1";"MRF24WB0MA";"MR24WB0MA";"MRF24W";"M1";"Mirochip/ZeroG  Wifi module";"";

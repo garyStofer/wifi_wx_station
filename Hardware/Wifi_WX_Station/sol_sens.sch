@@ -11673,8 +11673,8 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="R2" library="rcl" deviceset="R-US_" device="R0805" value="47K"/>
 <part name="IC1" library="Stofer" deviceset="MAX4330" device=""/>
-<part name="C2" library="rcl" deviceset="C-US" device="C0805" value="100nF"/>
-<part name="C1" library="rcl" deviceset="C-US" device="C0805" value="22nF"/>
+<part name="C2" library="rcl" deviceset="C-US" device="C0805" value="0.1uF"/>
+<part name="C1" library="rcl" deviceset="C-US" device="C0805" value="0.1uf"/>
 <part name="TP1" library="Stofer" deviceset="TP" device="B1,27"/>
 <part name="TP2" library="Stofer" deviceset="TP" device="B1,27"/>
 <part name="JP1" library="wifi_WX" deviceset="PINHD-1X3" device=""/>

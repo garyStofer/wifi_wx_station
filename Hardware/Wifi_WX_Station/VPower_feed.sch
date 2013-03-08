@@ -479,6 +479,21 @@ Source: http://www.cypressindustries.com/pdf/32005-301.pdf</description>
 <rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
 <rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
 </package>
+<package name="1X3_MOLEX_KK">
+<description>Molex KK series pin header with frictiuon lock</description>
+<pad name="1" x="1.27" y="3.175" drill="0.9" diameter="1.778" shape="square" rot="R90"/>
+<pad name="2" x="3.81" y="3.175" drill="0.9" diameter="1.778" rot="R90"/>
+<pad name="3" x="6.35" y="3.175" drill="0.9" diameter="1.778" rot="R90"/>
+<text x="1.1938" y="6.9088" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<rectangle x1="3.556" y1="2.921" x2="4.064" y2="3.429" layer="51"/>
+<rectangle x1="1.016" y1="2.921" x2="1.524" y2="3.429" layer="51"/>
+<rectangle x1="6.096" y1="2.921" x2="6.604" y2="3.429" layer="51"/>
+<wire x1="0" y1="0" x2="7.62" y2="0" width="0.127" layer="21"/>
+<wire x1="7.62" y1="0" x2="7.62" y2="6.35" width="0.127" layer="21"/>
+<wire x1="7.62" y1="6.35" x2="0" y2="6.35" width="0.127" layer="21"/>
+<wire x1="0" y1="6.35" x2="0" y2="0" width="0.127" layer="21"/>
+<rectangle x1="1.27" y1="5.08" x2="6.35" y2="6.35" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="RJ45-8">
@@ -643,6 +658,16 @@ Source: www.cypressindustries.com</description>
 <technology name=""/>
 </technologies>
 </device>
+<device name="MOLEX_KK" package="1X3_MOLEX_KK">
+<connects>
+<connect gate="A" pin="1" pad="1"/>
+<connect gate="A" pin="2" pad="2"/>
+<connect gate="A" pin="3" pad="3"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 </devicesets>
@@ -697,8 +722,8 @@ Source: www.cypressindustries.com</description>
 <part name="USB" library="wifi_WX" deviceset="MINI-USB-" device="32005-301" value="MINI-USB-32005-301"/>
 <part name="SUPPLY11" library="supply2" deviceset="GND" device=""/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
-<part name="RAIN" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
-<part name="SUN" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
+<part name="RAIN" library="wifi_WX" deviceset="PINHD-1X3" device="MOLEX_KK"/>
+<part name="SUN" library="wifi_WX" deviceset="PINHD-1X3" device="MOLEX_KK"/>
 </parts>
 <sheets>
 <sheet>
