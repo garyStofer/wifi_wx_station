@@ -361,9 +361,6 @@ HTTP_GetExec_togg_outputs_cgi()
              case '8':
                 OUT8_IO ^= 1;
                 break;
-             case '9':
-                OUT9_IO ^= 1;
-                break;
               
         }
     }
@@ -984,28 +981,34 @@ HTTPPrint_inp(WORD num)
     switch (num)
     {
         case 0:
-            num = IN0_IO;
+            num = IN0_IN;
             break;
         case 1:
-            num = IN1_IO;
+            num = IN1_IN;
             break;
         case 2:
-            num = IN2_IO;
+            num = IN2_IN;
             break;
          case 3:
-            num = IN3_IO;
+            num = IN3_IN;
             break;
          case 4:
-            num = IN4_IO;
+            num = IN4_IN;
             break;
          case 5:
-            num = IN5_IO;
+            num = IN5_IN;
             break;
          case 6:
-            num = IN6_IO;
+            num = IN6_IN;
             break;
          case 7:
-            num = IN7_IO;
+            num = IN7_IN;
+            break;
+         case 8:
+            num = IN8_IN;
+            break;
+         case 9:
+            num = IN9_IN;
             break;
 
         default:
@@ -1094,9 +1097,6 @@ HTTPPrint_out(WORD num)
             break;
         case 8:
             num = OUT8_IO;
-            break;
-        case 9:
-            num = OUT9_IO;
             break;
         default:
             num = 0;
@@ -1330,6 +1330,13 @@ HTTPPrint_WindGust(void)
 {
     BYTE temp[8];
     stoa_dec((char*) temp, SensorReading.Wind_gust * 10, 1);
+    TCPPutString(sktHTTP, temp);
+}
+void
+HTTPPrint_WindGust5m(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, SensorReading.Wind_gust_5min * 10, 1);
     TCPPutString(sktHTTP, temp);
 }
 

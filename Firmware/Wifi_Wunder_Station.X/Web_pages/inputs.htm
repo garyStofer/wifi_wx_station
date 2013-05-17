@@ -9,6 +9,11 @@
 // Status.xml fetches the HW status of the board
 setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 </script>
+<style type="text/css">
+.alarm {
+	color: #FF0000;
+}
+</style>
 </head>
 
 <body class="inframe" >
@@ -18,7 +23,11 @@ setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 		<h5>Inputs/Alarms:</h5>
 		<table style="margin-top:10px" cellspacing="10px"  >
 		<tr style="text-align:center">
-			<td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+			<td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+			<td class="alarm">6</td>
+			<td class="alarm">7</td>
+			<td class="alarm">8</td>
+			<td class="alarm">9</td>
 		</tr>
 		<tr class="leds" >
 			<td id="in0">&bull;</td>
@@ -29,6 +38,8 @@ setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 			<td id="in5">&bull;</td>
 			<td id="in6">&bull;</td>
 			<td id="in7">&bull;</td>
+			<td id="in8">&bull;</td>
+			<td id="in9">&bull;</td>
 		</tr>
 		</table>
 		<h5>Buttons:</h5>

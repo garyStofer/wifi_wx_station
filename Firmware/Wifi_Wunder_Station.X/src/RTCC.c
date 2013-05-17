@@ -70,7 +70,7 @@ RTC_Lock(void)
 }
 
 
-/* Initializes the RTCC so that it generates an interupt every second contineously, which is used as the to wind speed
+/* Initializes the RTCC so that it generates an interrupt every second contineously, which is used as the to wind speed
  * capture window and also provides a one second time tick for a once_per_second task in main orchestarting the sensor
  * data accquisition.
  * Called from the RTCC init function, starts the RTCC running upon exit

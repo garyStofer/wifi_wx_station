@@ -15,6 +15,7 @@
 #include "Main.h"
 #include "HW_initialize.h"
 #include "Once_per_second.h"
+#include "Barometer.h"
 
 #if defined(WF_CS_TRIS) &&  !defined(MRF24WG)
  extern BOOL gRFModuleVer1209orLater;
@@ -28,6 +29,10 @@
 #error "This Project is for a PIC24F family device"
 #endif
 
+#if !defined(WF_CS_TRIS)
+#error "This project requires a WiFi netwotk access controller"
+#endif
+
 #if defined(STACK_USE_ZEROCONF_LINK_LOCAL)
 #include "TCPIP Stack/ZeroconfLinkLocal.h"
 #endif
@@ -38,8 +43,18 @@
 // Used for Wi-Fi assertions
 #define WF_MODULE_NUMBER   WF_MODULE_MAIN_DEMO
 
-// traps for system errors -- useful for debugging
+/*
+        Store Boot loader delay timeout value & user reset vector at 0x100
+        (can't be used with bootloader's vector protect mode).
 
+        Value of userReset should match reset vector as defined in linker script.
+        BLreset space must be defined in linker script.
+*/
+unsigned int userReset  __attribute__ ((space(prog),section(".BLreset"))) = 0xC00 ;
+unsigned char BL_timeout  __attribute__ ((space(prog),section(".BLreset"))) = 0x0 ; // Boot loader listens for bootloader app on UART for "n" seconds
+
+// traps for system errors -- useful for debugging
+ 
 void _ISR __attribute__((__no_auto_psv__))
 _AddressError(void)
 {
@@ -53,10 +68,63 @@ _StackError(void)
     Nop();
     Nop();
 }
+/* Interrupt service routine to handle the pin change notification interupt
+ Change Notification is used to trigger mail alarms when a active high signal is detected on an active alarm
+ input
+ */
+volatile unsigned short tmp;
 
 
-// Writes an IP address to the LCD display and the UART as available
+void _ISR __attribute__((__no_auto_psv__))
+_CNInterrupt(void)
+{
+    unsigned short alarms = 0;
 
+    tmp = PORTD;
+
+
+    // Alarms are triggert on active high signal on the 4 alarm inputs
+
+    if (( WX.Alarms.enable & 1<<1) && ALARM_1_input)
+        alarms |= 1<<1;
+
+    if ( (WX.Alarms.enable & 1<<2) && ALARM_2_input)
+        alarms |= 1<<2;
+
+    if ( (WX.Alarms.enable & 1<<3) && ALARM_3_input)
+        alarms |= 1<<3;
+
+    if ( (WX.Alarms.enable & 1<<4) && ALARM_4_input)
+        alarms |= 1<<4;
+   if (alarms )
+     SMTP_set_alarm(alarms);
+
+   IFS1bits.CNIF =0;
+}
+static void
+Display_MAC_Addr( void )
+{
+    BYTE digit;
+    BYTE i;
+
+    putrsUART("My MAC Address: ");
+
+    for (i = 0; i < sizeof (MAC_ADDR); i++)
+    {
+        if (i)
+            putcUART(':');
+        digit = btohexa_high(AppConfig.MyMACAddr.v[i]);
+        putcUART(digit);
+        digit = btohexa_low(AppConfig.MyMACAddr.v[i]);
+        putcUART(digit);
+
+    }
+
+    putrsUART("\r\n");
+}
+
+
+// Writes an IP address to the UART 
 void
 DisplayIPValue(IP_ADDR IPVal)
 {
@@ -114,6 +182,7 @@ main(void)
 {
     g_isPSK_Ready = 0;
 
+
     // Initialize application specific hardware
     InitializeBoard();
   
@@ -122,7 +191,7 @@ main(void)
     TickInit();
 
 #if defined(STACK_USE_MPFS2)
-    MPFSInit();             // EEprom oor Flash Files System init
+    MPFSInit();             // EEprom or Flash Files System init
 #endif
 
     // Initialize Stack and application related NV variables into AppConfig.
@@ -170,22 +239,22 @@ main(void)
     }
 //  WX_perm_data_init_toDefault();  To force the default config during debugging
     WX_readPerm_data(); // Get the station NV data from EEprom
- 
+
+    Display_MAC_Addr( );
     putrsUART("User Name and Password:");
     putsUART(WX.Station.User_name);
     putrsUART(",");
     putsUART(WX.Station.password);
     putrsUART("\r\n\n");
 
-    HP03_init(WX.Wunder.StationElev); // must be done after we read the WX_perm_data
+   
+
+    Baro_init(WX.Wunder.StationElev); // must be done after we read the WX_perm_data
     HIH6130_init();
 
     StackInit(); // Initialize core stack layers (MAC, ARP, TCP, UDP) and application modules (HTTP, SNMP, etc.)
 
-#if defined(WF_CS_TRIS)
     WF_Connect();
-#endif
-
 
 #if defined(STACK_USE_ZEROCONF_LINK_LOCAL)
     ZeroconfLLInitialize();
@@ -217,6 +286,7 @@ main(void)
     }
 
     All_LEDS_off();
+    SMTP_set_alarm(0);
  
     // Begin of the co-operative multitasking loop.
     while (1)
@@ -226,7 +296,7 @@ main(void)
         // appropriate stack entity to process it.
         StackTask();
 
-#if defined(WF_CS_TRIS)
+
         if (!WiFi_isConnected()) // if there is no WIFI connection there is no use to do anything else
         {
              DelayMs(25);// blink fast
@@ -239,7 +309,7 @@ main(void)
 #endif
             WiFiPowerSavingTask();
 #endif
-#endif
+
 
         // This tasks invokes each of the core stack application tasks
         StackApplications();
@@ -255,7 +325,7 @@ main(void)
 #endif
 
         SMTP_Mail_alarm();      // checks and sends mail alarms
-        HP03_Read_Process();    // Reads the Barometer pressure and temp
+        Baro_Read_Process();    // Reads the Barometer pressure and temp
         HIH6130_Read_Process(); // Reads the Hygrometer
         NIST_DAYTIME_Client();  // Start One-shot to get time from a NIST server and periodically calls NIST again to update time
 
@@ -274,7 +344,7 @@ main(void)
         WunderHttpClient();
 
 
-        // TODO: This should go somewhere else, i.e inside an event ??
+        // TODO: This could go somewhere else, i.e inside an event ??
         if (g_isPSK_Ready)
         {
             g_isPSK_Ready = 0;

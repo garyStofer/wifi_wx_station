@@ -37,7 +37,7 @@ function updateOutputStatus(xmlData)
 		return;
 
 	// Loop over all the outputs
-	for(i = 0; i < 10; i++)
+	for(i = 0; i <9; i++)
 		document.getElementById('out' + i).style.color = (getXMLValue(xmlData, 'out' + i) == '+') ? '#090' : '#ddd';
 
 }
@@ -49,7 +49,7 @@ function updateInputStatus(xmlData)
 		return;
 
 	// Loop over all the inputs
-	for(i = 0; i < 8; i++)
+	for(i = 0; i < 10; i++)
 	{
 		document.getElementById('in' + i).style.color = (getXMLValue(xmlData, 'in' + i) == '+') ? '#ddd' :'#0A0';
 	}

@@ -26,6 +26,11 @@
 void
 InitializeBoard(void)
 {
+    BUTTON1_TRIS = 1;
+    BUTTON2_TRIS = 1;
+    CNPU2bits.CN20PUE = 1; // Weak pull up Button S1
+    CNPU2bits.CN21PUE = 1; // Weak pull up Button S2
+
     LED1_TRIS = 0;
     LED2_TRIS = 0;
     LED3_TRIS = 0;
@@ -38,13 +43,55 @@ InitializeBoard(void)
     IN3_TRIS = 1;
     IN4_TRIS = 1;
     IN5_TRIS = 1;
-    IN6_TRIS = 1;
-    IN7_TRIS = 1;
-    BUTTON1_TRIS = 1;
-    BUTTON2_TRIS = 1;
-    CNPU2 = 0x30;       // Enable weak pullup for Buttons
+    IN6_TRIS = 1; // Alarm 1
+    IN7_TRIS = 1; // Alarm 2
+    IN8_TRIS = 1; // Alarm 3
+    IN9_TRIS = 1; // Alarm 4
 
-    // All outputs on SV2
+
+
+
+    // invoke the Bootloader immediatly -- This is a problem if there is no BL loaded
+    if(BUTTON2_IO == 0)
+    {
+	//setup and call bootloader
+	RCON = 0;
+	asm("goto 0x400");
+    }
+
+
+    // pic24FJ128GA008 has no pulldown register defined in linker file !! I assume they are missing
+    // Enable pulldown on the 4 Change notification inputs we are going to use for alarms
+   /* CNPU2bits.CN16PUE=1; // pull down on CN16, RD7 input
+    CNPU1bits.CN15PUE = 1;// CN15, RD6
+    CNPU1bits.CN14PUE = 1;// CN14, RD5
+    CNPU1bits.CN13PUE = 1;// CN13 RD4
+    // There are two more possibilitues CN19 on RD13, SV2 pin6 and CN12, RB15 on SV1, pin10
+*/
+    // enable the change notification interypt on 4 inputs
+    CNEN2bits.CN16IE =1;    // Enable port CN16 interrupt feature on RD7
+    CNEN1bits.CN15IE =1;    // "" 
+    CNEN1bits.CN14IE =1;    // ""
+    CNEN1bits.CN13IE =1;    // ""
+
+
+    IFS1bits.CNIF =0;       // clear Change Notification interrupt flag
+    IEC1bits.CNIE =1;       // Enable interrupts from Change Motification
+   
+
+      // All IOs on SV2 make inputs
+     IO0_TRIS = 1;
+     IO1_TRIS = 1;
+     IO2_TRIS = 1;
+     IO3_TRIS = 1;
+     IO4_TRIS = 1;
+     IO5_TRIS = 1;
+     IO6_TRIS = 1;
+     IO7_TRIS = 1;
+
+
+
+    // All outputs on SV3
      OUT0_TRIS = 0;
      OUT1_TRIS = 0;
      OUT2_TRIS = 0;
@@ -54,7 +101,7 @@ InitializeBoard(void)
      OUT6_TRIS = 0;
      OUT7_TRIS = 0;
      OUT8_TRIS = 0;
-     OUT9_TRIS = 0;
+
 
     CLKDIVbits.RCDIV = 0; // Set 1:1 8MHz FRC postscalar
 
@@ -138,7 +185,7 @@ InitializeBoard(void)
     RPOR9bits.RP19R = 10;   // 10 = SDO2OUT
     RPOR7bits.RP15R =7;     // 7 = SDO1OUT
     // Note SCK1 has to be rempped via ALTRP register
-    // RPOR13bits.RP27R =12;   // 12 = SS2OUT // not used as Slave sewlect -- used via RG9 port funtion
+    // RPOR13bits.RP27R =12;   // 12 = SS2OUT // not used as Slave select -- used via RG9 port funtion
 
     // Configure Input Functions (Table 10-2))
   

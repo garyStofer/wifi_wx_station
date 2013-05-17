@@ -6,8 +6,10 @@
 #include "wind_rain_cnt.h"
 #include "Once_per_second.h"
 #include "Configs/Wunder_cfg.h"
+
+#define Long_gust_seconds 300    // This is to collect the wind gust for 5 minutes so that Wunderground records all fust readings  with their 5 minute data sampling time
 /*
- *  This task is called once per second and collects the stations sensor readings and kisks of reporting to wunderground
+ *  This task is called once per second and collects the stations sensor readings and kiks off reporting to wunderground
  */
 static struct tagWind_avg {
     float NS_comp;
@@ -16,10 +18,14 @@ static struct tagWind_avg {
 } Wind_avg[MAX_UPLINK_INTERVAL] = {0};
 
 static float WindGustSamples[WIND_GUST_INTERVAL]= {0};
+static float WindGustSamples10Min[ Long_gust_seconds/WIND_GUST_INTERVAL] ;
+static unsigned char Gust10min_ndx = 0;
 
 
 static unsigned char RAIN_Count_Samples[RAIN_SAMPLES_P_HOUR] = {0};
 static unsigned short rain_sample_ndx = 0;
+
+
 
 void
 Once_perSecTask(void)
@@ -44,7 +50,7 @@ Once_perSecTask(void)
     if (sec_count % BARO_HYG_TEMP_MEAS_Interval == 0)
     {
         HIH6130_startMeasure();
-        HP03_startMeasure();
+        Baro_startMeasure();
     }
 
     if (sec_count % RAIN_MEAS_Interval == 0)
@@ -101,6 +107,28 @@ Once_perSecTask(void)
     }
     SensorReading.Wind_gust = gust;
 
+    // collect the 10 minute peak
+    if (sec_count%WIND_GUST_INTERVAL == 0)   // happenes once every WIND_GUST_INTERVAL time
+    {
+        WindGustSamples10Min[Gust10min_ndx++ ] = gust;
+        if (Gust10min_ndx  >= Long_gust_seconds/WIND_GUST_INTERVAL)
+            Gust10min_ndx = 0;
+
+        // collect the 10 minute peak gust
+        gust = 0;
+        for (i = 0; i < (Long_gust_seconds/WIND_GUST_INTERVAL); i++)
+        {
+           if ( WindGustSamples10Min[i] > gust)
+               gust = WindGustSamples10Min[i];
+        }
+        SensorReading.Wind_gust_5min = gust;
+    }
+
+
+    {
+        if (WindGustSamples[i] > gust)
+            gust = WindGustSamples[i];
+    }
     // The Wind direction
     // the PWM of the wind-vane does not fully go between 0 and 100 %PWM i.e not fully between DC 0V and DC 5V
     // Winddir_min_ADC and Winddir_max_adc are calibrated values considering the variance in 5V from the powersupply

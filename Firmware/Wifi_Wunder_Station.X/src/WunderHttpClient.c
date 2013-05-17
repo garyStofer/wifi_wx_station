@@ -41,7 +41,7 @@ static ROM BYTE const msgWindSpd[] = "&windspeedmph="; // mph -- Statute I presu
 static ROM BYTE const msgWindGstSpd[] = "&windgustmph=";
 static ROM BYTE const msgBaro[] = "&baromin="; // in inches Mercury
 static ROM BYTE const msgSolar[] = "&solarradiation="; // in Watts per sq meter
-//static ROM BYTE const msgWingGstSpd10m[]= "&windgustmph_10m=";
+// static ROM BYTE const msgWingGstSpd10m[]= "&windgustmph_10m="; This is not read by Wunderground
 //ROM BYTE const msgWingGstDir10m[]= "&windgustdir_10m=300";
 //ROM BYTE const msgWingGstDir[]= "&windgustdir=300";
 
@@ -278,7 +278,9 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                         if (WX.Wunder.report_enable.Wind)
                         {
                             len += put_WXparam_arg (MySocket, msgWindSpd, (short)(SensorReading.AvgWindSpd *10), 1); // Send the wind speed
-                            len += put_WXparam_arg (MySocket, msgWindGstSpd, (short)(SensorReading.Wind_gust*10), 1);// Send the Windgust
+
+                            // Use a 5 minute gust reading for Wunderground since they record samples every 5 minutes for the graph -- their WindGust10M parameter doesn't work
+                            len += put_WXparam_arg (MySocket, msgWindGstSpd, (short)(SensorReading.Wind_gust_5min*10), 1);// Send the Windgust --
 
                             if (SensorReading.AvgWindSpd <1)
                                  len += put_WXparam_arg (MySocket, msgWindDir, (short) SensorReading.Wind_dir, 0);    // Send the momentary vane direction if there was no wind

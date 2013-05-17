@@ -69,46 +69,82 @@
 
 // Hardware I/O pin mappings
 
+// Inputs on SV2
+#define IN0_TRIS			(TRISDbits.TRISD0)	// SV2 Pin1
+#define IN0_OUT				(LATDbits.LATD0)
+#define IN0_IN                          (PORTDbits.RD0)
+#define IN1_TRIS			(TRISDbits.TRISD1)	// SV2 Pin2
+#define IN1_OUT				(LATDbits.LATD1)
+#define IN1_IN                          (PORTDbits.RD1)
+#define IN2_TRIS			(TRISDbits.TRISD2)	// SV2 Pin3
+#define IN2_OUT				(LATDbits.LATD2)
+#define IN2_IN                          (PORTDbits.RD2)
+#define IN3_TRIS			(TRISDbits.TRISD3)
+#define IN3_OUT				(LATDbits.LATD3)
+#define IN3_IN                          (PORTDbits.RD3)
+#define IN4_TRIS			(TRISDbits.TRISD12)
+#define IN4_OUT				(LATDbits.LATD12)
+#define IN4_IN                          (PORTDbits.RD12)
+#define IN5_TRIS			(TRISDbits.TRISD13)
+#define IN5_OUT				(LATDbits.LATD13)
+#define IN5_IN                          (PORTDbits.RD13)
+#define IN6_TRIS			(TRISDbits.TRISD4)
+#define IN6_OUT				(LATDbits.LATD4)
+#define IN6_IN                          (PORTDbits.RD4)
+#define IN7_TRIS			(TRISDbits.TRISD5)
+#define IN7_OUT				(LATDbits.LATD5)
+#define IN7_IN                          (PORTDbits.RD5)
+#define IN8_TRIS			(TRISDbits.TRISD6)
+#define IN8_OUT				(LATDbits.LATD6)
+#define IN8_IN                          (PORTDbits.RD6)
+#define IN9_TRIS			(TRISDbits.TRISD7)      // SV2 pin 10
+#define IN9_OUT				(LATDbits.LATD7)
+#define IN9_IN                          (PORTDbits.RD7)
+
+#define ALARM_1_input  IN6_IN
+#define ALARM_2_input  IN7_IN
+#define ALARM_3_input  IN8_IN
+#define ALARM_4_input  IN9_IN
+
 // Outputs on SV2
-#define OUT0_TRIS			(TRISDbits.TRISD0)	// SV2 Pin1
-#define OUT0_IO				(LATDbits.LATD0)
-#define OUT1_TRIS			(TRISDbits.TRISD1)	// SV2 Pin2
-#define OUT1_IO				(LATDbits.LATD1)
-#define OUT2_TRIS			(TRISDbits.TRISD2)	// SV2 Pin3
-#define OUT2_IO				(LATDbits.LATD2)
-#define OUT3_TRIS			(TRISDbits.TRISD3)	
-#define OUT3_IO				(LATDbits.LATD3)
-#define OUT4_TRIS			(TRISDbits.TRISD12)
-#define OUT4_IO				(LATDbits.LATD12)
-#define OUT5_TRIS			(TRISDbits.TRISD13)
-#define OUT5_IO				(LATDbits.LATD13)
-#define OUT6_TRIS			(TRISDbits.TRISD4)
-#define OUT6_IO				(LATDbits.LATD4)
-#define OUT7_TRIS			(TRISDbits.TRISD5)
-#define OUT7_IO				(LATDbits.LATD5)
-#define OUT8_TRIS			(TRISDbits.TRISD6)
-#define OUT8_IO				(LATDbits.LATD6)
-#define OUT9_TRIS			(TRISDbits.TRISD7)      // SV2 pin 10
-#define OUT9_IO				(LATDbits.LATD7)
+#define OUT0_TRIS			(TRISFbits.TRISF0)	// SV3 Pin1
+#define OUT0_IO				(LATFbits.LATF0)
+#define OUT1_TRIS			(TRISFbits.TRISF1)	// SV3 Pin2
+#define OUT1_IO				(LATFbits.LATF1)
+#define OUT2_TRIS			(TRISGbits.TRISG1)	// SV3 Pin3
+#define OUT2_IO				(LATGbits.LATG1)
+#define OUT3_TRIS			(TRISGbits.TRISG0)
+#define OUT3_IO				(LATGbits.LATG0)
+#define OUT4_TRIS			(TRISEbits.TRISE0)
+#define OUT4_IO				(LATEbits.LATE0)
+#define OUT5_TRIS			(TRISEbits.TRISE1)
+#define OUT5_IO				(LATEbits.LATE1)
+#define OUT6_TRIS			(TRISEbits.TRISE2)
+#define OUT6_IO				(LATEbits.LATE2)
+#define OUT7_TRIS			(TRISEbits.TRISE3)
+#define OUT7_IO				(LATEbits.LATE3)
+#define OUT8_TRIS			(TRISEbits.TRISE4)
+#define OUT8_IO				(LATEbits.LATE4)
 
-// Inputs on SV1
 
-#define IN0_TRIS			(TRISBbits.TRISB8)          // SV1 pin 2, also AN8
-#define IN0_IO				(LATBbits.LATB8)
-#define IN1_TRIS			(TRISBbits.TRISB9)          // SV1 pin3, also AN9
-#define IN1_IO				(LATBbits.LATB9)
-#define IN2_TRIS			(TRISBbits.TRISB10)         // also AN10
-#define IN2_IO				(LATBbits.LATB10)
-#define IN3_TRIS			(TRISBbits.TRISB11)          // also AN11
-#define IN3_IO				(LATBbits.LATB11)
-#define IN4_TRIS			(TRISBbits.TRISB12)          // also AN12
-#define IN4_IO				(LATBbits.LATB12)
-#define IN5_TRIS			(TRISBbits.TRISB13)          // also AN13
-#define IN5_IO				(LATBbits.LATB13)
-#define IN6_TRIS			(TRISBbits.TRISB14)          // also AN14
-#define IN6_IO				(LATBbits.LATB14)
-#define IN7_TRIS			(TRISBbits.TRISB15)          // SV1 pin 9, also AN15
-#define IN7_IO				(LATBbits.LATB15)
+// IO on SV1 unassigned
+
+#define IO0_TRIS			(TRISBbits.TRISB8)          // SV1 pin 2, also AN8
+#define IO0_IO				(LATBbits.LATB8)
+#define IO1_TRIS			(TRISBbits.TRISB9)          // SV1 pin3, also AN9
+#define IO1_IO				(LATBbits.LATB9)
+#define IO2_TRIS			(TRISBbits.TRISB10)         // also AN10
+#define IO2_IO				(LATBbits.LATB10)
+#define IO3_TRIS			(TRISBbits.TRISB11)          // also AN11
+#define IO3_IO				(LATBbits.LATB11)
+#define IO4_TRIS			(TRISBbits.TRISB12)          // also AN12
+#define IO4_IO				(LATBbits.LATB12)
+#define IO5_TRIS			(TRISBbits.TRISB13)          // also AN13
+#define IO5_IO				(LATBbits.LATB13)
+#define IO6_TRIS			(TRISBbits.TRISB14)          // also AN14
+#define IO6_IO				(LATBbits.LATB14)
+#define IO7_TRIS			(TRISBbits.TRISB15)          // SV1 pin 9, also AN15
+#define IO7_IO				(LATBbits.LATB15)
 // LEDs
 
 #define LED1_TRIS			(TRISEbits.TRISE5)	// Ref L1

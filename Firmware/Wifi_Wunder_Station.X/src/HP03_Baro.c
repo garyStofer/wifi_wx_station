@@ -3,6 +3,8 @@
 #include "WX_perm_data.h"
 #include "math.h"
 #include "i2c1.h"
+#include "Barometer.h"
+#include "HP03_baro.h"
 
 
 //////////////////////////////////////////// HP03 sensor  //////////////////////
@@ -10,7 +12,7 @@
 #define HP03_EEPROM_ADDR 0xA0
 #define HP03_ADC_ADDR 0xEE
 
-static BOOL HP03_BusErr = TRUE;
+
 
 // Structure to read the on chip calibration values
 
@@ -25,51 +27,49 @@ static union {
 
 } HP03_Cal;
 
-static float Alt_comp;
-
-// Calculates the compesation in inches Hg pressure for the elevation of the station
-
-static void
-calc_alt_comp(short Station_elev)
-{
-
-    float tmp;
-    // Calculate altitude correction for station height -- formula from http://www.csgnetwork.com/barcorrecthcalc.html
-    tmp = 60 + 459.67; // fixed Rankine temp-- 60F == std temp at sea level
-    Alt_comp = (29.92126 * (1 - (1 / pow(10, ((0.0081350 * Station_elev) / (tmp + (0.00178308 * Station_elev)))))));
-}
+enum _HP03_READ_SM {
+    SM_START = 0,
+    SM_Wait_for_Temp,
+    SM_Read_Temp,
+    SM_Wait_for_Press,
+    SM_Read_Press,
+    SM_Calc,
+    SM_ERROR,
+    SM_STOP,
+    SM_IDLE
+};
+static enum _HP03_READ_SM ThisState = SM_IDLE;
 
 /*
  *  Initialize the HP03 device by reading the calibration coefficients from it's 24c02-like eeprom memory
  *  and calculating the pressure offset due to the station elevation.
  */
 
-void
-HP03_init(short station_elevation)
+BOOL
+HP03_init(void)
 {
 
     BYTE i;
-    calc_alt_comp(station_elevation);
+    BOOL BusErr = TRUE;
 
     BARO_CS_TRIS = 0;
     BARO_CS_IO = 0; //  HP03  XCLR signal low, device inactive
 
     if (I2C1_Xfer(Open, 0) != 0)
     {
-        HP03_BusErr = TRUE;     // i2c bus could not be opened
-        return;
+        return (BusErr = TRUE);     // i2c bus could not be opened
     }
 
     if (I2C1_Xfer(Start, 0) == 0)
     {
         I2C1_Xfer(Close, 0);    // i2c bus could not assume start condition
-        HP03_BusErr = TRUE;
-        return;
+        return ( BusErr = TRUE);
+
     }
 
     if (I2C1_Xfer(AddrTX, HP03_EEPROM_ADDR) == 0)
     {
-        HP03_BusErr = FALSE; // The HP03 acknowledged an address cycle on the EEPROM address
+        BusErr = FALSE; // The HP03 acknowledged an address cycle on the EEPROM address
         I2C1_Xfer(TX, 16);   // Set word pointer to 16 for read of first coefficient, -- will auto increment
 
         I2C1_Xfer(ReStart, 0); // switch to master read mode
@@ -99,23 +99,13 @@ HP03_init(short station_elevation)
         I2C1_Xfer(M_NACK, 0);
     }
     else
-        HP03_BusErr = TRUE; // The HP03 failed to acknowledged an address cycle on the EEPROM address
+        BusErr = TRUE; // The HP03 failed to acknowledged an address cycle on the EEPROM address,
     I2C1_Xfer(Stop, 0); // and finish by transition into stop state
 
+    return BusErr;
 }
 
-enum _HP03_READ_SM {
-    SM_START = 0,
-    SM_Wait_for_Temp,
-    SM_Read_Temp,
-    SM_Wait_for_Press,
-    SM_Read_Press,
-    SM_Calc,
-    SM_ERROR,
-    SM_STOP,
-    SM_IDLE
-};
-static enum _HP03_READ_SM ThisState = SM_IDLE;
+
 
 void
 HP03_startMeasure( void )
@@ -126,13 +116,15 @@ HP03_startMeasure( void )
 void
 HP03_Read_Process(void )
 {
+    static BOOL bus_err = FALSE;
     static DWORD Timer;
+
     static union {
         BYTE bytes[2];
         WORD val;
     } D2, D1; // D2 = raw Temperatur data , D1 = Raw Pressure data
 
-    if (HP03_BusErr) // Disable the device from further reads if it failed to init
+    if (bus_err) // Disable the device from further reads if it failed to init
         return;
 
     switch (ThisState)
@@ -265,7 +257,7 @@ HP03_Read_Process(void )
             break;
 
         case SM_ERROR:
-            HP03_BusErr = TRUE;  // enabling this stops the device from beeing read if it ever failed to ack
+            bus_err = TRUE;  // enabling this stops the device from beeing read if it ever failed to ack
             I2C1_Xfer(Stop, 0);
             // don't break -- fall through to stop
         case SM_STOP:

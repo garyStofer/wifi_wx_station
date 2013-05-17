@@ -23,7 +23,7 @@ typedef  struct
     short Wind_dir;             // momentary wind direction (1 sec)
     float Wind_speed;           // momentary wind speed     (1 sec)
     float Wind_gust;            // Wind peak over wunderground update interval
-    float Wind_gust_10min;      // Wind peak over last 10 minutes
+    float Wind_gust_5min;      // Wind peak over last 5 minutes
     short AvgWindDir;           // Average wind direction over wunderground update interval
     float AvgWindSpd;           // Average wind speed  ""
     short SolRad;

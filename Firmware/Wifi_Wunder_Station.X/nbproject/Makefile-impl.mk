@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=Wifi_Wunder_Station.X
 
 # Active Configuration
-DEFAULTCONF=WX-Wunder_brd_128Ga008
+DEFAULTCONF=WX-Wunder_128_GA008
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=WX-Wunder_brd_128Ga008 WX-Wunder_brd_256_GA108 
+ALLCONFS=WX-Wunder_128_GA008 WX-Wunder_256_GA108 
 
 
 # build
@@ -45,15 +45,15 @@ ALLCONFS=WX-Wunder_brd_128Ga008 WX-Wunder_brd_256_GA108
 
 # clobber
 .clobber-impl: .clobber-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_brd_128Ga008 clean
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_brd_256_GA108 clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_128_GA008 clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_256_GA108 clean
 
 
 
 # all
 .all-impl: .all-pre .depcheck-impl
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_brd_128Ga008 build
-	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_brd_256_GA108 build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_128_GA008 build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=WX-Wunder_256_GA108 build
 
 
 

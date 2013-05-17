@@ -31,7 +31,7 @@ extern "C" {
 
 #define MAX_UPLINK_INTERVAL 120
 #define MIN_UPLINK_INTERVAL 2
-#define WIND_GUST_INTERVAL 120
+#define WIND_GUST_INTERVAL 60       // Local display wind-gusts are held for 60 seconds --
 
 #define AN_CAL_FACTOR 2.25 // Anemometer calibration factor from DAVIS Instruments
 #define BARO_HYG_TEMP_MEAS_Interval 5 // not too fast because of sensor self heating

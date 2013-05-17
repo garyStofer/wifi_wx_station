@@ -1,4 +1,7 @@
++inc:header.inc
++inc:footer.inc
 +W_SID
++led(0)
 +WindDir
 +WindGust
 +WindSpeed
@@ -37,7 +40,6 @@
 +out(6)
 +out(7)
 +out(8)
-+out(9)
 +builddate
 +Ala(1)
 +Ala(2)
@@ -53,6 +55,17 @@
 +config_subnet
 +config_dns1
 +config_dns2
++wifiSSID
++wifiEnc(0)
++wifiEnc(1)
++wifiEnc(2)
++wifiEnc(3)
++wifiEnc(4)
++wifiEnc(5)
++wifiEnc(6)
++wifiEnc(7)
++wifiEnc(8)
++wifiKey
 +M_TO
 +M_SRV
 +M_PRT
@@ -68,6 +81,7 @@
 +CALho
 +CALbo
 +CALra
++CALwf
 +CALws
 +CALwo
 +version
@@ -80,17 +94,6 @@
 +va_curr
 +va_min
 +va_max
-+wifiSSID
-+wifiEnc(0)
-+wifiEnc(1)
-+wifiEnc(2)
-+wifiEnc(3)
-+wifiEnc(4)
-+wifiEnc(5)
-+wifiEnc(6)
-+wifiEnc(7)
-+wifiEnc(8)
-+wifiKey
 +W_PASS
 +ELEV
 +UpInt
@@ -98,4 +101,5 @@
 +R_HYG
 +R_SOL
 +R_RAIN
-+CALwf
++inp(8)
++inp(9)

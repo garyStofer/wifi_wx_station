@@ -344,6 +344,8 @@ void SMTPTask(void)
 	static BYTE 	*RAMStrPtr;
 	static WORD		wAddressLength;
 
+ WORD tmp;
+
 	switch(TransportState)
 	{
 		case TRANSPORT_HOME:
@@ -614,6 +616,7 @@ void SMTPTask(void)
 									case SMTP_RCPTTO_ACK:
 									case SMTP_RCPTTOCC_ACK:
 									case SMTP_RCPTTOBCC_ACK:
+                                                                            tmp = SMTPState;
 										if(ResponseCode >= 200u && ResponseCode <= 299u)
 											SMTPState++;
 										else

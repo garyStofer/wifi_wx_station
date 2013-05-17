@@ -53,6 +53,7 @@ extern BYTE curHTTPID;
 
 void HTTPPrint(DWORD callbackID);
 void HTTPPrint_W_SID(void);
+void HTTPPrint_led(WORD);
 void HTTPPrint_WindDir(void);
 void HTTPPrint_WindGust(void);
 void HTTPPrint_WindSpeed(void);
@@ -66,7 +67,6 @@ void HTTPPrint_RainDay(void);
 void HTTPPrint_adc(WORD);
 void HTTPPrint_inp(WORD);
 void HTTPPrint_btn(WORD);
-void HTTPPrint_led(WORD);
 void HTTPPrint_out(WORD);
 void HTTPPrint_builddate(void);
 void HTTPPrint_Ala(WORD);
@@ -80,6 +80,9 @@ void HTTPPrint_config_gw(void);
 void HTTPPrint_config_subnet(void);
 void HTTPPrint_config_dns1(void);
 void HTTPPrint_config_dns2(void);
+void HTTPPrint_wifiSSID(void);
+void HTTPPrint_wifiEnc(WORD);
+void HTTPPrint_wifiKey(void);
 void HTTPPrint_M_TO(void);
 void HTTPPrint_M_SRV(void);
 void HTTPPrint_M_PRT(void);
@@ -95,6 +98,7 @@ void HTTPPrint_CALto(void);
 void HTTPPrint_CALho(void);
 void HTTPPrint_CALbo(void);
 void HTTPPrint_CALra(void);
+void HTTPPrint_CALwf(void);
 void HTTPPrint_CALws(void);
 void HTTPPrint_CALwo(void);
 void HTTPPrint_version(void);
@@ -107,9 +111,6 @@ void HTTPPrint_ST_PWD(void);
 void HTTPPrint_va_curr(void);
 void HTTPPrint_va_min(void);
 void HTTPPrint_va_max(void);
-void HTTPPrint_wifiSSID(void);
-void HTTPPrint_wifiEnc(WORD);
-void HTTPPrint_wifiKey(void);
 void HTTPPrint_W_PASS(void);
 void HTTPPrint_ELEV(void);
 void HTTPPrint_UpInt(void);
@@ -117,314 +118,325 @@ void HTTPPrint_R_WND(void);
 void HTTPPrint_R_HYG(void);
 void HTTPPrint_R_SOL(void);
 void HTTPPrint_R_RAIN(void);
-void HTTPPrint_CALwf(void);
 
 void HTTPPrint(DWORD callbackID)
 {
 	switch(callbackID)
 	{
         case 0x00000000:
-			HTTPPrint_W_SID();
+			HTTPIncFile((ROM BYTE*)"header.inc");
 			break;
         case 0x00000001:
-			HTTPPrint_WindDir();
+			HTTPIncFile((ROM BYTE*)"footer.inc");
 			break;
         case 0x00000002:
-			HTTPPrint_WindGust();
+			HTTPPrint_W_SID();
 			break;
         case 0x00000003:
-			HTTPPrint_WindSpeed();
+			HTTPPrint_led(0);
 			break;
         case 0x00000004:
-			HTTPPrint_Temp_F();
+			HTTPPrint_WindDir();
 			break;
         case 0x00000005:
-			HTTPPrint_Dew_F();
+			HTTPPrint_WindGust();
 			break;
         case 0x00000006:
-			HTTPPrint_RelH();
+			HTTPPrint_WindSpeed();
 			break;
         case 0x00000007:
-			HTTPPrint_Baro_In();
+			HTTPPrint_Temp_F();
 			break;
         case 0x00000008:
-			HTTPPrint_Sol_W();
+			HTTPPrint_Dew_F();
 			break;
         case 0x00000009:
-			HTTPPrint_Rain_In();
+			HTTPPrint_RelH();
 			break;
         case 0x0000000a:
-			HTTPPrint_RainDay();
+			HTTPPrint_Baro_In();
 			break;
         case 0x0000000b:
-			HTTPPrint_adc(0);
+			HTTPPrint_Sol_W();
 			break;
         case 0x0000000c:
-			HTTPPrint_adc(1);
+			HTTPPrint_Rain_In();
 			break;
         case 0x0000000d:
-			HTTPPrint_adc(2);
+			HTTPPrint_RainDay();
 			break;
         case 0x0000000e:
-			HTTPPrint_adc(3);
+			HTTPPrint_adc(0);
 			break;
         case 0x0000000f:
-			HTTPPrint_adc(4);
+			HTTPPrint_adc(1);
 			break;
         case 0x00000010:
-			HTTPPrint_adc(5);
+			HTTPPrint_adc(2);
 			break;
         case 0x00000011:
-			HTTPPrint_inp(0);
+			HTTPPrint_adc(3);
 			break;
         case 0x00000012:
-			HTTPPrint_inp(1);
+			HTTPPrint_adc(4);
 			break;
         case 0x00000013:
-			HTTPPrint_inp(2);
+			HTTPPrint_adc(5);
 			break;
         case 0x00000014:
-			HTTPPrint_inp(3);
+			HTTPPrint_inp(0);
 			break;
         case 0x00000015:
-			HTTPPrint_inp(4);
+			HTTPPrint_inp(1);
 			break;
         case 0x00000016:
-			HTTPPrint_inp(5);
+			HTTPPrint_inp(2);
 			break;
         case 0x00000017:
-			HTTPPrint_inp(6);
+			HTTPPrint_inp(3);
 			break;
         case 0x00000018:
-			HTTPPrint_inp(7);
+			HTTPPrint_inp(4);
 			break;
         case 0x00000019:
-			HTTPPrint_btn(1);
+			HTTPPrint_inp(5);
 			break;
         case 0x0000001a:
-			HTTPPrint_btn(2);
+			HTTPPrint_inp(6);
 			break;
         case 0x0000001b:
-			HTTPPrint_led(1);
+			HTTPPrint_inp(7);
 			break;
         case 0x0000001c:
-			HTTPPrint_led(2);
+			HTTPPrint_btn(1);
 			break;
         case 0x0000001d:
-			HTTPPrint_led(3);
+			HTTPPrint_btn(2);
 			break;
         case 0x0000001e:
-			HTTPPrint_out(0);
+			HTTPPrint_led(1);
 			break;
         case 0x0000001f:
-			HTTPPrint_out(1);
+			HTTPPrint_led(2);
 			break;
         case 0x00000020:
-			HTTPPrint_out(2);
+			HTTPPrint_led(3);
 			break;
         case 0x00000021:
-			HTTPPrint_out(3);
+			HTTPPrint_out(0);
 			break;
         case 0x00000022:
-			HTTPPrint_out(4);
+			HTTPPrint_out(1);
 			break;
         case 0x00000023:
-			HTTPPrint_out(5);
+			HTTPPrint_out(2);
 			break;
         case 0x00000024:
-			HTTPPrint_out(6);
+			HTTPPrint_out(3);
 			break;
         case 0x00000025:
-			HTTPPrint_out(7);
+			HTTPPrint_out(4);
 			break;
         case 0x00000026:
-			HTTPPrint_out(8);
+			HTTPPrint_out(5);
 			break;
         case 0x00000027:
-			HTTPPrint_out(9);
+			HTTPPrint_out(6);
 			break;
         case 0x00000028:
-			HTTPPrint_builddate();
+			HTTPPrint_out(7);
 			break;
         case 0x00000029:
-			HTTPPrint_Ala(1);
+			HTTPPrint_out(8);
 			break;
         case 0x0000002a:
-			HTTPPrint_Ala(2);
+			HTTPPrint_builddate();
 			break;
         case 0x0000002b:
-			HTTPPrint_Ala(3);
+			HTTPPrint_Ala(1);
 			break;
         case 0x0000002c:
-			HTTPPrint_Ala(4);
+			HTTPPrint_Ala(2);
 			break;
         case 0x0000002d:
-			HTTPPrint_status_fail();
+			HTTPPrint_Ala(3);
 			break;
         case 0x0000002e:
-			HTTPPrint_status_msg();
+			HTTPPrint_Ala(4);
 			break;
         case 0x0000002f:
-			HTTPPrint_config_mac();
+			HTTPPrint_status_fail();
 			break;
         case 0x00000030:
-			HTTPPrint_config_hostname();
+			HTTPPrint_status_msg();
 			break;
         case 0x00000031:
-			HTTPPrint_config_dhcpchecked();
+			HTTPPrint_config_mac();
 			break;
         case 0x00000032:
-			HTTPPrint_config_ip();
+			HTTPPrint_config_hostname();
 			break;
         case 0x00000033:
-			HTTPPrint_config_gw();
+			HTTPPrint_config_dhcpchecked();
 			break;
         case 0x00000034:
-			HTTPPrint_config_subnet();
+			HTTPPrint_config_ip();
 			break;
         case 0x00000035:
-			HTTPPrint_config_dns1();
+			HTTPPrint_config_gw();
 			break;
         case 0x00000036:
-			HTTPPrint_config_dns2();
+			HTTPPrint_config_subnet();
 			break;
         case 0x00000037:
-			HTTPPrint_M_TO();
+			HTTPPrint_config_dns1();
 			break;
         case 0x00000038:
-			HTTPPrint_M_SRV();
+			HTTPPrint_config_dns2();
 			break;
         case 0x00000039:
-			HTTPPrint_M_PRT();
-			break;
-        case 0x0000003a:
-			HTTPPrint_M_USR();
-			break;
-        case 0x0000003b:
-			HTTPPrint_M_PWD();
-			break;
-        case 0x0000003c:
-			HTTPPrint_TZoff();
-			break;
-        case 0x0000003d:
-			HTTPPrint_nist_1();
-			break;
-        case 0x0000003e:
-			HTTPPrint_nist_2();
-			break;
-        case 0x0000003f:
-			HTTPPrint_reboot();
-			break;
-        case 0x00000040:
-			HTTPPrint_rebootaddr();
-			break;
-        case 0x00000041:
-			HTTPPrint_CALsg();
-			break;
-        case 0x00000042:
-			HTTPPrint_CALto();
-			break;
-        case 0x00000043:
-			HTTPPrint_CALho();
-			break;
-        case 0x00000044:
-			HTTPPrint_CALbo();
-			break;
-        case 0x00000045:
-			HTTPPrint_CALra();
-			break;
-        case 0x00000046:
-			HTTPPrint_CALws();
-			break;
-        case 0x00000047:
-			HTTPPrint_CALwo();
-			break;
-        case 0x00000048:
-			HTTPPrint_version();
-			break;
-        case 0x00000049:
-			HTTPPrint_time();
-			break;
-        case 0x0000004a:
-			HTTPPrint_date();
-			break;
-        case 0x0000004b:
-			HTTPPrint_W_ENB();
-			break;
-        case 0x0000004c:
-			HTTPPrint_pwr5V();
-			break;
-        case 0x0000004d:
-			HTTPPrint_ST_USR();
-			break;
-        case 0x0000004e:
-			HTTPPrint_ST_PWD();
-			break;
-        case 0x0000004f:
-			HTTPPrint_va_curr();
-			break;
-        case 0x00000050:
-			HTTPPrint_va_min();
-			break;
-        case 0x00000051:
-			HTTPPrint_va_max();
-			break;
-        case 0x00000052:
 			HTTPPrint_wifiSSID();
 			break;
-        case 0x00000053:
+        case 0x0000003a:
 			HTTPPrint_wifiEnc(0);
 			break;
-        case 0x00000054:
+        case 0x0000003b:
 			HTTPPrint_wifiEnc(1);
 			break;
-        case 0x00000055:
+        case 0x0000003c:
 			HTTPPrint_wifiEnc(2);
 			break;
-        case 0x00000056:
+        case 0x0000003d:
 			HTTPPrint_wifiEnc(3);
 			break;
-        case 0x00000057:
+        case 0x0000003e:
 			HTTPPrint_wifiEnc(4);
 			break;
-        case 0x00000058:
+        case 0x0000003f:
 			HTTPPrint_wifiEnc(5);
 			break;
-        case 0x00000059:
+        case 0x00000040:
 			HTTPPrint_wifiEnc(6);
 			break;
-        case 0x0000005a:
+        case 0x00000041:
 			HTTPPrint_wifiEnc(7);
 			break;
-        case 0x0000005b:
+        case 0x00000042:
 			HTTPPrint_wifiEnc(8);
 			break;
-        case 0x0000005c:
+        case 0x00000043:
 			HTTPPrint_wifiKey();
 			break;
+        case 0x00000044:
+			HTTPPrint_M_TO();
+			break;
+        case 0x00000045:
+			HTTPPrint_M_SRV();
+			break;
+        case 0x00000046:
+			HTTPPrint_M_PRT();
+			break;
+        case 0x00000047:
+			HTTPPrint_M_USR();
+			break;
+        case 0x00000048:
+			HTTPPrint_M_PWD();
+			break;
+        case 0x00000049:
+			HTTPPrint_TZoff();
+			break;
+        case 0x0000004a:
+			HTTPPrint_nist_1();
+			break;
+        case 0x0000004b:
+			HTTPPrint_nist_2();
+			break;
+        case 0x0000004c:
+			HTTPPrint_reboot();
+			break;
+        case 0x0000004d:
+			HTTPPrint_rebootaddr();
+			break;
+        case 0x0000004e:
+			HTTPPrint_CALsg();
+			break;
+        case 0x0000004f:
+			HTTPPrint_CALto();
+			break;
+        case 0x00000050:
+			HTTPPrint_CALho();
+			break;
+        case 0x00000051:
+			HTTPPrint_CALbo();
+			break;
+        case 0x00000052:
+			HTTPPrint_CALra();
+			break;
+        case 0x00000053:
+			HTTPPrint_CALwf();
+			break;
+        case 0x00000054:
+			HTTPPrint_CALws();
+			break;
+        case 0x00000055:
+			HTTPPrint_CALwo();
+			break;
+        case 0x00000056:
+			HTTPPrint_version();
+			break;
+        case 0x00000057:
+			HTTPPrint_time();
+			break;
+        case 0x00000058:
+			HTTPPrint_date();
+			break;
+        case 0x00000059:
+			HTTPPrint_W_ENB();
+			break;
+        case 0x0000005a:
+			HTTPPrint_pwr5V();
+			break;
+        case 0x0000005b:
+			HTTPPrint_ST_USR();
+			break;
+        case 0x0000005c:
+			HTTPPrint_ST_PWD();
+			break;
         case 0x0000005d:
-			HTTPPrint_W_PASS();
+			HTTPPrint_va_curr();
 			break;
         case 0x0000005e:
-			HTTPPrint_ELEV();
+			HTTPPrint_va_min();
 			break;
         case 0x0000005f:
-			HTTPPrint_UpInt();
+			HTTPPrint_va_max();
 			break;
         case 0x00000060:
-			HTTPPrint_R_WND();
+			HTTPPrint_W_PASS();
 			break;
         case 0x00000061:
-			HTTPPrint_R_HYG();
+			HTTPPrint_ELEV();
 			break;
         case 0x00000062:
-			HTTPPrint_R_SOL();
+			HTTPPrint_UpInt();
 			break;
         case 0x00000063:
-			HTTPPrint_R_RAIN();
+			HTTPPrint_R_WND();
 			break;
         case 0x00000064:
-			HTTPPrint_CALwf();
+			HTTPPrint_R_HYG();
+			break;
+        case 0x00000065:
+			HTTPPrint_R_SOL();
+			break;
+        case 0x00000066:
+			HTTPPrint_R_RAIN();
+			break;
+        case 0x00000067:
+			HTTPPrint_inp(8);
+			break;
+        case 0x00000068:
+			HTTPPrint_inp(9);
 			break;
 		default:
 			// Output notification for undefined values
