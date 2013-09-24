@@ -65,7 +65,7 @@ HTTPNeedsAuth(BYTE* cFile)
         return 0x00; // Authentication will be needed later
 
 #if defined(HTTP_MPFS_UPLOAD_REQUIRES_AUTH)
-    if (memcmppgm2ram(cFile, (ROM void*) "HTTP_MPFS_UPLOAD", 10) == 0)
+    if (memcmppgm2ram(cFile, (ROM void*) HTTP_MPFS_UPLOAD, 10) == 0)
         return 0x00;
 #endif
 
@@ -331,7 +331,7 @@ HTTP_GetExec_togg_outputs_cgi()
     if (ptr)
     {
         // Toggle the specified outputs
-// TODO: need to change this to the actual outputs on the WX board
+
         switch (*ptr)
         {
               case '0':
@@ -392,6 +392,9 @@ HTTP_GetExec_alarmcfg_htm()
     BYTE *ptr;
     BYTE tmp =0;
 
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_0")) != NULL)
+        tmp |= 1;
+
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_1")) != NULL)
          tmp |= 1<<1;
 
@@ -404,10 +407,15 @@ HTTP_GetExec_alarmcfg_htm()
      if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_4")) != NULL)
          tmp |= 1<<4;
 
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "AL_5")) != NULL)
+         tmp |= 1<<5;
+
+
     if ( HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "_SAVAL") )
     {
         WX.Alarms.enable =tmp;
         WX_writePerm_data();
+        SMTP_Alarm_Arm( WX.Alarms.enable & 0x1); // ARM or Disarm
     }
 }
 /****************************************************************************
@@ -1105,14 +1113,7 @@ HTTPPrint_out(WORD num)
     // Print the output
     TCPPut(sktHTTP, (num ? '+' : '-'));
 }
-void
-HTTPPrint_pwr5V()
-{
-    BYTE temp[8];
-    stoa_dec((char*) temp, SensorReading.Plus5V * 100, 2);
-    TCPPutString(sktHTTP, temp);
 
-}
 
 void
 HTTPPrint_va_curr()
@@ -1153,40 +1154,48 @@ HTTPPrint_va_max()
     else
         TCPPutROMString(sktHTTP, "-");
 }
+
+
 void
 HTTPPrint_adc(WORD num)
 {
-    BYTE AN0String[8];
-    WORD ADval;
+    BYTE temp[9];
+    float ADval;
 
-// Note: the ADC1BUFn are assigned on a dynamic basisand do not necessarily map to correspoinding AN inputs.
+// Note: the ADC1BUFn are assigned on a dynamic basis and do not necessarily map to correspoinding AN inputs.
 // A 1:1 mapping is only achieved if all analog inputs are ennabled  in the ADC configuration.
     switch (num)
     {
         case 0:
-            ADval = (WORD) ADC1BUF0;
+            ADval = ADC1BUF0 * (ADC_SCALE * 3.3/1024);
             break;
         case 1:
-            ADval = (WORD) ADC1BUF1;
+            ADval = ADC1BUF1 * (ADC_SCALE * 3.3/1024);
             break;
         case 2:
-            ADval = (WORD) ADC1BUF2;
-            break;
+            ADval = ADC1BUF2 * (ADC_SCALE * 3.3/1024);
+             break;
         case 3:
-            ADval = (WORD) ADC1BUF3;
-            break;
+             ADval = ADC1BUF3 * ((26.1+14.0)/26.1) *(3.3/1024);
+             break;
         case 4:
-            ADval = (WORD) ADC1BUF4;
-            break;
+             ADval = ADC1BUF4 * ((26.1+8.2)/26.1) * (3.3/1024);
+             break;
         case 5:
-            ADval = (WORD) ADC1BUF5;
-            break;
+             ADval = PWR_5V_ADCBUFF * ((10.0+10.0)/10.0)* (3.3/1024);// ADC is referenced of the 3.3V PS , AN5 input has 2:1 voltage divider
+             break;
         default:
             ADval =0;
 
     }
-    uitoa(ADval, (BYTE*) AN0String);
-    TCPPutString(sktHTTP, AN0String);
+
+    stoa_dec((char*) temp, ADval * 100, 2);  // Two decimals
+    TCPPutString(sktHTTP, temp);
+}
+void
+HTTPPrint_pwr5V()
+{
+    HTTPPrint_adc(5);
 }
 HTTPPrint_time(void)
 {
@@ -1290,6 +1299,7 @@ HTTPPrint_R_RAIN(void)
 void
 HTTPPrint_Ala(WORD num)
 {
+    // bit 1 is used as global alarm Arm/disarm
     if (WX.Alarms.enable & 1<<num )
         TCPPutROMString(sktHTTP, HTML_checked);
     else

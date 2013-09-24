@@ -271,7 +271,6 @@
       <itemPath>Web_pages/leds.htm</itemPath>
       <itemPath>Web_pages/outputs.htm</itemPath>
       <itemPath>Web_pages/sensors.xml</itemPath>
-      <itemPath>Web_pages/snmp.bib</itemPath>
       <itemPath>Web_pages/status.js</itemPath>
       <itemPath>Web_pages/status_adc.xml</itemPath>
       <itemPath>Web_pages/status_in.xml</itemPath>
@@ -280,6 +279,7 @@
       <itemPath>Web_pages/styles.css</itemPath>
       <itemPath>Web_pages/togg.cgi</itemPath>
       <itemPath>Web_pages/wunder.htm</itemPath>
+      <itemPath>Web_pages/help.htm</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -514,7 +514,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories" value="..\TCPIP\Include;src"/>
         <property key="isolate-each-function" value="false"/>
-        <property key="optimization-level" value="0"/>
+        <property key="optimization-level" value="1"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value="CFG_INCLUDE_WX_WUNDER"/>

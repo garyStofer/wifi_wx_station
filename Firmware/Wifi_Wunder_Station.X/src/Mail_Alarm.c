@@ -5,6 +5,7 @@
 #include "TCPIP Stack/TCPIP.h"
 #include "Main.h"
 #include "WX_perm_data.h"
+#include "Mail_Alarm.h"
 #define  MAIL_DEADTIME 60       // seconds to wait until we can send an other mail
 
 static enum {
@@ -28,6 +29,31 @@ void SMTP_trigger_mail(char * message) {
     }
 }
 
+void
+SMTP_Alarm_Arm( unsigned char ON_off)
+{
+    if ( ON_off == 1)
+    {
+        // enable the change notification interupt on 5 inputs used for Alarms
+        // all possible alrams are enabled in here and later in the change notification
+        // IST the WX perm data is checked to see if an individual alarm is active and
+        // a alarm mail is to be generated.
+        // Bit CN19IE is used elsewhere to indicate that alarms are armed or not
+        CNEN2bits.CN19IE =1;     //CN19, RD13, SV2:6, Alarm1
+        CNEN1bits.CN13IE =1;    // CN13,RD4,SV2:7, Alarm2
+        CNEN1bits.CN14IE =1;    // CN14,RD5,SV2:8, Alarm 3
+        CNEN1bits.CN15IE =1;    // CN15,RD6,SV2:9,Alarm 4
+        CNEN2bits.CN16IE =1;    // CN16,RD7,SV2:10, Alalrm 5
+    }
+    else
+    {
+        CNEN2 = CNEN1 = 0;
+    }
+
+
+
+
+}
 void SMTP_set_alarm(unsigned short alarm_no) {
     Alarms = alarm_no;
 }
@@ -45,13 +71,15 @@ void SMTP_Mail_alarm(void) {
             if (Alarms) {
                 strcpy((char*) RAMStringBody, "Alarm # ");
                 if (Alarms & 1 << 1)
-                    strcat((char*) RAMStringBody, "1 (SV2:7),");
+                    strcat((char*) RAMStringBody, "1 (SV2:6),");
                 if (Alarms & 1 << 2)
-                    strcat((char*) RAMStringBody, "2 (SV2:8),");
+                    strcat((char*) RAMStringBody, "2 (SV2:7),");
                 if (Alarms & 1 << 3)
-                    strcat((char*) RAMStringBody, "3 (SV2:9,");
+                    strcat((char*) RAMStringBody, "3 (SV2:8,");
                 if (Alarms & 1 << 4)
-                    strcat((char*) RAMStringBody, "4 (SV2:10),");
+                    strcat((char*) RAMStringBody, "4 (SV2:9),");
+                if (Alarms & 1 << 5)
+                    strcat((char*) RAMStringBody, "5 (SV2:10),");
 
                 RAMStringBody[strlen((char *) RAMStringBody) - 1] = ' '; // remove trailing coma
                 strcat((char*) RAMStringBody, "is active!\n\r");

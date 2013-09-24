@@ -14,6 +14,7 @@ extern "C" {
 
 extern void SMTP_trigger_mail( char * message);
 extern void SMTP_set_alarm( unsigned short alarm_no );
+extern void SMTP_Alarm_Arm( unsigned char ON_off);
 extern void SMTP_Mail_alarm(void);
 
 

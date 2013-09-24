@@ -29,7 +29,7 @@ typedef  struct
     short SolRad;
     float RainIn;
     float RainDaily;
-    float Plus5V;
+    float spare;
 } t_WX_Sensor_data;
 
 typedef struct __attribute__((__packed__))

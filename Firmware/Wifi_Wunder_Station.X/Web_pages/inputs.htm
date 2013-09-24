@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <link href="styles.css" rel="stylesheet" type="text/css" >
@@ -20,14 +20,11 @@ setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 	
 	<div id="loading" style="display:none">Error: Connection was lost.</div>
 	<div id="display">
-		<h5>Inputs/Alarms:</h5>
-		<table style="margin-top:10px" cellspacing="10px"  >
+		<h5>SV2: Inputs/Alarms:</h5>
+		<table style="margin-top:5px" cellspacing="5px"  >
 		<tr style="text-align:center">
-			<td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
-			<td class="alarm">6</td>
-			<td class="alarm">7</td>
-			<td class="alarm">8</td>
-			<td class="alarm">9</td>
+			<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            <td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
 		</tr>
 		<tr class="leds" >
 			<td id="in0">&bull;</td>
@@ -41,9 +38,18 @@ setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
 			<td id="in8">&bull;</td>
 			<td id="in9">&bull;</td>
 		</tr>
+        <tr style="text-align:center">
+			<td></td><td></td><td></td><td></td><td></td>
+            <td class="alarm">A1</td>
+			<td class="alarm">A2</td>
+			<td class="alarm">A3</td>
+			<td class="alarm">A4</td>
+			<td class="alarm">A5</td>
+		</tr>
+
 		</table>
 		<h5>Buttons:</h5>
-		<table style="margin-top:10px" cellspacing="10px"  >
+		<table style="margin-top:5px" cellspacing="5px"  >
 		<tr style="text-align:center">
 			<td>1</td><td>2</td>
 		</tr>

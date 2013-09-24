@@ -9,7 +9,7 @@
 #include "Main.h"
 
 //#define ReportDATE_TIME_UTC
-#define  Checking_for_Wunder_success
+#define Checking_for_Wunder_success
 
 enum _Http_WunderClientState
 {
@@ -24,6 +24,9 @@ enum _Http_WunderClientState
 /* ---------------------------------------------------------------------------------------------------------------------
  * These are the tokens that Wundergrounds data ingest service requires
  */
+//#define WU_URL "38.102.137.157"                       // This is a direct path bypassing their load balancing routing
+#define WU_URL "weatherstation.wunderground.com"        // This is the correct path so that it goes  through their load balancing center
+
 static ROM BYTE const msgURL[] = "GET /weatherstation/updateweatherstation.php";
 static ROM BYTE const msgID[] = "?ID="; // i.e. KCACONCO18
 static ROM BYTE const msgPWD[] = "&PASSWORD="; //
@@ -63,8 +66,8 @@ static ROM BYTE const msgRH[] = "&humidity="; // Relative humidity in %
 // clouds - [text] -- SKC, FEW, SCT, BKN, OVC
 static ROM BYTE const msgRapid[] = "&realtime=1&rtfreq=";
 static ROM BYTE const msgHTTP[] = " HTTP/1.0\r\n"; // Requierd, Wunderground does not serve 0.9 http-- Do not remove the leading space
-static ROM BYTE const msgAccept[] = "Accept: text/html"; // required plus contains the double NL for termination of HTTP
-static ROM BYTE const msgDeliniter[] ="\r\n\r\n";       // HTTP Headerdelimiter
+static ROM BYTE const msgAccept[] = "Accept: text/html\r\n"; // required
+static ROM BYTE const msgDeliniter[] ="\r\n";       // HTTP Header delimiter
 
 static enum _Http_WunderClientState  ThisState = SM_IDLE;
 
@@ -81,6 +84,7 @@ WX_TCPPut(TCP_SOCKET theSocket, ROM BYTE const * pMsg)
     {
         while (b = *pMsg++)
         {
+            putcUART(b);
             TCPPut(theSocket, b);
             n++;
         }
@@ -109,6 +113,7 @@ put_WXparam_arg(TCP_SOCKET theSocket, ROM BYTE const * pMsg, short data, BYTE de
     i = 0;
     while (b = strTmp[i++])
     {
+        putcUART(b);
         TCPPut(theSocket, b);
         n++;
     }
@@ -173,13 +178,18 @@ void WunderHttpClient(void)
 			//MySocket = TCPOpen( WX.Wunder.Wunder_IP.Val,TCP_OPEN_IP_ADDRESS, HTTP_PORT, TCP_PURPOSE_WUNDER_CLIENT);
                         if (cache == NULL )
                         {
-                            MySocket = TCPOpen( (DWORD)(PTR_BASE)"weatherstation.wunderground.com",TCP_OPEN_ROM_HOST, HTTP_PORT, TCP_PURPOSE_WUNDER_CLIENT);
-                            putrsUART((ROM char*) "Opening WU-TCP connection via DNS \r\n");
+
+                            MySocket = TCPOpen((DWORD) WU_URL, TCP_OPEN_ROM_HOST, HTTP_PORT, TCP_PURPOSE_WUNDER_CLIENT);
+                            putrsUART((ROM char*) "Opening WU conn. via DNS to ");
+                            putrsUART((ROM char*) WU_URL);
+                            putrsUART((ROM char*) "\r\n");
+                           // MySocket = TCPOpen( (DWORD)(PTR_BASE)"weatherstation.wunderground.com",TCP_OPEN_ROM_HOST, HTTP_PORT, TCP_PURPOSE_WUNDER_CLIENT);
+                           // putrsUART((ROM char*) "Opening weatherstation.wunderground.com connection via DNS \r\n");
                         }
                         else
                         {
                             MySocket = TCPOpen((DWORD)(PTR_BASE)&cache->remote, TCP_OPEN_NODE_INFO, cache->remotePort.Val, TCP_PURPOSE_WUNDER_CLIENT);
-                            putrsUART((ROM char*) "Opening WU-TCP connection via cache \r\n");
+                            putrsUART((ROM char*) "Opening WU conn. via cache \r\n");
                         }
 
                         // Abort operation if no TCP socket of type TCP_PURPOSE_WUNDER_CLIENT is available
@@ -223,11 +233,11 @@ void WunderHttpClient(void)
 
 
                 case SM_SOCKET_CONNECTED:
-                    //putrsUART((ROM char*) "WU socket connetced\r\n");
+ putrsUART((ROM char*) "WU socket connetced\r\n");
 			Timer = TickGet();
  
 			// Make certain the socket can be written to
-			if(TCPIsPutReady(MySocket) < 400u) // 400 comes from buffer definition in TCIPMRF24W.h: {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 400,50 }
+			if(TCPIsPutReady(MySocket) < 512u) // 512 comes from buffer definition in TCIPMRF24W.h: {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 400,50 }
                         {
 putrsUART((ROM char*) "WU socket buffer too small\r\n");
 				break;
@@ -294,12 +304,15 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                             len += put_WXparam_arg (MySocket, msgSolar,(short) SensorReading.SolRad, 0); // Send the solar radiation index in watts/ sq Meter ( estimated)
 
 			len += WX_TCPPut(MySocket, msgHTTP);
-			len += WX_TCPPut(MySocket, msgAccept);
+                        len += WX_TCPPut(MySocket, msgAccept);
                         len += WX_TCPPut(MySocket, msgDeliniter);
 
-                        if (len >= 400 )
+if(TCPIsPutReady(MySocket) < 1u)
+    putrsUART((ROM char*) "TCP was not put-ready -- ovl?");
+                        
+                        if (len >= 512 )
                         {
-// putrsUART((ROM char*) "WX TCP BUFFER OVERFLOW-- Locking up");
+                            putrsUART((ROM char*) "WX TCP BUFFER OVERFLOW-- Locking up");
 
                             LED1_IO = 1;
                             LED2_IO = 1;
@@ -315,18 +328,18 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
 
 		case SM_PROCESS_RESPONSE:
 
-#ifdef Checking_for_Wunder_success
-// Checking for the word success dosn't really buy anything, since success only means that we where talking to thr right URL
+
+// Checking for the word success dosn't really buy anything, since success only means that we where talking to the right URL
 // and not that that the data sent was accepted.
 
 			// Check to see if the remote node has disconnected 
 			if(!TCPIsConnected(MySocket))
                         {
-                                putrsUART((ROM char*) "WU HOST disconnected\r\n");
+                                putrsUART((ROM char*) "WU HOST has disconnected\r\n");
                             	ThisState = SM_DISCONNECT;// Do not break;  We might still have data in the TCP RX FIFO waiting for us
 			}
 
-	
+#ifdef Checking_for_Wunder_success
                         // The Wunderground server always replies with the word "success" as long as Station ID and password match
                         // The fact that the server replies "success" does not indicate that the data was actually ingested into the
                         // system, so testing for the return of "success" only indicates what we are talking to Wunderground
@@ -345,7 +358,7 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                         if (w = TCPIsGetReady(MySocket))
                         {
 
-                            l1 = TCPFindROMArray(MySocket,msgDeliniter,4,0,FALSE); // find end of Headers, beginning of Content
+                            l1 = TCPFindROMArray(MySocket,"\r\n\r\n",4,0,FALSE); // find end of Headers, beginning of Content
 
                             if ( l1 < 0xffff) // if the double \r\n was found  check for the word success
                             {
@@ -375,6 +388,9 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                             else
                                 TCPGetArray(MySocket, NULL, l1);      // skip headers
                         }
+
+#else
+                        ThisState = SM_DISCONNECT; //go directly to Disconnect
 #endif
                         break;
 	
@@ -385,7 +401,7 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                         TCPDisconnect(MySocket);        // This sends a "RST" to force the connection closed and immediatly reliquisches the socket
 			MySocket = INVALID_SOCKET;
 			ThisState = SM_IDLE;
-                        putrsUART((ROM char*) "Socket Disconnected\r\n\n");
+                        putrsUART((ROM char*) "Socket disconnected\r\n\n");
 			break;
 	
 		case SM_IDLE:

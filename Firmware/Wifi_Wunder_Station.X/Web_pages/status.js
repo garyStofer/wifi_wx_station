@@ -1,4 +1,4 @@
-﻿function timed_out(xmlData)
+function timed_out(xmlData)
 {
 	var mainstat = document.getElementById('display').style.display;
 	var loadstat = document.getElementById('loading').style.display;
@@ -63,10 +63,11 @@ function updateADCStatus(xmlData)
 	if ( timed_out(	xmlData) )
 		return;
 
-	// Loop over all the ADCs
-	for(i = 0; i < 6; i++)
-		document.getElementById('adc'+i).innerHTML = getXMLValue(xmlData, 'adc'+i);
+    for(i = 0; i < 6; i++)
+	{
+        document.getElementById('adc'+i).innerHTML = getXMLValue(xmlData, 'adc'+i);
+    }
+
+
+
 }
-
-
-

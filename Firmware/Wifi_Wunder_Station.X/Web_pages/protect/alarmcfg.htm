@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <link href="../styles.css" rel="stylesheet" type="text/css" >
@@ -6,20 +6,26 @@
 <body class="inframe" >
 	<h3>Alarm Configuration</h3>
 	<fieldset>
-			<legend>Trigers:</legend>
+			<legend>Triggers:</legend>
 
 	<form action ="" method="GET"  name="Alarmcfg"> <!-- action="" == self posting form -->
 		<table class="wbrd" style="height: 142px"> 
-			 <tr><th style="width:100px">Source:</th> <th style="width:100px">Enabled:</th></tr>
-			 <tr><td>Input 6</td><td><input type="checkbox" name="AL_1" ~Ala(1)~ value="1"/></td></tr>	 
-			 <tr><td>Input 7</td><td><input type="checkbox" name="AL_2" ~Ala(2)~ value="1"/></td></tr>	
-			 <tr><td>Input 8</td><td><input type="checkbox" name="AL_3" ~Ala(3)~ value="1"/></td></tr>	
-			 <tr><td>Input 9</td><td><input type="checkbox" name="AL_4" ~Ala(4)~ value="1"/></td></tr>		
+			 <tr><th style="width:150px">Source:</th> <th style="width:100px">Enabled:</th></tr>
+             <tr><td>Alarm 1 (SV2:6)</td><td><input type="checkbox" name="AL_1" ~Ala(1)~ value="1"/></td></tr>
+			 <tr><td>Alarm 2 (SV2:7)</td><td><input type="checkbox" name="AL_2" ~Ala(2)~ value="1"/></td></tr>
+			 <tr><td>Alarm 3 (SV2:8)</td><td><input type="checkbox" name="AL_3" ~Ala(3)~ value="1"/></td></tr>
+			 <tr><td>Alarm 4 (SV2:9)</td><td><input type="checkbox" name="AL_4" ~Ala(4)~ value="1"/></td></tr>
+			 <tr><td>Alarm 5 (SV2:10)</td><td><input type="checkbox" name="AL_5" ~Ala(5)~ value="1"/></td></tr>
+             <tr><th style="width:150px"> </th></tr>
+             <tr><td>Armed</td><td><input type="checkbox" name="AL_0" ~Ala(0)~ value="1"/></td></tr>
+
 		</table>	
-		<p>Enabled inputs will trigger an email alarm when activated. </p>
+		<p>Enabled inputs will trigger an email/sms alarm when armed. </p>
 		<input type="submit" class="sm" name="_SAVAL" value="Save"/>
 
-	</form>  
+	</form>
+
+
 	</fieldset>
 
 	

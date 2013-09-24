@@ -26,6 +26,8 @@
 +inp(5)
 +inp(6)
 +inp(7)
++inp(8)
++inp(9)
 +btn(1)
 +btn(2)
 +led(1)
@@ -45,6 +47,8 @@
 +Ala(2)
 +Ala(3)
 +Ala(4)
++Ala(5)
++Ala(0)
 +status_fail
 +status_msg
 +config_mac
@@ -101,5 +105,3 @@
 +R_HYG
 +R_SOL
 +R_RAIN
-+inp(8)
-+inp(9)

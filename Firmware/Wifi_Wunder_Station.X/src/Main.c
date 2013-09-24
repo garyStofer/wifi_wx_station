@@ -43,7 +43,7 @@
 // Used for Wi-Fi assertions
 #define WF_MODULE_NUMBER   WF_MODULE_MAIN_DEMO
 
-/*
+/* BOOTLOADER stuff
         Store Boot loader delay timeout value & user reset vector at 0x100
         (can't be used with bootloader's vector protect mode).
 
@@ -52,6 +52,8 @@
 */
 unsigned int userReset  __attribute__ ((space(prog),section(".BLreset"))) = 0xC00 ;
 unsigned char BL_timeout  __attribute__ ((space(prog),section(".BLreset"))) = 0x0 ; // Boot loader listens for bootloader app on UART for "n" seconds
+// End of Bootloader Stuff
+
 
 // traps for system errors -- useful for debugging
  
@@ -83,7 +85,7 @@ _CNInterrupt(void)
     tmp = PORTD;
 
 
-    // Alarms are triggert on active high signal on the 4 alarm inputs
+    // Alarms are triggert on active high signal on the enambed  alarm inputs
 
     if (( WX.Alarms.enable & 1<<1) && ALARM_1_input)
         alarms |= 1<<1;
@@ -96,6 +98,10 @@ _CNInterrupt(void)
 
     if ( (WX.Alarms.enable & 1<<4) && ALARM_4_input)
         alarms |= 1<<4;
+
+    if ( (WX.Alarms.enable & 1<<5) && ALARM_5_input)
+        alarms |= 1<<5;
+
    if (alarms )
      SMTP_set_alarm(alarms);
 
@@ -107,7 +113,7 @@ Display_MAC_Addr( void )
     BYTE digit;
     BYTE i;
 
-    putrsUART("My MAC Address: ");
+    putrsUART("MAC Address: ");
 
     for (i = 0; i < sizeof (MAC_ADDR); i++)
     {
@@ -198,9 +204,9 @@ main(void)
     InitAppConfig();
 
     putrsUART("\f");
-    putrsUART("*** WiFi Wunder Weather Station ***\r\n\n");
+    putrsUART("*** WiFi Wunder Weather Station ***\r\n\r\n");
     putrsUART("To restore factury defaults press and hold S1 for > 4 seconds during reset.\r\n");
-    putrsUART("To enter configuration utility press and hold S1 for < 4 seconds during reset.\r\n\n");
+    putrsUART("To enter configuration utility press and hold S1 for < 4 seconds during reset.\r\n\r\n");
 
     // Resets board to factory values if button is depressed on startup and allows UART based communication configuration
     if (BUTTON1_IO == 0u)
@@ -245,8 +251,9 @@ main(void)
     putsUART(WX.Station.User_name);
     putrsUART(",");
     putsUART(WX.Station.password);
-    putrsUART("\r\n\n");
-
+    putrsUART("\r\n");
+    putrsUART("Netbios name:");putsUART(AppConfig.NetBIOSName);
+    putrsUART("\r\n\r\n");
    
 
     Baro_init(WX.Wunder.StationElev); // must be done after we read the WX_perm_data
@@ -276,7 +283,7 @@ main(void)
 #endif
 
 
-    putrsUART("\nInit complete... waiting for WiFi connection...\r\n");
+    putrsUART("\r\nInit complete... waiting for WiFi connection...\r\n");
 
     if (AppConfig.SecurityMode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
         AppConfig.SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
@@ -286,7 +293,7 @@ main(void)
     }
 
     All_LEDS_off();
-    SMTP_set_alarm(0);
+    SMTP_Alarm_Arm( WX.Alarms.enable & 0x1); // ARM or Disarm
  
     // Begin of the co-operative multitasking loop.
     while (1)

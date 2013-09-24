@@ -4,17 +4,15 @@
 <link href="../styles.css" rel="stylesheet" type="text/css" >
 </head>
 <body class="inframe" >
-<h5>Your board is located at: <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></h5>
-<p>To restore factory default settings proceed as follows:</p>
+<h4>Your board is located at: <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></h4>
+<h5>To restore factory settings proceed as follows:</h5>
 <ul>
-<li>Reset the device while pressing switch S1. </li>
-<li>You can reset via the <em>Reboot Now</em> button, by cycling power, or by 
-momentary connecting pin 1 &amp; 3 on JP1</li>
-<li>Wait until the 3 LEDs flash rapidly, after about 4-5 seconds.</li>
+<li>Press and hold switch S1 </li>
+<li>Press the RESET switch momentarily or cycle power.</li>
+<li>Wait 5 seconds, until the 3 LEDs flash rapidly.</li>
 <li>Release switch S1. </li>
 </ul>
-
-<p> The device will re-start with the following connection defaults:</p>
+<p> The device will re-start with the following defaults:</p>
 <ol>
 <li>WIFI SSID : <b>linksys</b></li>
 <li>WIFI encryption : <b>None</b></li>
@@ -23,31 +21,22 @@ momentary connecting pin 1 &amp; 3 on JP1</li>
 <li>Login Username : <b>admin</b></li>
 <li>Login Password : <b>admin</b></li>
 </ol>
-
-
-<p>To configure WiFi and TCP/IP settings via the USB link proceed as follows:</p>
+<h5>To configure WiFi &amp TCP/IP settings via USB proceed as follows:</h5>
 <ul>
-<li>Connect the device to a PC via the USB link. </li>
-<li>Using a terminal emulator configured to 38.4kbd,8N1, connect to the appropriate COM port.</li>
-<li>While pressing switch S1, Reset the device by momentarily connecting JP1 pin 1 
-&amp; 3.</li>
+<li>Connect the device to a PC via the USB link, see device driver footnote. </li>
+<li>Verify that the USB COM port has been added to the system.</li>
+<li>Connect to the COM port with a terminal emulator set to 38.4Kbd,8N,1,NoHS.</li>
+<li>Press and hold switch S1</li>
+<li>Press the RESET switch momentarily or use the "Reboot Now" button.</li>
 <li>Release switch S1 after the initial flash of the 3 LEDs.</li>
-	<li>A menu is displayed that allows you to configure the essential WiFi and 
-	TCP/IP settings.</li>
+<li>A menu is displayed that allows you to configure the essential WiFi &amp TCP/IP settings.</li>
 </ul>
-<!--
-	<p>During the regular boot process the device displays the current connection parameters via its USB COM port.
- Use a terminal emulator program configured to 38.4kbd, 8N1 to connect.</p>
-<p>&dagger; In order for your PC to connect to the USB port you need to install 
-the appropriate VCP driver kit from&nbsp;
-<a href="http://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx">
-http://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx</a></p>
--->
-
-	<hr/>
-	<form name ="frmRst" method="POST" action="ipcfg.htm">
+<p>&dagger; In order for your PC to connect to the USB port you need to install: &nbsp;
+<a href="http://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx">USB Device Driver</a></p>
+<hr/>
+<form name ="frmRst" method="POST" action="ipcfg.htm">
 	<input type="hidden" name="Reboot" value="Now"/>
 	<label> </label> <input type="submit" value="Reboot Now"/>
-	</form>
+</form>
 </body>
 </html>

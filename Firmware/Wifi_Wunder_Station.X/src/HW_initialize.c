@@ -1,6 +1,7 @@
 #include "TCPIP Stack/TCPIP.h"
 #include "rtcc.h"
 #include "wind_rain_cnt.h"
+#include "Mail_Alarm.h"
 #include "HW_initialize.h"
 /****************************************************************************
   Function:
@@ -42,11 +43,11 @@ InitializeBoard(void)
     IN2_TRIS = 1;
     IN3_TRIS = 1;
     IN4_TRIS = 1;
-    IN5_TRIS = 1;
-    IN6_TRIS = 1; // Alarm 1
-    IN7_TRIS = 1; // Alarm 2
-    IN8_TRIS = 1; // Alarm 3
-    IN9_TRIS = 1; // Alarm 4
+    IN5_TRIS = 1; // Alarm 1
+    IN6_TRIS = 1; // Alarm 2
+    IN7_TRIS = 1; // Alarm 3
+    IN8_TRIS = 1; // Alarm 4
+    IN9_TRIS = 1; // Alarm 5
 
 
 
@@ -56,23 +57,24 @@ InitializeBoard(void)
     {
 	//setup and call bootloader
 	RCON = 0;
-	asm("goto 0x400");
+	asm("goto 0x400");  // The entry point of the bootloader
     }
 
 
     // pic24FJ128GA008 has no pulldown register defined in linker file !! I assume they are missing
-    // Enable pulldown on the 4 Change notification inputs we are going to use for alarms
-   /* CNPU2bits.CN16PUE=1; // pull down on CN16, RD7 input
-    CNPU1bits.CN15PUE = 1;// CN15, RD6
-    CNPU1bits.CN14PUE = 1;// CN14, RD5
-    CNPU1bits.CN13PUE = 1;// CN13 RD4
-    // There are two more possibilitues CN19 on RD13, SV2 pin6 and CN12, RB15 on SV1, pin10
-*/
-    // enable the change notification interypt on 4 inputs
-    CNEN2bits.CN16IE =1;    // Enable port CN16 interrupt feature on RD7
-    CNEN1bits.CN15IE =1;    // "" 
-    CNEN1bits.CN14IE =1;    // ""
-    CNEN1bits.CN13IE =1;    // ""
+    // Enable pulldown on the 5 Change notification inputs we are going to use for alarms
+#if defined(__PIC24FJ256GA108__)
+    CNPD2bits.CN16PDE =1;
+    CNPD2bits.CN19PDE =1;
+    CNPD1bits.CN13PDE =1;
+    CNPD1bits.CN14PDE =1;
+    CNPD1bits.CN15PDE =1;
+#endif
+
+
+     // enable the change notification interupt on 5 inputs used for Alarms
+    SMTP_Alarm_Arm(1);
+   
 
 
     IFS1bits.CNIF =0;       // clear Change Notification interrupt flag
@@ -88,7 +90,6 @@ InitializeBoard(void)
      IO5_TRIS = 1;
      IO6_TRIS = 1;
      IO7_TRIS = 1;
-
 
 
     // All outputs on SV3
@@ -120,6 +121,8 @@ InitializeBoard(void)
 
 
     // ADC
+    // The ADC of this device is autmatically taking samples and storing them in an ADCBUFFER
+    // No ISR or other code is required once the autmatic scan is started. 
     AD1CON1bits.FORM = 0; // data form is unsigned integer
     AD1CON1bits.SSRC = 0x7; // conversion trigger internal counter/ autoconvert
     AD1CON1bits.ASAM = 1; // A/D Sample Auto-Start Mode  1 = Sampling begins immediately after last conversion

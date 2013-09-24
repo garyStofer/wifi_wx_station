@@ -77,7 +77,7 @@ Once_perSecTask(void)
      }
 
     SensorReading.SolRad = (short) (((float) SOL_ADCBUFF * WX.Calib.Sol_gain) / 1000.0);
-    SensorReading.Plus5V = PWR_5V_ADCBUFF * (3.3/1024*2); // ADC is referenced of the 3.3V PS , AN5 input has 2:1 voltage divider
+ 
 
     // The Wind Speed:
     // Davis Cup anemometer conversion to MPH is 2.25 x revolution/sec
@@ -134,7 +134,7 @@ Once_perSecTask(void)
     // Winddir_min_ADC and Winddir_max_adc are calibrated values considering the variance in 5V from the powersupply
     // and voltage losses/offset on the cable to the wind vane
 
-    s_tmp = (WIND_ADCBUFF - WX.Calib.WDir_min)* 360.0 / WX.Calib.WDir_max ; //This is from the PWM of the magnetic rotary encoder
+    s_tmp = (WIND_ADCBUFF - WX.Calib.WDir_min)* 360.0 /( WX.Calib.WDir_max - WX.Calib.WDir_min); //This is from the PWM of the magnetic rotary encoder
 
     // precautions
     if (s_tmp > 360)

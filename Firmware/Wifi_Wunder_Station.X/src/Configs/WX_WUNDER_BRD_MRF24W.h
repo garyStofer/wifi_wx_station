@@ -87,24 +87,26 @@
 #define IN4_IN                          (PORTDbits.RD12)
 #define IN5_TRIS			(TRISDbits.TRISD13)
 #define IN5_OUT				(LATDbits.LATD13)
-#define IN5_IN                          (PORTDbits.RD13)
+#define IN5_IN                          (PORTDbits.RD13)        // Alarm#1, SV2:6
 #define IN6_TRIS			(TRISDbits.TRISD4)
 #define IN6_OUT				(LATDbits.LATD4)
-#define IN6_IN                          (PORTDbits.RD4)
+#define IN6_IN                          (PORTDbits.RD4)         // Alarm#2, SV2:7
 #define IN7_TRIS			(TRISDbits.TRISD5)
 #define IN7_OUT				(LATDbits.LATD5)
-#define IN7_IN                          (PORTDbits.RD5)
+#define IN7_IN                          (PORTDbits.RD5)         // Alarm#3, SV2:8
 #define IN8_TRIS			(TRISDbits.TRISD6)
 #define IN8_OUT				(LATDbits.LATD6)
-#define IN8_IN                          (PORTDbits.RD6)
+#define IN8_IN                          (PORTDbits.RD6)         // Alarm#4, SV2:9
 #define IN9_TRIS			(TRISDbits.TRISD7)      // SV2 pin 10
 #define IN9_OUT				(LATDbits.LATD7)
-#define IN9_IN                          (PORTDbits.RD7)
+#define IN9_IN                          (PORTDbits.RD7)         //Alarm#5, SV2:10
 
-#define ALARM_1_input  IN6_IN
-#define ALARM_2_input  IN7_IN
-#define ALARM_3_input  IN8_IN
-#define ALARM_4_input  IN9_IN
+#define ALARM_1_input  IN5_IN
+#define ALARM_2_input  IN6_IN
+#define ALARM_3_input  IN7_IN
+#define ALARM_4_input  IN8_IN
+#define ALARM_5_input  IN9_IN
+
 
 // Outputs on SV2
 #define OUT0_TRIS			(TRISFbits.TRISF0)	// SV3 Pin1
@@ -250,6 +252,11 @@
 
 #define WIND_COUNTER  TMR2    // the count the anemometer generates in one second as captured by the RTCC one second interrupt
 #define RAIN_COUNTER  TMR4    // The count the Rain bucket generates in the Rain Measure Interval
+
+#define ADC_R1 (14.0)          // Voltage divider R1 on external ADC inputs
+#define ADC_R2 ( 26.1 )         // Voltage divider R2 on external ADC inputs
+#define ADC_SCALE ((ADC_R1+ADC_R2) / ADC_R2)
+
 
 #define SOL_ADCBUFF  ADC1BUF3
 #define WIND_ADCBUFF ADC1BUF4

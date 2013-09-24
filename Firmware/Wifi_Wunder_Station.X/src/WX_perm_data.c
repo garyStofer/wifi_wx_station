@@ -76,10 +76,10 @@ void WX_perm_data_init_toDefault( void)
    WX.Calib.WDir_min = 1023;
    
    WX.Mail.port = 25;
-   WX.Wunder.UplnkInterval =60;
-   WX.Wunder.TZ_offset =-8;
-   WX.Calib.Wind_counts = 7;
-   WX.Calib.Wind_AN_CalFactor = AN_CAL_FACTOR;
+   WX.Wunder.UplnkInterval = UPLINK_INTERVAL_DEFAULT;
+   WX.Wunder.TZ_offset = GMT_TZ_OFFSET_DEFAULT;
+   WX.Calib.Wind_counts = WIND_COUNT_CAL_DEFAULT;
+   WX.Calib.Wind_AN_CalFactor = AN_CAL_FACTOR_DEFAULT;
    WX_writePerm_data();
 }
 

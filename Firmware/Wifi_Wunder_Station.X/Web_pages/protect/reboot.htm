@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <link href="../styles.css" rel="stylesheet" type="text/css" >
@@ -14,23 +14,22 @@ function rebootDummy(x){}
 <p><b>Your board is located at: 
 <a  href="http://~rebootaddr~/">http://~rebootaddr~</a></b></p>
 <p>Wait for the reboot process to complete.</p>
-<p>On a LAN connection the browser will automatically reload  in about 10 seconds.</p>
+<p>On a LAN connection the browser will automatically reload in about 10 seconds.</p>
 <p>On a WAN connection you need to reload manually after the connection request timed out.</p>
 <h5>Note on Windows NETBIOS name caching</h5>
 <p>
-Windows caches the IP address associated with the NETBIOS names. If the device has changed it's IP address during the reboot a Windows computer will not connect to the board via its name until the cache has been refreshed. The brute force metod to reload the cache is to reboot the windows computer.
+Windows caches the IP address associated with the NETBIOS names. If the device has changed it's IP address during the reboot a Windows computer will not connect
+to the board via its name until the cache has been refreshed. The brute force method to reload the cache is to reboot the Windows computer.
  A slightly better option is to run the following command from a cmd window:<b> nbtstat -R</b>. </p>
 <p>
 Depending on the browser used, you might also need to clear the browser history after clearing the windows cache.
 </p>
- <h5>Note on Browser Server Name Completion</h5>
- 
+<h5>Note on Browser Server Name Completion</h5>
 <p>Some Browsers have a <em>Server Name Completion</em> feature which 
 automatically adds "www" and&nbsp; ".com, .net, etc" to a web address when the 
 site takes too long to respond. This can yield unexpected results. If you see a 
-unrelated website pop up while the browser is waiting for the weather station to 
-reboot this <em>feature</em> most likely is at work. You can most likely turn 
-the feature of in the affected browser. ( Opera, Firefox, Chrome ).</p>
- 
+unrelated web-site pop up while the browser is waiting for the weather station to
+reboot this <em>feature</em> most likely is at work. You can usually turn
+this feature off in the browser settings. ( Opera, Firefox, Chrome ).</p>
 </body>
 </html>
