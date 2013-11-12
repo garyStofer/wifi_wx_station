@@ -308,7 +308,7 @@ putrsUART((ROM char*) "WU socket buffer too small\r\n");
                         len += WX_TCPPut(MySocket, msgDeliniter);
 
 if(TCPIsPutReady(MySocket) < 1u)
-    putrsUART((ROM char*) "TCP was not put-ready -- ovl?");
+    putrsUART((ROM char*) "TCP was not put-ready -- overflow?");
                         
                         if (len >= 512 )
                         {

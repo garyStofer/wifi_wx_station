@@ -62,7 +62,7 @@
         <itemPath>src/Barometer.c</itemPath>
         <itemPath>src/BMP085_Baro.c</itemPath>
       </logicalFolder>
-      <logicalFolder name="TCPIP" displayName="TCPIP" projectFiles="true">
+      <logicalFolder name="TCPIP" displayName="Satck" projectFiles="true">
         <logicalFolder name="Include" displayName="Include" projectFiles="true">
           <logicalFolder name="TCPIP Stack" displayName="TCPIP Stack" projectFiles="true">
             <itemPath>../TCPIP/Include/TCPIP Stack/AES.h</itemPath>
@@ -897,7 +897,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories" value="..\TCPIP\Include;src"/>
         <property key="isolate-each-function" value="false"/>
-        <property key="optimization-level" value="0"/>
+        <property key="optimization-level" value="1"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value="CFG_INCLUDE_WX_WUNDER"/>

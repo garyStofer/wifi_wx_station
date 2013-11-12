@@ -77,7 +77,8 @@ I2C1_Xfer(I2C_mode mode, unsigned char data)
             //IEC1bits.SI2C1IE = n;
             //IEC1bits.MI2C1IE = n;
 
-            I2C1BRG = I2c_100Khz;
+           // I2C1BRG = I2c_100Khz;
+            I2C1BRG = I2c_Slow_Clock;
             I2C1CON = I2C_ON ; // Enable the peripheral
             IEC1bits.SI2C1IE = 0;
             IEC1bits.MI2C1IE = 0;

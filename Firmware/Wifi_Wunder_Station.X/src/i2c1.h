@@ -14,6 +14,7 @@ extern "C" {
 
 #define I2C_READ_ADDR 0x1
 #define I2c_100Khz 140
+#define I2c_Slow_Clock 0x1ff
 
 typedef enum {
     Start = 0,

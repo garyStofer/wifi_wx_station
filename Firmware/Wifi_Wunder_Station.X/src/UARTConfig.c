@@ -70,7 +70,7 @@ DoUARTConfig(void)
     {
         // Display the menu
         putrsUART("\fWiFi  &  TCP-IP configuration utility\r\n\n");
-
+        putrsUART("0: Reset Security mode and DHCP\r\n");
         putrsUART("1: Change WiFi SSID:(");
         putsUART((char *) AppConfig.MySSID);
         putrsUART(")\r\n");
@@ -92,7 +92,7 @@ DoUARTConfig(void)
             putrsUART(")\r\n");
         }
 
-        putrsUART("\r\nS: Save & Quit.");
+        putrsUART("\r\nS: Save & Reboot.");
         putrsUART("\r\nE: Exit without saving.");
         putrsUART("\r\nEnter a menu choice: ");
 
@@ -103,7 +103,12 @@ DoUARTConfig(void)
         putrsUART((ROM char*) "\r\n\n");
 
         // Execute the user selection
-        switch (ReadUART()) {
+        switch (ReadUART())
+        {
+            case '0':
+                 AppConfig.SecurityMode = WF_SECURITY_OPEN;
+                 AppConfig.Flags.bIsDHCPEnabled = 1;
+                break;
             case '1':
                 putrsUART("New SSID: ");
                 ReadStringUART(response, sizeof (response) > sizeof (AppConfig.MySSID) ? sizeof (AppConfig.MySSID) : sizeof (response));
@@ -130,6 +135,7 @@ DoUARTConfig(void)
                 AppConfig.Flags.bIsDHCPEnabled = !AppConfig.Flags.bIsDHCPEnabled;
                 break;
 
+
             case '4':
                 destIPValue = &AppConfig.MyIPAddr;
                 goto ReadIPConfig;
@@ -139,6 +145,8 @@ DoUARTConfig(void)
                 goto ReadIPConfig;
 
 ReadIPConfig:
+            if (!AppConfig.Flags.bIsDHCPEnabled )
+            {
                 putrsUART("New setting: ");
                 ReadStringUART(response, sizeof (response));
 
@@ -146,7 +154,7 @@ ReadIPConfig:
                     destIPValue->Val = tempIPValue.Val;
                 else
                     putrsUART("Invalid input.\r\n");
-
+            }
                 break;
 
            case 'E':

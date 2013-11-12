@@ -186,6 +186,7 @@ short g_isPSK_Ready = 0;
 
 main(void)
 {
+    unsigned short WiFi_con_watchdog;  // This is a work around for the problem when the WIFI board crashes and stops sending interrupts
     g_isPSK_Ready = 0;
 
 
@@ -205,8 +206,10 @@ main(void)
 
     putrsUART("\f");
     putrsUART("*** WiFi Wunder Weather Station ***\r\n\r\n");
-    putrsUART("To restore factury defaults press and hold S1 for > 4 seconds during reset.\r\n");
+    putrsUART("To restore factory defaults press and hold S1 for > 4 seconds during reset.\r\n");
     putrsUART("To enter configuration utility press and hold S1 for < 4 seconds during reset.\r\n\r\n");
+
+    All_LEDS_off();
 
     // Resets board to factory values if button is depressed on startup and allows UART based communication configuration
     if (BUTTON1_IO == 0u)
@@ -214,7 +217,6 @@ main(void)
 #if defined(EEPROM_CS_TRIS) || defined(SPIFLASH_CS_TRIS)
         // Invalidate the EEPROM contents if BUTTON0 is held down for more than 4 seconds
         DWORD StartTime = TickGet();
-        All_LEDS_off();
 
         while (BUTTON1_IO == 0u)
         {
@@ -243,6 +245,8 @@ main(void)
         DoUARTConfig(); // This is a RS232 based configuration option
 
     }
+
+   
 //  WX_perm_data_init_toDefault();  To force the default config during debugging
     WX_readPerm_data(); // Get the station NV data from EEprom
 
@@ -252,7 +256,7 @@ main(void)
     putrsUART(",");
     putsUART(WX.Station.password);
     putrsUART("\r\n");
-    putrsUART("Netbios name:");putsUART(AppConfig.NetBIOSName);
+    putrsUART("Netbios name: ");putsUART(AppConfig.NetBIOSName);
     putrsUART("\r\n\r\n");
    
 
@@ -262,27 +266,7 @@ main(void)
     StackInit(); // Initialize core stack layers (MAC, ARP, TCP, UDP) and application modules (HTTP, SNMP, etc.)
 
     WF_Connect();
-
-#if defined(STACK_USE_ZEROCONF_LINK_LOCAL)
-    ZeroconfLLInitialize();
-#endif
-
-#if defined(STACK_USE_ZEROCONF_MDNS_SD)
-    mDNSInitialize(MY_DEFAULT_HOST_NAME);
-    mDNSServiceRegister(
-            (const char *) "DemoWebServer", // base name of the service
-            "_http._tcp.local", // type of the service
-            80, // TCP or UDP port, at which this service is available
-            ((const BYTE *) "path=/index.htm"), // TXT info
-            1, // auto rename the service when if needed
-            NULL, // no callback function
-            NULL // no application context
-            );
-
-    mDNSMulticastFilterRegister();
-#endif
-
-
+    WiFi_con_watchdog = 0;
     putrsUART("\r\nInit complete... waiting for WiFi connection...\r\n");
 
     if (AppConfig.SecurityMode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
@@ -292,7 +276,7 @@ main(void)
         putrsUART("Waiting for WPA Passphrase encryption.....\r\nThis takes about 1 Minute. Do not interrupt!.\r\n");
     }
 
-    All_LEDS_off();
+ 
     SMTP_Alarm_Arm( WX.Alarms.enable & 0x1); // ARM or Disarm
  
     // Begin of the co-operative multitasking loop.
@@ -301,15 +285,21 @@ main(void)
         // This task performs normal stack task including checking
         // for incoming packet, type of packet and calling
         // appropriate stack entity to process it.
-        StackTask();
-
+        StackTask();        // StackTask also calls MACProcess which in tems calls WFProcess
 
         if (!WiFi_isConnected()) // if there is no WIFI connection there is no use to do anything else
         {
              DelayMs(25);// blink fast
              LED1_IO ^= 1;
+             if ( WiFi_con_watchdog++ > 24000) // That's 10 minues worth of (25ms) delays with no connection
+             {
+                 putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting WiFi adapter. \r\n");
+                 WF_Connect();      // Reboot  wifi connection from scratch
+                 WiFi_con_watchdog = 0;
+             }
              continue;
         }
+
 #if defined (WF_USE_POWER_SAVE_FUNCTIONS)
 #if !defined(MRF24WG)
         if (gRFModuleVer1209orLater)
