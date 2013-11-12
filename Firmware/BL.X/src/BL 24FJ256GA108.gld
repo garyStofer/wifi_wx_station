@@ -12,11 +12,11 @@ EXTERN(__resetALT)
 */
 MEMORY
 {
-  data  (a!xr)   : ORIGIN = 0x800,         LENGTH = 0x4000
+ /* data  (a!xr)   : ORIGIN = 0x800,         LENGTH = 0x4000 */
   reset          : ORIGIN = 0x0,           LENGTH = 0x4
   ivt            : ORIGIN = 0x4,           LENGTH = 0xFC
   aivt           : ORIGIN = 0x104,         LENGTH = 0xFC
-  program (xr) : ORIGIN = 0x400,         LENGTH = 0x800 /*start & length of BL*/
+  program (xr) : ORIGIN = 0x400,         LENGTH = 0x600 /*start & length of BL*/
   config4        : ORIGIN = 0x2ABF8,       LENGTH = 0x2
   config3        : ORIGIN = 0x2ABFA,       LENGTH = 0x2
   config2        : ORIGIN = 0x2ABFC,       LENGTH = 0x2
@@ -107,12 +107,12 @@ SECTIONS
   ** the ICD2 debugger. Define a global symbol
   ** named __ICD2RAM to enable ICD2. This section
   ** must be loaded at data address 0x800.
-  */
+ 
   .icd __DATA_BASE (NOLOAD):
   {
     . += (DEFINED (__ICD2RAM) ? 0x50 : 0 );
   } > data
-
+ */
 
   /*
   ** Other sections in data memory are not explicitly mapped.

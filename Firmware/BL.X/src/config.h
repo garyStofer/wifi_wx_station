@@ -70,12 +70,12 @@
 #define USE_BOOT_PROTECT	//Use BL block protection 
 #define USE_RUNAWAY_PROTECT	//Provide runaway code protection using program flow
 //#define USE_CONFIGWORD_PROTECT	//Protect last page from writes/erases
-//#define USE_VECTOR_PROTECT  //Use Reset and IVT protection
+//#define USE_VECTOR_PROTECT    //Use Reset and IVT protection
 #define USE_HI_SPEED_BRG	//Use BRGH=1, UART high speed mode
 //#define USE_WORKAROUNDS	//UART workarounds for device errata
-#define USE_AUTOBAUD      //Use hardware autobaud feature
+#define USE_AUTOBAUD            //Use hardware autobaud feature
 //#define USE_AES //Use encryption
-//#define USE_RESET_SAVE    //Restores the reset vector without using USE_BOOT_PROTECT
+//#define USE_RESET_SAVE        //Restores the reset vector without using USE_BOOT_PROTECT
 
 //Bootloader Operation Configuration
 #define MAJOR_VERSION		0x01	//Bootloader FW version
@@ -83,7 +83,7 @@
 
 #define FCY     16000000	//Instruction clock speed (Fosc/2)
 
-#define UARTNUM     2       //Which device UART to use
+#define UARTNUM     2           //Which device UART to use
 
 #ifndef USE_AUTOBAUD
     #define BAUDRATE    38400
@@ -98,7 +98,7 @@
 
 #define BOOT_ADDR_LOW 		0x400	//start of BL protection area
 #ifndef USE_AES
-	#define BOOT_ADDR_HI  		0xBFF	//end of BL protection area 
+	#define BOOT_ADDR_HI  		0x9FF	//end of BL protection area
 #else
  	#define BOOT_ADDR_HI  		0x13FF	//end of BL protection area ** USE 0x13FF for AES support
 #endif
@@ -150,7 +150,7 @@
 	#define CM_ROW_SIZE 		1		//configuration row size in bytes
 #endif
 
-#if		defined(__PIC24FJ128GA010__)
+#if	defined(__PIC24FJ128GA010__)
 	#define CONFIG_START 		0x157FC	//Flash config word locations for devices
 	#define CONFIG_END   		0x157FE	//w/o config bits
 
@@ -160,16 +160,16 @@
 	#define CONFIG_END   		0x2ABFE
 #elif 	defined(__PIC24FJ256GA108__)
 	#define CONFIG_START 		0x2ABF8
-	#define CONFIG_END 		    0x2ABFE	
+	#define CONFIG_END 		0x2ABFE	
 #elif 	defined(__PIC24FJ128GA008__)
 	#define CONFIG_START 		0x157FC	
-	#define CONFIG_END 		    0x157FE
+	#define CONFIG_END 		0x157FE
 #elif 	defined(__PIC24FJ64GA004__)
 	#define CONFIG_START 		0xABFC	
-	#define CONFIG_END 		    0xABFE	
+	#define CONFIG_END 		0xABFE	
 #elif   defined(__PIC24F16KA102__)
 	#define CONFIG_START 		0xF80000	
-    #define CONFIG_END 		    0xF80010
+        #define CONFIG_END              0xF80010
 #else
     #warning "No config location defined... using default config locations"
 	#define CONFIG_START 		0x157FC	
