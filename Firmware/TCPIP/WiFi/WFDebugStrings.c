@@ -643,7 +643,7 @@ static void WF_OutputSecurityDebugMessage(const APP_CONFIG *p_appcfg)
         p_appcfg->SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
         p_appcfg->SecurityMode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE )
     {
-        putrsUART("WEP PassPhrase:  ");
+        putrsUART("WiFi Password:  ");
         putrsUART( p_appcfg->SecurityKey);putrsUART("\r\n");
     }
 }  
