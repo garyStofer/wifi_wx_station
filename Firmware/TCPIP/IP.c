@@ -261,7 +261,7 @@ WORD IPPutHeader(NODE_INFO *remote,
     header.TypeOfService    = IP_SERVICE;
     header.TotalLength      = sizeof(header) + len;
     header.Identification   = ++_Identifier;
-    header.FragmentInfo     = 0;
+    header.FragmentInfo     = 0x00; // 0x40 == Don't Fragment
     header.TimeToLive       = MY_IP_TTL;
     header.Protocol         = protocol;
     header.HeaderChecksum   = 0;
