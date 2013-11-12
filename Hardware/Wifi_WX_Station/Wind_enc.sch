@@ -115,7 +115,7 @@
 <layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
 <layer number="254" name="cooling" color="7" fill="1" visible="yes" active="yes"/>
 </layers>
-<schematic>
+<schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
 <library name="rcl">
 <packages>
@@ -11384,7 +11384,7 @@ http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
 </classes>
 <parts>
 <part name="U1" library="Stofer" deviceset="AS5030" device=""/>
-<part name="R6" library="rcl" deviceset="R-US_" device="M0805" value="6.8K"/>
+<part name="R6" library="rcl" deviceset="R-US_" device="R0603" value="8.2K"/>
 <part name="C5" library="rcl" deviceset="C-US" device="C0805K" value="1uF"/>
 <part name="C6" library="rcl" deviceset="CPOL-US" device="SMCD" value="330uF/6.3V"/>
 <part name="C1" library="rcl" deviceset="C-US" device="C0805K" value="1uF"/>
@@ -11392,52 +11392,51 @@ http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
 <part name="OUT" library="wifi_WX" deviceset="TP" device="SOL"/>
 <part name="+5V" library="wifi_WX" deviceset="TP" device="SOL"/>
 <part name="GND" library="wifi_WX" deviceset="TP" device="SOL"/>
+<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="6.8K"/>
+<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="26.1k"/>
 </parts>
 <sheets>
 <sheet>
 <plain>
-<text x="38.1" y="96.52" size="1.778" layer="91">5Volt</text>
+<text x="40.64" y="68.58" size="1.778" layer="91">5Volt</text>
 <text x="-30.48" y="66.04" size="1.778" layer="91">GND</text>
 </plain>
 <instances>
 <instance part="U1" gate="G$1" x="7.62" y="55.88"/>
-<instance part="R6" gate="G$1" x="5.08" y="91.44"/>
-<instance part="C5" gate="G$1" x="-22.86" y="81.28"/>
+<instance part="R6" gate="G$1" x="43.18" y="81.28" rot="R180"/>
+<instance part="C5" gate="G$1" x="76.2" y="66.04"/>
 <instance part="C6" gate="G$1" x="33.02" y="48.26"/>
 <instance part="C1" gate="G$1" x="48.26" y="48.26"/>
-<instance part="C2" gate="G$1" x="-12.7" y="81.28"/>
-<instance part="OUT" gate="G$1" x="-30.48" y="91.44"/>
-<instance part="+5V" gate="G$1" x="38.1" y="91.44" rot="R180"/>
+<instance part="C2" gate="G$1" x="58.42" y="66.04"/>
+<instance part="OUT" gate="G$1" x="93.98" y="81.28" rot="R180"/>
+<instance part="+5V" gate="G$1" x="43.18" y="66.04" rot="R180"/>
 <instance part="GND" gate="G$1" x="-30.48" y="71.12"/>
+<instance part="R1" gate="G$1" x="68.58" y="81.28" rot="R180"/>
+<instance part="R2" gate="G$1" x="86.36" y="63.5" rot="R270"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="N$22" class="0">
 <segment>
-<wire x1="-22.86" y1="91.44" x2="-12.7" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="91.44" x2="0" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="-22.86" y1="83.82" x2="-22.86" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="-22.86" y1="91.44" x2="-25.4" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="83.82" x2="-12.7" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="81.28" x2="48.26" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="68.58" x2="58.42" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="1"/>
-<pinref part="C5" gate="G$1" pin="1"/>
 <pinref part="C2" gate="G$1" pin="1"/>
-<pinref part="OUT" gate="G$1" pin="P$1"/>
+<pinref part="R1" gate="G$1" pin="2"/>
+<wire x1="58.42" y1="81.28" x2="63.5" y2="81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$23" class="0">
 <segment>
-<wire x1="10.16" y1="91.44" x2="27.94" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="91.44" x2="27.94" y2="81.28" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="81.28" x2="22.86" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="81.28" x2="22.86" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="2"/>
 <pinref part="U1" gate="G$1" pin="PWM"/>
 </segment>
 </net>
 <net name="N$1" class="0">
 <segment>
-<wire x1="33.02" y1="91.44" x2="33.02" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="66.04" x2="33.02" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="66.04" x2="22.86" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="66.04" x2="33.02" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="55.88" x2="33.02" y2="50.8" width="0.1524" layer="91"/>
@@ -11464,24 +11463,40 @@ http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
 <wire x1="48.26" y1="38.1" x2="33.02" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="38.1" x2="27.94" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="38.1" x2="-22.86" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="-7.62" y1="71.12" x2="-12.7" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="71.12" x2="-22.86" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="-22.86" y1="76.2" x2="-22.86" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="-7.62" y1="71.12" x2="-22.86" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="-25.4" y1="71.12" x2="-22.86" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="-22.86" y1="71.12" x2="-22.86" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="76.2" x2="-12.7" y2="71.12" width="0.1524" layer="91"/>
 <junction x="-22.86" y="71.12"/>
 <junction x="27.94" y="38.1"/>
 <junction x="33.02" y="38.1"/>
-<junction x="-12.7" y="71.12"/>
 <pinref part="U1" gate="G$1" pin="C1"/>
 <pinref part="U1" gate="G$1" pin="C2"/>
 <pinref part="C6" gate="G$1" pin="-"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <pinref part="U1" gate="G$1" pin="VSS"/>
-<pinref part="C5" gate="G$1" pin="2"/>
-<pinref part="C2" gate="G$1" pin="2"/>
 <pinref part="GND" gate="G$1" pin="P$1"/>
+<pinref part="C5" gate="G$1" pin="2"/>
+<wire x1="48.26" y1="38.1" x2="58.42" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="38.1" x2="76.2" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="38.1" x2="76.2" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="58.42" y1="60.96" x2="58.42" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="76.2" y1="38.1" x2="86.36" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="38.1" x2="86.36" y2="58.42" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="OUT" gate="G$1" pin="P$1"/>
+<wire x1="76.2" y1="81.28" x2="86.36" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="81.28" x2="88.9" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="68.58" x2="76.2" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="1"/>
+<pinref part="R1" gate="G$1" pin="1"/>
+<wire x1="73.66" y1="81.28" x2="76.2" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="R2" gate="G$1" pin="1"/>
+<wire x1="86.36" y1="68.58" x2="86.36" y2="81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

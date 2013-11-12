@@ -2451,10 +2451,10 @@ design rules under a new name.</description>
 <element name="R5" library="rcl" package="R0603" value="8.2k" x="25.7175" y="24.4475" smashed="yes">
 <attribute name="NAME" x="24.765" y="22.225" size="0.889" layer="25"/>
 </element>
-<element name="R6" library="rcl" package="R0603" value="26.1k" x="30.4165" y="25.4" smashed="yes" rot="R90">
+<element name="R6" library="rcl" package="R0603" value="26.1K" x="30.4165" y="25.4" smashed="yes" rot="R90">
 <attribute name="NAME" x="31.0515" y="27.305" size="0.889" layer="25" rot="R90"/>
 </element>
-<element name="C9" library="rcl" package="C0805" value="2.2uF" x="28.321" y="25.4" smashed="yes" rot="R270">
+<element name="C9" library="rcl" package="C0805" value="0.1uF" x="28.321" y="25.4" smashed="yes" rot="R270">
 <attribute name="NAME" x="27.559" y="21.2725" size="1.016" layer="25" rot="R90"/>
 </element>
 <element name="R13" library="rcl" package="R0603" value="2.2K" x="26.9875" y="29.5275" smashed="yes" rot="MR0">
