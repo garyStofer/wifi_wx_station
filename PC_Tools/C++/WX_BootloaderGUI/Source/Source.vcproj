@@ -191,7 +191,7 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="..\..\..\NET.C#\Pic24BL\bin\Release\PIC_BOOTLOADER.dll"
+			RelativePath="..\..\..\C#\Pic24BL\bin\Release\PIC_BOOTLOADER.dll"
 			AssemblyName="PIC_BOOTLOADER, Version=1.0.0.0, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
 		/>
