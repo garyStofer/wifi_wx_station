@@ -293,9 +293,9 @@ main(void)
              LED1_IO ^= 1;
              if ( WiFi_con_watchdog++ > 24000) // That's 10 minues worth of (25ms) delays with no connection
              {
-                 putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting WiFi adapter. \r\n");
-                 WF_Connect();      // Reboot  wifi connection from scratch
-                 WiFi_con_watchdog = 0;
+                 putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting. \r\n");
+                 Reset(); // This would get triggert in case there is no connection with a accesspoint for >10 min.
+                          // This can also be the case if the Wifi Adapter crahes internally 
              }
              continue;
         }

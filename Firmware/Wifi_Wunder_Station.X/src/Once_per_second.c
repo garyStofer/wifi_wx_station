@@ -108,7 +108,7 @@ Once_perSecTask(void)
     SensorReading.Wind_gust = gust;
 
     // collect the 10 minute peak
-    if (sec_count%WIND_GUST_INTERVAL == 0)   // happenes once every WIND_GUST_INTERVAL time
+    if (sec_count%WIND_GUST_INTERVAL == 0)   // happens once every WIND_GUST_INTERVAL time
     {
         WindGustSamples10Min[Gust10min_ndx++ ] = gust;
         if (Gust10min_ndx  >= Long_gust_seconds/WIND_GUST_INTERVAL)

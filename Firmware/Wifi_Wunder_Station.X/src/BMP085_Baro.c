@@ -118,7 +118,13 @@ BMP085_Read_Process(void )
     static BOOL bus_err = FALSE;        // in case the device becomes unresponsive - i.e. unplugged
 
     if (bus_err) // Disable the device from further reads if it failed to init
+    {
+        // set impossible values
+        SensorReading.TempC =0;
+        SensorReading.TempF = 0;
+        SensorReading.BaromIn = 0;
         return;
+    }
 
     switch (ThisState)
     {

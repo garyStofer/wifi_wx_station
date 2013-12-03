@@ -125,7 +125,13 @@ HP03_Read_Process(void )
     } D2, D1; // D2 = raw Temperatur data , D1 = Raw Pressure data
 
     if (bus_err) // Disable the device from further reads if it failed to init
+    {
+        // set impossible values 
+        SensorReading.TempC =0;
+        SensorReading.TempF = 0;
+        SensorReading.BaromIn = 0;
         return;
+    }
 
     switch (ThisState)
     {

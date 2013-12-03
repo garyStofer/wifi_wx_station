@@ -109,11 +109,17 @@ I2C1_Xfer(I2C_mode mode, unsigned char data)
             // No interrupt is generated -- return immediatly
             return 0;
     }
-// TODO :: need guard timeout if i2C can not complete transaction
+
     /* wait for interrupt flag indicating completion of transaction  */
+    // TODO: might need to revisit this course of action when I2C is failing to respond --
+    // Could also do a break nad return with NO ACK instead or Reboot()
+    DWORD StartTime = TickGet();
     while (IFS1bits.MI2C1IF == 0)
     {
-
+        if (TickGet() - StartTime > TICK_SECOND) //  guard timeout if i2C can not complete transaction for some reason.
+        {                                        //  i.e sensor got pulled off or is failing to respond
+              Reset();         // Issue a hardware reset so that the system can reboot and continue reporting without the I2C sensors
+        }
     }
 
     IFS1bits.MI2C1IF = 0; // and clear flag again

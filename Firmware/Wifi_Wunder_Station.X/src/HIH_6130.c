@@ -67,8 +67,11 @@ HIH6130_Read_Process(void )
     } ADC_TEMP;
 
     if (HIH6130_BusErr )    // Device did not init or failed
+    {
+        // set impossible values for display
+        SensorReading.RH = SensorReading.DewptF = SensorReading.DewptC =0;
         return;
-
+    }
     switch (ThisState)
     {
         case SM_START:

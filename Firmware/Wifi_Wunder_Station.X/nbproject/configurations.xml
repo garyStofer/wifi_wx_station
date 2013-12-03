@@ -555,7 +555,7 @@
         <property key="heap-size" value=""/>
         <property key="input-libraries" value=""/>
         <property key="linker-symbols" value=""/>
-        <property key="map-file" value="Memory_map"/>
+        <property key="map-file" value="&quot;${DISTDIR}/${IMAGE_TYPE}.map&quot;"/>
         <property key="preprocessor-macros" value=""/>
         <property key="remove-unused-sections" value="false"/>
         <property key="report-memory-usage" value="true"/>
@@ -938,7 +938,7 @@
         <property key="heap-size" value=""/>
         <property key="input-libraries" value=""/>
         <property key="linker-symbols" value=""/>
-        <property key="map-file" value="Memory_map"/>
+        <property key="map-file" value="&quot;${DISTDIR}/${IMAGE_TYPE}.map&quot;"/>
         <property key="preprocessor-macros" value=""/>
         <property key="remove-unused-sections" value="false"/>
         <property key="report-memory-usage" value="true"/>
