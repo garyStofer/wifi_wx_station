@@ -30,12 +30,12 @@
 //    WPCFG_WPCFGDIS &     // Configuration Word Code Page Protection Select bit (Last page(at the top of program memory) and Flash configuration words are not protected)
 //    WPEND_WPENDMEM       // Segment Write Protection End Page Select bit (Write Protect from WPFP to the last page of memory)
 //);
- int CONFIG2 __attribute__((space(prog), address(0x2ABFC))) = 0xF11F ;
+ int CONFIG2 __attribute__((space(prog), address(0x2ABFC))) = 0xF1DF ;
 //_CONFIG2(
 //    POSCMOD_NONE &       // Primary Oscillator Select (Primary oscillator disabled)
 //    IOL1WAY_ON &         // IOLOCK One-Way Set Enable bit (Write RP Registers Once)
 //    OSCIOFNC_ON &        // Primary Oscillator Output Function (OSCO functions as port I/O (RC15))
-//    FCKSM_CSECME &       // Clock Switching and Monitor (Both Clock switching and Fail-safe Clock Monitor are enabled)
+//    FCKSM_CSECMD &       // Clock Switching and Monitor (Both Clock switching and Fail-safe Clock Monitor are disabled)
 //    FNOSC_FRCPLL &       // Oscillator Select (Fast RC oscillator with Postscaler and PLL module (FRCPLL))
 //    IESO_ON              // Internal External Switch Over Mode (IESO mode (Two-speed start-up) enabled)
 //);
