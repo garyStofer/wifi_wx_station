@@ -159,7 +159,7 @@
 	#define CONFIG_START 		0x2ABFA	
 	#define CONFIG_END   		0x2ABFE
 #elif 	defined(__PIC24FJ256GA108__)
-	#define CONFIG_START 		0x2ABF8
+	#define CONFIG_START 		0x2ABF8 // Changed to include a phantom config word 
 	#define CONFIG_END 		0x2ABFE	
 #elif 	defined(__PIC24FJ128GA008__)
 	#define CONFIG_START 		0x157FC	

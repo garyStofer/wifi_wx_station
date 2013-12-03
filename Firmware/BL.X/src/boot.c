@@ -83,7 +83,11 @@ BYTE buffer[MAX_PACKET_SIZE+1];
     #else
     _CONFIG1(JTAGEN_OFF & GWRP_OFF & ICS_PGx2 & FWDTEN_OFF )
     _CONFIG2(POSCMOD_NONE & FNOSC_FRCPLL & OSCIOFNC_ON )
+    #if 	defined(__PIC24FJ256GA108__)
+    _CONFIG3(0xffff )
+    _CONFIG4(0xffff )   // Phantom --Needed for BL so we don't get a false verify error upon BL programing
     #endif
+#endif
 #else
     _FOSCSEL(FNOSC_PRIPLL)
     _FOSC(POSCFREQ_MS & POSCMOD_XT)
