@@ -291,7 +291,10 @@ main(void)
         {
              DelayMs(25);// blink fast
              LED1_IO ^= 1;
-             if ( WiFi_con_watchdog++ > 24000) // That's 10 minues worth of (25ms) delays with no connection
+             if ( WiFi_con_watchdog++ %1000 == 0)
+                 putrsUART("... waiting for WiFi connection...\r\n");
+
+             if ( WiFi_con_watchdog > 24000) // That's 10 minues worth of (25ms) delays with no connection
              {
                  putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting. \r\n");
                  Reset(); // This would get triggert in case there is no connection with a accesspoint for >10 min.
