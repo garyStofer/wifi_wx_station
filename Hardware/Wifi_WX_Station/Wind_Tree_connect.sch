@@ -348,6 +348,64 @@ In this library the device names are the same as the pin names of the symbols, t
 </deviceset>
 </devicesets>
 </library>
+<library name="1AA_Stofer">
+<packages>
+</packages>
+<symbols>
+<symbol name="8.5X11">
+<wire x1="0" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="266.7" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="190.5" width="0.254" layer="94"/>
+<wire x1="0" y1="190.5" x2="266.7" y2="190.5" width="0.254" layer="94"/>
+<wire x1="266.7" y1="190.5" x2="266.7" y2="0" width="0.254" layer="94"/>
+</symbol>
+<symbol name="DOCFIELD">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
+<text x="1.27" y="19.05" size="2.54" layer="94" font="vector">TITLE:</text>
+<text x="1.27" y="11.43" size="2.54" layer="94" font="vector">Document Number:</text>
+<text x="17.78" y="19.05" size="2.54" layer="94" font="vector">&gt;DRAWING_NAME</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="8.5X11">
+<description>Schematic doc frame 8.5 x11"</description>
+<gates>
+<gate name="G$1" symbol="8.5X11" x="0" y="0"/>
+<gate name="G$2" symbol="DOCFIELD" x="165.1" y="0" addlevel="must"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -366,10 +424,13 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
 <part name="SUN" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
+<part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="195.58" y="-33.02" size="3.81" layer="94" ratio="20">WunderWxStation</text>
+<text x="250.19" y="-54.61" size="3.81" layer="94" ratio="20">B.2</text>
 </plain>
 <instances>
 <instance part="SUPPLY20" gate="GND" x="106.68" y="38.1"/>
@@ -380,6 +441,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="SUPPLY1" gate="GND" x="152.4" y="48.26"/>
 <instance part="SUN" gate="A" x="142.24" y="45.72"/>
 <instance part="SUPPLY2" gate="GND" x="132.08" y="38.1"/>
+<instance part="U$1" gate="G$1" x="-5.08" y="-60.96"/>
+<instance part="U$1" gate="G$2" x="160.02" y="-60.96"/>
 </instances>
 <busses>
 </busses>

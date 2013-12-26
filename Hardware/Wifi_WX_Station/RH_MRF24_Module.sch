@@ -12265,10 +12265,10 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <library name="1AA_Stofer">
 <packages>
 <package name="MRF24W">
-<wire x1="0" y1="0" x2="0" y2="31" width="0.127" layer="21"/>
-<wire x1="0" y1="31" x2="21" y2="31" width="0.127" layer="21"/>
+<wire x1="-0.127" y1="0" x2="-0.127" y2="31" width="0.127" layer="21"/>
+<wire x1="-0.127" y1="31" x2="21" y2="31" width="0.127" layer="21"/>
 <wire x1="21" y1="31" x2="21" y2="0" width="0.127" layer="21"/>
-<wire x1="21" y1="0" x2="0" y2="0" width="0.127" layer="21"/>
+<wire x1="21" y1="0" x2="-0.127" y2="0" width="0.127" layer="21"/>
 <wire x1="17" y1="-9" x2="-11" y2="-9" width="0.127" layer="39"/>
 <wire x1="-11" y1="-9" x2="-11" y2="10" width="0.127" layer="39"/>
 <wire x1="-11" y1="10" x2="17" y2="10" width="0.127" layer="39"/>
@@ -12294,24 +12294,24 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <wire x1="20.32" y1="5.08" x2="17.78" y2="5.08" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="1.27" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="0.635" width="0.127" layer="21"/>
-<smd name="1" x="0" y="29.21" dx="0.8" dy="0.85" layer="1"/>
-<smd name="2" x="0" y="27.94" dx="0.8" dy="0.85" layer="1"/>
-<smd name="3" x="0" y="26.67" dx="0.8" dy="0.85" layer="1"/>
-<smd name="4" x="0" y="25.4" dx="0.8" dy="0.85" layer="1"/>
-<smd name="5" x="0" y="24.13" dx="0.8" dy="0.85" layer="1"/>
-<smd name="6" x="0" y="22.86" dx="0.8" dy="0.85" layer="1"/>
-<smd name="7" x="0" y="21.59" dx="0.8" dy="0.85" layer="1"/>
-<smd name="8" x="0" y="20.32" dx="0.8" dy="0.85" layer="1"/>
-<smd name="9" x="0" y="19.05" dx="0.8" dy="0.85" layer="1"/>
-<smd name="10" x="0" y="17.78" dx="0.8" dy="0.85" layer="1"/>
-<smd name="11" x="0" y="16.51" dx="0.8" dy="0.85" layer="1"/>
-<smd name="12" x="0" y="15.24" dx="0.8" dy="0.85" layer="1"/>
-<smd name="13" x="0" y="13.97" dx="0.8" dy="0.85" layer="1"/>
-<smd name="14" x="0" y="12.7" dx="0.8" dy="0.85" layer="1"/>
-<smd name="15" x="0" y="11.43" dx="0.8" dy="0.85" layer="1"/>
-<smd name="16" x="0" y="10.16" dx="0.8" dy="0.85" layer="1"/>
-<smd name="17" x="0" y="8.89" dx="0.8" dy="0.85" layer="1"/>
-<smd name="18" x="0" y="7.62" dx="0.8" dy="0.85" layer="1"/>
+<smd name="1" x="-0.127" y="29.21" dx="0.8" dy="0.85" layer="1"/>
+<smd name="2" x="-0.127" y="27.94" dx="0.8" dy="0.85" layer="1"/>
+<smd name="3" x="-0.127" y="26.67" dx="0.8" dy="0.85" layer="1"/>
+<smd name="4" x="-0.127" y="25.4" dx="0.8" dy="0.85" layer="1"/>
+<smd name="5" x="-0.127" y="24.13" dx="0.8" dy="0.85" layer="1"/>
+<smd name="6" x="-0.127" y="22.86" dx="0.8" dy="0.85" layer="1"/>
+<smd name="7" x="-0.127" y="21.59" dx="0.8" dy="0.85" layer="1"/>
+<smd name="8" x="-0.127" y="20.32" dx="0.8" dy="0.85" layer="1"/>
+<smd name="9" x="-0.127" y="19.05" dx="0.8" dy="0.85" layer="1"/>
+<smd name="10" x="-0.127" y="17.78" dx="0.8" dy="0.85" layer="1"/>
+<smd name="11" x="-0.127" y="16.51" dx="0.8" dy="0.85" layer="1"/>
+<smd name="12" x="-0.127" y="15.24" dx="0.8" dy="0.85" layer="1"/>
+<smd name="13" x="-0.127" y="13.97" dx="0.8" dy="0.85" layer="1"/>
+<smd name="14" x="-0.127" y="12.7" dx="0.8" dy="0.85" layer="1"/>
+<smd name="15" x="-0.127" y="11.43" dx="0.8" dy="0.85" layer="1"/>
+<smd name="16" x="-0.127" y="10.16" dx="0.8" dy="0.85" layer="1"/>
+<smd name="17" x="-0.127" y="8.89" dx="0.8" dy="0.85" layer="1"/>
+<smd name="18" x="-0.127" y="7.62" dx="0.8" dy="0.85" layer="1"/>
 <smd name="19" x="20.955" y="7.62" dx="0.8" dy="0.85" layer="1"/>
 <smd name="20" x="20.955" y="8.89" dx="0.8" dy="0.85" layer="1"/>
 <smd name="21" x="20.955" y="10.16" dx="0.8" dy="0.85" layer="1"/>

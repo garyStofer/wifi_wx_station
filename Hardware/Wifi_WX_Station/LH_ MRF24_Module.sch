@@ -12265,10 +12265,10 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <library name="1AA_Stofer">
 <packages>
 <package name="MRF24W">
-<wire x1="0" y1="0" x2="0" y2="31" width="0.127" layer="21"/>
-<wire x1="0" y1="31" x2="21" y2="31" width="0.127" layer="21"/>
+<wire x1="-0.127" y1="0" x2="-0.127" y2="31" width="0.127" layer="21"/>
+<wire x1="-0.127" y1="31" x2="21" y2="31" width="0.127" layer="21"/>
 <wire x1="21" y1="31" x2="21" y2="0" width="0.127" layer="21"/>
-<wire x1="21" y1="0" x2="0" y2="0" width="0.127" layer="21"/>
+<wire x1="21" y1="0" x2="-0.127" y2="0" width="0.127" layer="21"/>
 <wire x1="17" y1="-9" x2="-11" y2="-9" width="0.127" layer="39"/>
 <wire x1="-11" y1="-9" x2="-11" y2="10" width="0.127" layer="39"/>
 <wire x1="-11" y1="10" x2="17" y2="10" width="0.127" layer="39"/>
@@ -12294,24 +12294,24 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <wire x1="20.32" y1="5.08" x2="17.78" y2="5.08" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="1.27" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="0.635" width="0.127" layer="21"/>
-<smd name="1" x="0" y="29.21" dx="0.8" dy="0.85" layer="1"/>
-<smd name="2" x="0" y="27.94" dx="0.8" dy="0.85" layer="1"/>
-<smd name="3" x="0" y="26.67" dx="0.8" dy="0.85" layer="1"/>
-<smd name="4" x="0" y="25.4" dx="0.8" dy="0.85" layer="1"/>
-<smd name="5" x="0" y="24.13" dx="0.8" dy="0.85" layer="1"/>
-<smd name="6" x="0" y="22.86" dx="0.8" dy="0.85" layer="1"/>
-<smd name="7" x="0" y="21.59" dx="0.8" dy="0.85" layer="1"/>
-<smd name="8" x="0" y="20.32" dx="0.8" dy="0.85" layer="1"/>
-<smd name="9" x="0" y="19.05" dx="0.8" dy="0.85" layer="1"/>
-<smd name="10" x="0" y="17.78" dx="0.8" dy="0.85" layer="1"/>
-<smd name="11" x="0" y="16.51" dx="0.8" dy="0.85" layer="1"/>
-<smd name="12" x="0" y="15.24" dx="0.8" dy="0.85" layer="1"/>
-<smd name="13" x="0" y="13.97" dx="0.8" dy="0.85" layer="1"/>
-<smd name="14" x="0" y="12.7" dx="0.8" dy="0.85" layer="1"/>
-<smd name="15" x="0" y="11.43" dx="0.8" dy="0.85" layer="1"/>
-<smd name="16" x="0" y="10.16" dx="0.8" dy="0.85" layer="1"/>
-<smd name="17" x="0" y="8.89" dx="0.8" dy="0.85" layer="1"/>
-<smd name="18" x="0" y="7.62" dx="0.8" dy="0.85" layer="1"/>
+<smd name="1" x="-0.127" y="29.21" dx="0.8" dy="0.85" layer="1"/>
+<smd name="2" x="-0.127" y="27.94" dx="0.8" dy="0.85" layer="1"/>
+<smd name="3" x="-0.127" y="26.67" dx="0.8" dy="0.85" layer="1"/>
+<smd name="4" x="-0.127" y="25.4" dx="0.8" dy="0.85" layer="1"/>
+<smd name="5" x="-0.127" y="24.13" dx="0.8" dy="0.85" layer="1"/>
+<smd name="6" x="-0.127" y="22.86" dx="0.8" dy="0.85" layer="1"/>
+<smd name="7" x="-0.127" y="21.59" dx="0.8" dy="0.85" layer="1"/>
+<smd name="8" x="-0.127" y="20.32" dx="0.8" dy="0.85" layer="1"/>
+<smd name="9" x="-0.127" y="19.05" dx="0.8" dy="0.85" layer="1"/>
+<smd name="10" x="-0.127" y="17.78" dx="0.8" dy="0.85" layer="1"/>
+<smd name="11" x="-0.127" y="16.51" dx="0.8" dy="0.85" layer="1"/>
+<smd name="12" x="-0.127" y="15.24" dx="0.8" dy="0.85" layer="1"/>
+<smd name="13" x="-0.127" y="13.97" dx="0.8" dy="0.85" layer="1"/>
+<smd name="14" x="-0.127" y="12.7" dx="0.8" dy="0.85" layer="1"/>
+<smd name="15" x="-0.127" y="11.43" dx="0.8" dy="0.85" layer="1"/>
+<smd name="16" x="-0.127" y="10.16" dx="0.8" dy="0.85" layer="1"/>
+<smd name="17" x="-0.127" y="8.89" dx="0.8" dy="0.85" layer="1"/>
+<smd name="18" x="-0.127" y="7.62" dx="0.8" dy="0.85" layer="1"/>
 <smd name="19" x="20.955" y="7.62" dx="0.8" dy="0.85" layer="1"/>
 <smd name="20" x="20.955" y="8.89" dx="0.8" dy="0.85" layer="1"/>
 <smd name="21" x="20.955" y="10.16" dx="0.8" dy="0.85" layer="1"/>
@@ -12379,6 +12379,42 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <pin name="SDI" x="38.1" y="-2.54" length="short" rot="R180"/>
 <pin name="GND@8" x="38.1" y="0" length="short" rot="R180"/>
 </symbol>
+<symbol name="8.5X11">
+<wire x1="0" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="266.7" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="190.5" width="0.254" layer="94"/>
+<wire x1="0" y1="190.5" x2="266.7" y2="190.5" width="0.254" layer="94"/>
+<wire x1="266.7" y1="190.5" x2="266.7" y2="0" width="0.254" layer="94"/>
+</symbol>
+<symbol name="DOCFIELD">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
+<text x="1.27" y="19.05" size="2.54" layer="94" font="vector">TITLE:</text>
+<text x="1.27" y="11.43" size="2.54" layer="94" font="vector">Document Number:</text>
+<text x="17.78" y="19.05" size="2.54" layer="94" font="vector">&gt;DRAWING_NAME</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="MR24WB0MA">
@@ -12425,6 +12461,20 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <connect gate="G$1" pin="VDD@2" pad="29"/>
 <connect gate="G$1" pin="WP_" pad="16"/>
 </connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="8.5X11">
+<description>Schematic doc frame 8.5 x11"</description>
+<gates>
+<gate name="G$1" symbol="8.5X11" x="0" y="0"/>
+<gate name="G$2" symbol="DOCFIELD" x="165.1" y="0" addlevel="must"/>
+</gates>
+<devices>
+<device name="">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -12948,10 +12998,13 @@ Standard 10-pin dual row 0.1" header. Commonly used with AVR-ISP. Use with Spark
 <part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="4.7K"/>
 <part name="C3" library="rcl" deviceset="CPOL-US" device="R/2012-12R" value="4.7uF"/>
 <part name="JP1" library="wifi_WX" deviceset="M05X2" device="" value="M05X2"/>
+<part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="109.22" y="-30.48" size="5.08" layer="94" ratio="20">WunderWxStation</text>
+<text x="176.784" y="-49.276" size="3.81" layer="94" ratio="20">B.2</text>
 </plain>
 <instances>
 <instance part="+3V6" gate="G$1" x="60.96" y="40.64"/>
@@ -12972,6 +13025,8 @@ Standard 10-pin dual row 0.1" header. Commonly used with AVR-ISP. Use with Spark
 <instance part="R1" gate="G$1" x="40.64" y="86.36" rot="R180"/>
 <instance part="C3" gate="G$1" x="-7.62" y="5.08"/>
 <instance part="JP1" gate="G$1" x="30.48" y="73.66" rot="R180"/>
+<instance part="U$1" gate="G$1" x="-78.74" y="-55.88"/>
+<instance part="U$1" gate="G$2" x="86.36" y="-55.88"/>
 </instances>
 <busses>
 </busses>
