@@ -1,0 +1,25 @@
+When flashing the Bootloader onto the device (with PIKIT) the entire device gets erased first -- Any application on the device gets wiped out
+After Programming of the bootloader the device waits forever for the UART boot loader application from the PC to communicate.
+
+When Program,ming an application with PICkit the Bootloader on the device gets wiped out.
+
+When programming an application via the bootloader method the subsequent boot loader start up delay can be configured with variable BL_timeout in main.c
+Programming a value of 0 in BL_timeout causes the bootloader to immediately go to the application main without waiting to connect to the PC.
+
+The application gets loaded at 0xc00 instead of 0x200 as without a BL.
+
+In order to end up with a device that contains the BL AND the application one has to first program the BL via PICkit and then load
+the application via the Boot loader. The Boot loader program is specific to the mcu device type.
+
+
+Bootloader PC Application:
+
+Defaults to a specific COM port as configured in its .ini file. This is a problem with the CP210x USB/com device as each chip device
+creates a unique COM port on the PC when initially connected as the enumerator is device serial number specific. You will
+have to find the correct COM port each time from the machines hardware panel.
+Baud rates above 57KB don't  to work.
+There is no erase built into the program process. When re-programming with the bootloader make sure to click Erase first.
+There is an annoying message stating that you will loose connection to the bootloader if you click run ... Very confusing to a user.
+
+
+.

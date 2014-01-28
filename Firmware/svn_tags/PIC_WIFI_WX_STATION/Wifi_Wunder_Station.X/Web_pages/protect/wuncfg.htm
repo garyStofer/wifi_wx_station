@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../styles.css" rel="stylesheet" type="text/css" >
+</head>
+<body class="inframe" >
+	<h3>Station Configuration</h3>
+	
+	<div class="result fail" style="display:~status_fail~">
+		<p>Error: ~status_msg~ </p>
+		<p>Try again...</p>
+	</div>
+
+	<form action="" method="GET" name="WUNDERconfig" > <!-- action="" == self posting form -->
+		<fieldset>
+			<legend>Station Properties:</legend>
+			<div><label>Station ID :</label><input type="text" name="W_SID" size ="12" maxlength="12" value="~W_SID~"/></div>
+			<div><label>Station PWD :</label><input type="text" name="W_PASS" size ="12" maxlength="12" value="~W_PASS~"/></div>
+			<div><label>Station Elevation:</label><input type="text" name="ELEV" size ="5" maxlength="5" value="~ELEV~"/> (feet MSL)</div>
+		  	<div><label>Report Interval  :</label><input type="text" name="UpInt" size ="3" maxlength="3" value="~UpInt~"/> (seconds)</div>
+		  	<div><label>Enable Reporting :</label><input type="checkbox" name="W_ENB" ~W_ENB~ value="1"/> (Temperatur and Barometer)</div>
+			<div><label>Report Wind      :</label><input type="checkbox" name="R_WND" ~R_WND~ value="1"/></div>
+			<div><label>Report Humidity  :</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>
+			<div><label>Report Solar     :</label><input type="checkbox" name="R_SOL" ~R_SOL~ value="1"/></div>
+			<div><label>Report Rain      :</label><input type="checkbox" name="R_RAIN" ~R_RAIN~ value="1"/></div>
+			<div> <input type="submit" class="sm" name="_SAV1" value="Save"/> </div>
+		</fieldset>
+	</form>  
+
+</body>
+</html>
+

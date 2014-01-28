@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../styles.css" rel="stylesheet" type="text/css" >
+</head>
+
+<body class="inframe" >
+	<h3>Wifi Configuration</h3>
+	<div class="result fail" style="display:~status_fail~">
+		<p>Error: ~status_msg~ </p>
+		<p>Try again...</p>
+	</div>
+	
+     <form method="post" action="" name="WIFIconfig">
+        <fieldset>
+            <legend>Wifi Configuraion:</legend>
+            <div><label>SSID:</label>
+            <input type="text" name="wifi_SSID"  size ="20" maxlength="31" value="~wifiSSID~" /></div>
+            <div><label>Encrypt Mode:</label>
+                <select name="wifi_Enc">
+                    <option ~wifiEnc(0)~ > None </option>
+                    <option ~wifiEnc(1)~ > WEP / 40 bit</option>
+                    <option ~wifiEnc(2)~ > WEP / 104 bit</option>
+                    <option ~wifiEnc(3)~ > WPA with Key</option>
+                    <option ~wifiEnc(4)~ > WPA with Phrase</option>
+                    <option ~wifiEnc(5)~ > WPA2 with Key</option>
+                    <option ~wifiEnc(6)~ > WPA2 with Phrase</option>
+                    <option ~wifiEnc(7)~ > WPA1&2 mixed with Key</option>
+                    <option ~wifiEnc(8)~ > WPA1&2 mixed with Phrase</option>
+                </select>
+            </div>
+            <div><label>Key:</label>
+            <input type="text" name="wifi_Key"  size ="35" maxlength="64" value="~wifiKey~" /></div>
+            <!-- change this to password/text depending on typing  in the field -->
+            <input type="hidden" name="Reboot" value="Now"/> 
+            <div><input type="submit" class="sm" value="Save Config & Reboot" /></div>
+        </fieldset>
+    </form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="styles.css" rel="stylesheet" type="text/css" >
+<script src="ajax.js" type="text/javascript"></script>
+<script src="status.js" type="text/javascript"></script>
+<script type="text/javascript">
+// Kick off the status updating in the browser in forever repeat  mode  
+// Status.xml fetches the HW status of the board
+setTimeout("newAJAXCommand('status_in.xml', updateInputStatus, true)",100);
+</script>
+<style type="text/css">
+.alarm {
+	color: #FF0000;
+}
+</style>
+</head>
+
+<body class="inframe" >
+	
+	<div id="loading" style="display:none">Error: Connection was lost.</div>
+	<div id="display">
+		<h5>SV2: Inputs/Alarms:</h5>
+		<table style="margin-top:5px" cellspacing="5px"  >
+		<tr style="text-align:center">
+			<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+            <td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
+		</tr>
+		<tr class="leds" >
+			<td id="in0">&bull;</td>
+			<td id="in1">&bull;</td>
+			<td id="in2">&bull;</td>
+			<td id="in3">&bull;</td>
+			<td id="in4">&bull;</td>
+			<td id="in5">&bull;</td>
+			<td id="in6">&bull;</td>
+			<td id="in7">&bull;</td>
+			<td id="in8">&bull;</td>
+			<td id="in9">&bull;</td>
+		</tr>
+        <tr style="text-align:center">
+			<td></td><td></td><td></td><td></td><td></td>
+            <td class="alarm">A1</td>
+			<td class="alarm">A2</td>
+			<td class="alarm">A3</td>
+			<td class="alarm">A4</td>
+			<td class="alarm">A5</td>
+		</tr>
+
+		</table>
+		<h5>Buttons:</h5>
+		<table style="margin-top:5px" cellspacing="5px"  >
+		<tr style="text-align:center">
+			<td>1</td><td>2</td>
+		</tr>
+		<tr class="leds" >
+			<td id="btn1">&bull;</td>
+			<td id="btn2">&bull;</td>
+		</tr>
+		</table>
+
+	</div>
+</body>
+</html>

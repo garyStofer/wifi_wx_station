@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../styles.css" rel="stylesheet" type="text/css" >
+</head>
+<body class="inframe" >
+	<h3>DAYTIME Client Configuration</h3>
+
+	
+	<div class="result fail" style="display:~status_fail~">
+		<p>Error: ~status_msg~ </p>
+		<p>Try again...</p>
+	</div>
+
+        <form action ="" method="GET"  name="NISTconfig">
+        <fieldset>
+                <legend>Time Server Configuration:</legend>
+                <div><label>GMT Timezone :</label><input type="text" name="TZoff"  size ="3"  maxlength="3" value="~TZoff~"/> (+/- Hours GMT to local time offset) </div>
+                <div><label>Primary NIST:</label><input type="text" name="NIST_1" size="15" maxlength="15" value="~nist_1~" /></div>
+                <div><label>Secondary NIST:</label>	<input type="text" name="NIST_2" size="15" maxlength="15" value="~nist_2~" /></div>
+                <span style="font-size:x-small">For a list of suitable <em>DayTime</em> 
+				server addresses<a  target="_blank" href="http://tf.nist.gov/tf-cgi/servers.cgi"> click here !</a></span>
+                <div><input type="submit" class="sm" name="_SAV2" value="Save" /></div>
+        </fieldset>
+	</form>
+</body>
+</html>
+
