@@ -320,6 +320,7 @@ if(TCPIsPutReady(MySocket) < 1u)
                             while(1);
                         }
 			// Send the packet
+                        LED2_IO = 1;    // indicate sending of WU data
 			TCPFlush(MySocket);
                         putrsUART((ROM char*) "Uploading to WU\r\n");
 			ThisState++;
@@ -343,7 +344,9 @@ if(TCPIsPutReady(MySocket) < 1u)
                         // The Wunderground server always replies with the word "success" as long as Station ID and password match
                         // The fact that the server replies "success" does not indicate that the data was actually ingested into the
                         // system, so testing for the return of "success" only indicates what we are talking to Wunderground
-                        // and with proper credentials
+                        // and with proper credentials.
+                        // WU does NOT send anything back, "success" or otherwise, if the data or credentials are misformed. It is
+                        // therefore not possible to give some kind of fail feedback to the user, i.e. a red light  etc..
 
 
 		        // The full reply message, including header, is:
@@ -376,11 +379,11 @@ if(TCPIsPutReady(MySocket) < 1u)
                                   
                                      if (strncmp ( vBuffer, "success",7u) == 0)
                                      {
-
                                          TCPDiscard(MySocket);
                                          ThisState = SM_DISCONNECT;
                                          break;
                                      }
+                          
                                       // if no "success" is  sent from host we time out because the host eventually closes the connection
                                  }
 
@@ -402,7 +405,8 @@ if(TCPIsPutReady(MySocket) < 1u)
 			MySocket = INVALID_SOCKET;
 			ThisState = SM_IDLE;
                         putrsUART((ROM char*) "Socket disconnected\r\n\n");
-			break;
+                        LED2_IO = 0;    // indicate done sending of WU data
+ 			break;
 	
 		case SM_IDLE:
 			// Do nothing , park here until someone starts the process again 

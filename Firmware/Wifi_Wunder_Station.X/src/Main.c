@@ -16,6 +16,8 @@
 #include "HW_initialize.h"
 #include "Once_per_second.h"
 #include "Barometer.h"
+#include "Hygrometer.h"
+
 
 #if defined(WF_CS_TRIS) &&  !defined(MRF24WG)
  extern BOOL gRFModuleVer1209orLater;
@@ -209,6 +211,7 @@ main(void)
     putrsUART("To restore factory defaults press and hold S1 for > 4 seconds during reset.\r\n");
     putrsUART("To enter configuration utility press and hold S1 for < 4 seconds during reset.\r\n\r\n");
 
+  
     All_LEDS_off();
 
     // Resets board to factory values if button is depressed on startup and allows UART based communication configuration
@@ -241,11 +244,13 @@ main(void)
         }
 
 #endif
-
+        LED2_IO = 1;
         DoUARTConfig(); // This is a RS232 based configuration option
+        LED2_IO = 0;
 
     }
 
+   
    
 //  WX_perm_data_init_toDefault();  To force the default config during debugging
     WX_readPerm_data(); // Get the station NV data from EEprom
@@ -261,7 +266,7 @@ main(void)
    
 
     Baro_init(WX.Wunder.StationElev); // must be done after we read the WX_perm_data
-    HIH6130_init();
+    Hygro_init();
 
     StackInit(); // Initialize core stack layers (MAC, ARP, TCP, UDP) and application modules (HTTP, SNMP, etc.)
 
@@ -326,7 +331,7 @@ main(void)
 
         SMTP_Mail_alarm();      // checks and sends mail alarms
         Baro_Read_Process();    // Reads the Barometer pressure and temp
-        HIH6130_Read_Process(); // Reads the Hygrometer
+        Hygro_Read_Process(); // Reads the Hygrometer
         NIST_DAYTIME_Client();  // Start One-shot to get time from a NIST server and periodically calls NIST again to update time
 
         if (WDIR_cal_tmp.DoWindDirCal)

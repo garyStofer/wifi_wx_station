@@ -42,6 +42,10 @@ Baro_startMeasure( void )
         BMP085_startMeasure();
     else if (!HP03_BusErr)
         HP03_startMeasure();
+    else
+    {
+
+    }
 }
 
 

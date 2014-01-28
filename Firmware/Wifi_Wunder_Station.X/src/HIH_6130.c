@@ -3,12 +3,13 @@
 #include "WX_perm_data.h"
 #include "math.h"
 #include "i2c1.h"
+#include "HIH_6130.h"
 
 //////////////////////////////////////////// Humidity sensor HIH6130  //////////////////////
 
 #define HIH6130_ADDR (0x27 <<1)
 
-static BOOL HIH6130_BusErr = TRUE;
+BOOL HIH6130_BusErr = TRUE;
 
 void
 HIH6130_init(void)
@@ -61,10 +62,7 @@ HIH6130_Read_Process(void )
         BYTE bytes[2];
         WORD val;
     } ADC_RH;
-    union {
-        unsigned char  bytes[2];
-        unsigned short val;
-    } ADC_TEMP;
+
 
     if (HIH6130_BusErr )    // Device did not init or failed
     {
@@ -103,8 +101,7 @@ HIH6130_Read_Process(void )
 
         case SM_Read_Results:
         {
-            volatile float Y,tmp;
-            // get Temp result now
+
             I2C1_Xfer(Start, 0);
             I2C1_Xfer(AddrRX, HIH6130_ADDR);
 
@@ -113,28 +110,21 @@ HIH6130_Read_Process(void )
             ADC_RH.bytes[1] = I2C1_GetRX_Byte();
 
             I2C1_Xfer(RX, 0);
-            I2C1_Xfer(M_ACK, 0); // read rh data lsb
+            I2C1_Xfer(M_NACK, 0); // read rh data lsb
             ADC_RH.bytes[0] = I2C1_GetRX_Byte();
-            // temp
-            ADC_TEMP.val =0;
-            I2C1_Xfer(RX, 0); // read temp data msb
-            I2C1_Xfer(M_ACK, 0);
-            ADC_TEMP.bytes[1] = I2C1_GetRX_Byte();
-
-            I2C1_Xfer(RX, 0); // read temp data lsb
-            I2C1_Xfer(M_NACK, 0);
-            ADC_TEMP.bytes[1] = I2C1_GetRX_Byte();
-            ADC_TEMP.val >>= 2; // Lower two bits of tempdata is not valid
-
+            
             I2C1_Xfer(Stop, 0);
 
-            tmp = (ADC_TEMP.val/16382.0 * 165)-40.0;
+          // Temp does not seem to work with i2C HIH6131
+          // tmp = (ADC_TEMP.val/16382.0 * 165)-40.0;
 
             // assigne values to global sensor struct
             SensorReading.RH = ADC_RH.val / 16382.0 * 100;      // need to do this in FP
             SensorReading.RH += WX.Calib.Hyg_offs/10.0;
 
 /*	 Calculate DewPoint from Temp and humidity
+ *
+ * // moved to hygrometer.c
 
             Simple approximation formula: (not used)
             Td = Temp_c -(100-RH)/5
@@ -158,11 +148,12 @@ HIH6130_Read_Process(void )
              RH = Relative Humidity
              Y = (a*Tc /(b+Tc)) + ln(RH/100)
              Td = b * Y / (a - Y)
-*/
+
 
             Y = ((17.271 * SensorReading.TempC) / (237.7+SensorReading.TempC ))+ log(SensorReading.RH/100);
             SensorReading.DewptC = 237.7 * Y/(17.271-Y);
             SensorReading.DewptF = SensorReading.DewptC*9/5.0+32;
+ * */
     
             ThisState = SM_STOP;
         }

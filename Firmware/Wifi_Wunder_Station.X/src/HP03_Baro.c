@@ -254,7 +254,7 @@ HP03_Read_Process(void )
             Sens = HP03_Cal.Coeff.C1 + (HP03_Cal.Coeff.C3 * dUT / 1024.0);
             X = (Sens * (D1.val - 7168.0) / 16384.0) - Offs;
             Pressure = ((X / 32.0) + HP03_Cal.Coeff.C7 / 10.0); // in hPa
-            Pressure = Pressure * 0.0295299830714; // Conversion factor to inches Hg
+            Pressure = Pressure * 0.02952998; // Conversion factor to inches Hg at 32F -- number and precision from Wikipedia
             Pressure += Alt_comp; // add the altitude compensation of the barometer due to elevation
             // assigne values to global sensor struct
             SensorReading.BaromIn = Pressure + WX.Calib.Baro_offs/100.0;

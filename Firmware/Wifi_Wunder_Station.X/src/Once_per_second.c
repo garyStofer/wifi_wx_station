@@ -49,9 +49,9 @@ Once_perSecTask(void)
 
     if (sec_count % BARO_HYG_TEMP_MEAS_Interval == 0)
     {
-        HIH6130_startMeasure();
         Baro_startMeasure();
-    }
+        Hygro_startMeasure();
+     }
 
     if (sec_count % RAIN_MEAS_Interval == 0)
     {

@@ -5,6 +5,7 @@
 #include "i2c1.h"
 #include "Barometer.h"
 #include "BMP085_baro.h"
+#include "SI_7021.h"
 
 
 //////////////////////////////////////////// BMP805 sensor  //////////////////////
@@ -121,7 +122,6 @@ BMP085_Read_Process(void )
     {
         // set impossible values
         SensorReading.TempC =0;
-        SensorReading.TempF = 0;
         SensorReading.BaromIn = 0;
         return;
     }
@@ -182,6 +182,13 @@ BMP085_Read_Process(void )
             B5 = X1+X2;
             T = (B5+8)/16;
 
+            // calculate the Temperature only if there is no SI7021 present
+            if ( SI7021_BusErr )
+            {
+                SensorReading.TempC = T/10.0;
+                SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset
+                SensorReading.TempF = SensorReading.TempC * 9.0 / 5.0 + 32;           // Conversion to deg F
+            }
             // initiate the Pressure reading
             I2C1_Xfer(Start,0);
             I2C1_Xfer(AddrTX, BMP085_I2C_Addr);
@@ -236,7 +243,6 @@ BMP085_Read_Process(void )
 
             X3=X1+X2;
 
-            // Changed from original to remove the oversampling stuff -- makes the reaings more jittery
             B3 = ((BMP085_Cal.Coeff.AC1 *4L + X3) +2) >> 2;
             X1 = (BMP085_Cal.Coeff.AC3* B6) >> 13;
             X2 = (BMP085_Cal.Coeff.B1 * ((B6*B6) >> 12) ) >> 16;
@@ -259,12 +265,9 @@ BMP085_Read_Process(void )
             X2 = (p * -7357L) >> 16;
             p += ((X1 + X2 + 3791L) >> 4);	// p in Pa
 
-            SensorReading.TempC = T/10.0;
-            SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset
-            SensorReading.TempF = SensorReading.TempC * 9.0 / 5.0 + 32;           // Conversion to deg F
- 
+  
             Pressure = p/100.0; // in hPa
-            Pressure = Pressure * 0.0295299830714; // Conversion factor to inches Hg
+            Pressure = Pressure * 0.02952998; // Conversion factor to inches Hg at 32F -- number and precision from Wikipedia
             Pressure += Alt_comp; // add the altitude compensation of the barometer due to elevation
             // assigne values to global sensor struct
             SensorReading.BaromIn = Pressure + WX.Calib.Baro_offs/100.0;

@@ -425,7 +425,10 @@ void TCPInit(void)
                                 {
                                     volatile int ram_used;
                                     ram_used = wCurrentETHAddress - TCP_ETH_RAM_BASE_ADDRESS;
-                                    All_LEDS_on(); // error --  all LEDS on
+                                    // error --  all LEDS on
+                                    LED1_IO = 1;
+                                    LED2_IO = 1;
+                                    LED3_IO = 1;
 #if defined(STACK_USE_UART)
                                     putrsUART((ROM char*) "\r\nEthernet RAM buffers exhausted, check buffer assignements in TCPIPConfig.h  ");
 #endif

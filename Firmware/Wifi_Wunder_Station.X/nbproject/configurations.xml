@@ -34,6 +34,9 @@
       <itemPath>src/Barometer.h</itemPath>
       <itemPath>src/BMP085_baro.h</itemPath>
       <itemPath>src/HP03_baro.h</itemPath>
+      <itemPath>src/HIH_6130.h</itemPath>
+      <itemPath>src/Hygrometer.h</itemPath>
+      <itemPath>src/SI_7021.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -61,6 +64,8 @@
         <itemPath>src/Once_per_second.c</itemPath>
         <itemPath>src/Barometer.c</itemPath>
         <itemPath>src/BMP085_Baro.c</itemPath>
+        <itemPath>src/SI_7021.c</itemPath>
+        <itemPath>src/Hygrometer.c</itemPath>
       </logicalFolder>
       <logicalFolder name="TCPIP" displayName="Satck" projectFiles="true">
         <logicalFolder name="Include" displayName="Include" projectFiles="true">
