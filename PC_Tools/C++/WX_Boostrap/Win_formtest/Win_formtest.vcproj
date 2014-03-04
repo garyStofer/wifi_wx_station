@@ -283,10 +283,6 @@
 				RelativePath=".\roost.ico"
 				>
 			</File>
-			<File
-				RelativePath=".\WUWS.ico"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath="..\CP210xManufacturing.dll"

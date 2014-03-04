@@ -1,5 +1,5 @@
 // Win_formtest.cpp : main project file.
-
+// $Id$
 #include "stdafx.h"
 #include "Form1.h"
 
