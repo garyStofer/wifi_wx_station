@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>APRSWXNET Information</title>
+</head>
+<body>
+<h1>APRSWXNET</h1>
+This page describes random bits of information about how I hooked my
+weather
+station up to APRSWXNET. I am CW0003 -- you can find my data at <a href="http://www.findu.com/cgi-bin/wxpage.cgi?call=CW0003&amp;last=120">findu.com</a>.
+<p>
+The basic idea is that you send a single record at regular intervals (I
+currently do this every 10 minutes). However, do not send on 5 minute 
+boundaries, or else send at an odd interval (e.g. 9 minutes 30 seconds).
+ 
+There are significant problems with large numbers of sites all hitting 
+the servers at the same time.
+This record contains your identity
+(CW number), location and the various readings. I believe in 'document
+by example', so here goes:
+</p>
+<pre>CW0003&gt;APRS,TCPXX*:/241505z4220.45N/07128.59W_032/005g008t054r001p078P048h50b10245e1w<br></pre>
+<table>
+  <tbody>
+    <tr>
+      <td><b>Field</b></td>
+      <td><b>Meaning</b></td>
+    </tr>
+    <tr>
+      <td><tt>CW0003</tt> </td>
+      <td>Your CW number </td>
+    </tr>
+    <tr>
+      <td><tt>&gt;APRS,TCPXX*:</tt> </td>
+      <td>Boilerplate </td>
+    </tr>
+    <tr>
+      <td><tt>/241505z</tt> </td>
+      <td>The ddhhmm in UTC of the time that you generate the report. 
+However, the timestamp is pretty much ignored by everybody as it is 
+assumed that your clock is not set correctly! If you want to omit this 
+field, then just send an exclamation mark '!' instead. </td>
+    </tr>
+    <tr>
+      <td><tt>4220.45N/07128.59W</tt> </td>
+      <td>Your location. This is ddmm.hh -- i.e. degrees, minutes and
+hundreths of minutes. The Longitude has three digits of degrees and
+leading zero digits cannot be omitted. </td>
+    </tr>
+    <tr>
+      <td><tt>_032</tt> </td>
+      <td>The direction of the wind from true north (in degrees). </td>
+    </tr>
+    <tr>
+      <td><tt>/005</tt> </td>
+      <td>The average windspeed in mph </td>
+    </tr>
+    <tr>
+      <td><tt>g008</tt> </td>
+      <td>The maximum gust windspeed in mph (over the last five
+minutes) </td>
+    </tr>
+    <tr>
+      <td><tt>t054</tt> </td>
+      <td>The temperature in degrees Farenheit -- if not available,
+then use '...'
+Temperatures below
+zero are expressed as -01 to -99. </td>
+    </tr>
+    <tr>
+      <td><tt>r001</tt> </td>
+      <td>The rain in the last 1 hour (in hundreths of an inch) -- this
+can be omitted </td>
+    </tr>
+    <tr>
+      <td><tt>p078</tt> </td>
+      <td>Rain in the last 24 hours (in hundreths of an inch) -- this
+can be omitted </td>
+    </tr>
+    <tr>
+      <td><tt>P044</tt> </td>
+      <td>The rain since the local midnight (in hundreths of an inch)
+-- this can be omitted </td>
+    </tr>
+    <tr>
+      <td><tt>h50</tt> </td>
+      <td>The humidity in percent. '00' =&gt; 100%. -- this can be
+omitted. <br>
+      </td>
+    </tr>
+    <tr>
+      <td><tt>b10245</tt> </td>
+      <td>
+      The barometric pressure in tenths of millbars -- this can be 
+omitted. This is a corrected pressure and not the actual (station) 
+pressure as measured at your weatherstation. The pressure is adjusted 
+according to altimeter rules -- i.e. the adjustment is purely based on 
+station elevation and does not include temperature compensation.
+<br>
+      </td>
+    </tr>
+    <tr>
+      <td><tt>e1w</tt> </td>
+      <td>The equipment you are using. This is the string that I use to 
+identify my software. Please use something different. In particular, 
+please include
+      the version number of your software and the type of hardware 
+sensors attached. For example: eMyWx123DVP -- MyWx version 1.2.3 with 
+Davis Vantage Pro hardware. Being explicit here allows other 
+      software to automatically determine the type of station software 
+in use. It can also be used to encourage people to upgrade to the 
+current version!
+      Weather Display has a table of codes that cover most weather 
+station types and it would be helpful to use the same codes.
+</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Note that most fields are fixed width. This constraint means that use of C-like formatting
+strings such as 'h%02d' is not really appropriate as they do not deal with out of range
+values. In this particular case, it does not deal with the special case of 100% humidity either!
+
+<p>The letters are all case
+sensitive. The fields should be sent in the order that they appear in
+the table above.
+</p><p>Once you have formed this record, open a connection to port 14580 on
+'cwop.aprs.net' and then send the following:
+</p>
+<pre>user CW0003 pass -1 vers linux-1wire 1.00<br></pre>
+(substitute your CW number), followed by CR,LF (i.e. two
+characters),
+followed by your data record. Then disconnect. Also, it works best with
+a three second delay between the USER command and the data packet. Also
+wait three seconds after sending the data to close the connection.
+<p>'cwop.aprs.net' is a DNS entry that rotates between the various CWOP servers. 
+Do not hardcode any of the IP addresses!
+</p>
+<p>Information on this system can be found at <a href="http://www.wxqa.com/servers2use.html">Servers to use</a>.
+</p>
+<h2>Important Notes</h2>
+If you do not have a particular sensor, then do not send default values
+in that field. If the field can be omitted (as shown in the table
+above), then please omit the field. If the field cannot be omitted,
+then send '...' as the field value.
+<p>Use of default values turns out to be a significant
+issue with rainfall numbers. Most of the time, the value 'r000' is
+valid (and likely). But once it starts to rain, the value is
+dangerously wrong, and could prevent flood warnings from being issued.<br>
+</p>
+<h2>Debugging</h2>
+The page <a href="http://www.wulfden.org/APRSQuery.shtml">APRS Search</a>
+contains a bunch of useful search
+boxes that you can enter your CW number into, and then see what data
+has been received. Another useful site is <a href="http://206.97.61.103/wxall.html">APRSWXNET Maps and Status</a>.
+<p>Other useful resources can be found from <a href="http://www.wxqa.com/index.html">Joining APRSWXNET</a>.
+The actual <a href="ftp://ftp.tapr.org/aprssig/aprsspec/spec/aprs101/APRS101.pdf">APRS
+protocol specification</a> is available in a PDF file. The information
+presented above actually works,
+and is somewhat different to what is in this document.
+</p>
+<p>Once you are submitting data, you can sign up with the <a href="http://pond1.gladstonefamily.net:8080/cgi-bin/weather-qc.pl">Weather
+Data Quality Monitor</a> which will
+send you email when your data goes 'bad'. For more information about
+the quality checks, see <a href="http://www.wxqa.com/aprswxnetqc.html">APRSWXNET
+Data Quality</a>.
+</p>
+<h2>Contacts</h2>
+The 'right' person to contact about APRSWXNET is <a href="mailto:russ@wxqa.com">Russ Chadwick</a>.
+<hr><a href="mailto:pjsg-aprswxnet@nospam.gladstonefamily.net">Philip Gladstone</a><br>
+Updated: June 2008<br>
+<br>
+<script src="APRSWXNET%20upload%20protocol%20Information_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-160136-1";
+urchinTracker();
+</script>
+
+
+</body></html>

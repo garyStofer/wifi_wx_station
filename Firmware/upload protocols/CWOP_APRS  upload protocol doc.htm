@@ -1,0 +1,186 @@
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=windows-1256">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
+<meta name="GENERATOR" content="MSHTML 8.00.6001.23543">
+</head>
+<body style="PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 15px" id="MailContainerBody" leftmargin="0" topmargin="0" CanvasTabStop="true" name="Compose message area">
+<div>
+<div style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif">The last 4 characters of the packet aren't critical.<br>
+<br>
+The length of the software name isn't that important. It is only used by server sysops so what you put there is for them only.<br>
+<br>
+Sent from my Windows Phone</div>
+</div>
+<div dir="ltr">
+<hr>
+<span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif; FONT-WEIGHT: bold">From:
+</span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif"><a href="mailto:garystofer@astound.net">Gary Stofer</a></span><br>
+<span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif; FONT-WEIGHT: bold">Sent:
+</span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif">‎1/‎29/‎2014 10:59 AM</span><br>
+<span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif; FONT-WEIGHT: bold">To:
+</span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif"><a href="mailto:pete@ae5pl.net">Pete Loveall AE5PL</a></span><br>
+<span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif; FONT-WEIGHT: bold">Subject:
+</span><span style="FONT-SIZE: 11pt; FONT-FAMILY: Calibri,sans-serif">Re: CWOP/APRS&nbsp; upload protocol doc</span><br>
+<br>
+</div>
+<div>
+<div><font size="2" face="Courier">Thanks Pete!!!! </font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font size="2" face="Courier">Exactly what I needed. I could not find&nbsp;this sort of info anywhere. I nearly gave up.</font></div>
+<div><font size="2" face="Courier">I&nbsp;will implement and and let you know how it's going.
+</font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font size="2" face="Courier">On the OS identifier -- IWWS --&nbsp; being an embedded device without a real OS I guess it doesn't matter that I send the &quot;wrong&quot; OS indication.&nbsp; Correct ?
+</font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font size="2" face="Courier">On the software name, will this show up in listings or on some websites later, or is this only kept internally. If it never shows up anywhere a human sees it I will send the string &quot;WuWxSt&quot; instead of the long verbose string.&nbsp;</font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font size="2" face="Courier">&nbsp;&nbsp;</font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font size="2" face="Courier">Thanks again</font></div>
+<div><font size="2" face="Courier"></font>&nbsp;</div>
+<div><font face="Courier">gary</font></div>
+<div><br>
+</div>
+<div style="FONT: 10pt Tahoma">
+<div style="BACKGROUND: #f5f5f5">
+<div style="font-color: black"><b>From:</b> <a title="mailto:pete@ae5pl.net
+CTRL &#43; Click to follow link" href="mailto:pete@ae5pl.net">
+Pete Loveall AE5PL</a> </div>
+<div><b>Sent:</b> Wednesday, January 29, 2014 7:41 AM</div>
+<div><b>To:</b> <a title="mailto:russ@wxqa.com
+CTRL &#43; Click to follow link" href="mailto:russ@wxqa.com">
+Russell Chadwick</a> ; <a title="mailto:garystofer@astound.net
+CTRL &#43; Click to follow link" href="mailto:garystofer@astound.net">
+Gary Stofer</a> </div>
+<div><b>Cc:</b> <a title="mailto:gerry.creager@noaa.gov
+CTRL &#43; Click to follow link" href="mailto:gerry.creager@noaa.gov">
+Gerry Creager - NOAA Affiliate</a> </div>
+<div><b>Subject:</b> RE: CWOP/APRS upload protocol doc</div>
+</div>
+</div>
+<div><br>
+</div>
+Sorry for the delay.&nbsp; The actual port to connect to is 14580 and the default DNS name to connect to is cwop.aprs.net&nbsp; This is a dedicated group of servers that gather CWOP APRS reports.&nbsp; I will address the majority of your users (non-amateur radio operators)
+ first and then indicate what adjustments should be done for amateur radio operators later in this email.&nbsp; All connections to the APRS servers (CWOP or amateur radio APRS-IS) use the exact same format so no changes in format will occur between non-amateur radio
+ and amateur radio operations.&nbsp; The only change will be in the passcode used.<br>
+<br>
+The following is a summary of <a title="http://www.aprs-is.net/Connecting.aspx
+CTRL &#43; Click to follow link" href="http://www.aprs-is.net/Connecting.aspx">
+http://www.aprs-is.net/Connecting.aspx</a>&nbsp; Each TCP connection to port 14580 (or port 23) will begin with receiving at least one text line from the server (terminated with cr/lf).&nbsp; This line identifies the server software you just connected to which you can
+ safely ignore.&nbsp; The key is there is a line sent from the server upon connection.&nbsp; Upon receiving that line, your client will send a login line.&nbsp; The format here is critical to be compatible with all servers today and tomorrow.&nbsp; For the sake of this email,
+ let's say your client's CWOP identifier is CW0000.&nbsp; Your login line would be:<br>
+<br>
+user CW0000 pass -1 vers WunderWeatherStation 1.0<br>
+<br>
+As you can see, the CWOP identifier is the user name, the passcode is -1 (minus one), and the software identifier is your software name (no spaces) followed by the version number (again, containing no spaces).&nbsp; There is a single space between each keyword and
+ each value.<br>
+<br>
+Once that is entered (terminate with cr/lf), you will receive an acknowledgement line from the server.&nbsp; Again, this should be safely ignored but the format is shown at
+<a href="http://www.aprs-is.net">www.aprs-is.net</a> for most servers.<br>
+<br>
+After receiving the login acknowledgement, the server is ready to take the single APRS &quot;packet&quot; with the weather information.&nbsp; After the packet is sent, your client can safely disconnect from the server.&nbsp; There will be no acknowledgement of the packet being
+ received at the server (the acknowledgement is handled by the TCP underlying protocol).&nbsp; The APRS &quot;packet&quot; is also terminated by cr/lf.<br>
+<br>
+The APRS &quot;packet&quot; is a weather position packet with a very specific header:<br>
+<br>
+CW0000&gt;APRS,TCPIP*:rest of packet<br>
+<br>
+The first &quot;callsign&quot; is the CWOP station identifier for that station.&nbsp; The &quot;APRS&quot; callsign can be replaced by APxxxx where xxxx is assigned by Bob Bruninga WB4APR upon your request.&nbsp; Until you receive an assigned &quot;to call&quot;, APRS is accepted to be used.&nbsp; The
+ next callsign is TCPIP followed by an asterisk.&nbsp; This is also critical for your packet to be processed.&nbsp; All capital letters must be used for the packet header.<br>
+<br>
+The weather packet follows the format specified at the bottom of page 65 of the APRS 1.01 specification.&nbsp; So, a sample packet would look like:<br>
+<br>
+&nbsp;CW0000&gt;APRS,TCPIP* :!3316.04N/09631.96W_120/005g010t021r000p000P000h75b10322lWWS<br>
+<br>
+The terminator lWWS is for Linux, WunderWeatherStation.&nbsp; You can chose a different OS identifier if you wish from the specification.<br>
+<br>
+If an amateur radio operator wants to use their callsign for the station identifier, they can use their APRS-IS passcode in lieu of -1.&nbsp; As I expect this number to be very minimal, I recommend you contact Gerry Creager (cc'ed on this email) about issuing said
+ passcodes for those who do not already have them.<br>
+<br>
+Hope this helps.<br>
+<br>
+73,<br>
+<br>
+Pete Loveall AE5PL<br>
+<a href="http://www.ae5pl.net">www.ae5pl.net</a><br>
+<br>
+This electronic message transmission contains information from Peter Loveall AE5PL which may be confidential or privileged.&nbsp; The contents of this message are intended solely for the use of the recipient or recipients named above.&nbsp; If you are not the intended
+ recipient, be aware that interception, disclosure, duplication, distribution or any other exploitation of this message is prohibited.<br>
+<br>
+If you have received this electronic transmission in error, please immediately notify me by telephone at (972) 838-4107 or by email at
+<a href="mailto:pete@ae5pl.net">pete@ae5pl.net</a><br>
+<br>
+<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Russell Chadwick [mailto:russ@wxqa.com]<br>
+&gt; Sent: Monday, January 27, 2014 8:40 PM<br>
+&gt; To: Gary Stofer; Pete Loveall AE5PL<br>
+&gt; Subject: Re: CWOP/APRS upload protocol doc<br>
+&gt; <br>
+&gt; On 01/27/2014 04:37 AM, Gary Stofer wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; Hi Russ,<br>
+&gt; <br>
+&gt; It's said that you are the keeper of the CWOP upload protocol<br>
+&gt; secrets.<br>
+&gt; <br>
+&gt; I have designed, built and am now selling a self contained, WiFi based<br>
+&gt; weather station, affectively called WunderWeatherStation -- See here<br>
+&gt; &lt;<a href="http://wws.us.to">http://wws.us.to</a>&gt;&nbsp; for project description and here for a look at the &quot;local&quot;<br>
+&gt; &lt;<a href="http://wx_Station.mooo.com">http://wx_Station.mooo.com</a>&gt;&nbsp; station interface from one of my sites.<br>
+&gt; <br>
+&gt; The device is about credit card size and via it's built in web-<br>
+&gt; server/client reports without the need for additional hardware or software<br>
+&gt; directly to Weather Underground.<br>
+&gt; <br>
+&gt; I started looking into uploading to CWOP, but I could not find<br>
+&gt; sufficient documentation to start coding.&nbsp; I see documentation detailing the<br>
+&gt; report tokens and a mentioning of port 14550, and then if that doesn't work<br>
+&gt; try port 23. There is no clear picture emerging as to exactly what I have to<br>
+&gt; send and in what order, nor what I should expect back from the system in<br>
+&gt; terms of handshake or confirmation.<br>
+&gt; <br>
+&gt; <br>
+&gt; Can you please fill me in on the details/secrets? Maybe you have a<br>
+&gt; document or some links to the necessary documentation?<br>
+&gt; <br>
+&gt; <br>
+&gt; Thanks in advance.<br>
+&gt; <br>
+&gt; Gary Stofer<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Hi Gary,<br>
+&gt; <br>
+&gt; I've retired from NOAA and less involved than I used to be.&nbsp; However, the<br>
+&gt; first document you should look at is the APRS Specification document on the<br>
+&gt; TAPR web site.&nbsp; Just Google APRS specification and you should find it.&nbsp; What<br>
+&gt; you want is around page 62 and tells how the weather data part of the<br>
+&gt; packet should be formed.&nbsp; I would recommend using the :@ type of APRS<br>
+&gt; packet because it contains time and location which are both important for<br>
+&gt; weather data.&nbsp; You can see lists of the different types of weather packets<br>
+&gt; AFTER they have been received by the APRS and CWOP servers by clicking on<br>
+&gt; the links under the Sept 17, 2013 entry here,<br>
+&gt; <br>
+&gt; <a href="http://wxqa.com/news.html">http://wxqa.com/news.html</a><br>
+&gt; <br>
+&gt; However, what you want is the format of the packets that go into the<br>
+&gt; servers.&nbsp; This has changed recently and I no longer know the details.&nbsp; You<br>
+&gt; should check with Pete Loveall (cc above) who maintains the code that the<br>
+&gt; servers run.<br>
+&gt; <br>
+&gt; Good luck.<br>
+&gt; <br>
+&gt; Russ<br>
+</div>
+</body>
+</html>
