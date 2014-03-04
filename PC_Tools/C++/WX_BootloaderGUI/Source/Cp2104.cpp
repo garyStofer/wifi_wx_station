@@ -125,15 +125,15 @@ Cp2104::GetCp2104_COM_num (void )
 				if ( Vid ==0x10c4 && Pid == 0xea60 && PartNum == 0x4 )
 				{
 					port_num =  GetPortNum(Vid, Pid,  serialNum);
-					//Issue Reset and place the device in Config mode
-//					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_1 , 0);			// S1 Low
-//					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_0 , 0);			// Reset Low
-//					Sleep(100);
-//					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_0 , CP210x_GPIO_0);	// Release Reset
-//					Sleep(500);
-//					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_1 , CP210x_GPIO_1);	// Release S1
+					//Issue Reset and place the device in Bootloader mode
+					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_2 , 0);			// S2 Low
+					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_0 , 0);			// Reset Low
+					Sleep(100);
+					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_0 ,CP210x_GPIO_0);	// Release Reset
+					Sleep(200);
+					CP210xRT_WriteLatch(hUSBDevice,CP210x_GPIO_2 , CP210x_GPIO_2);	// Release S2
 
-					// Device is now in Config mode
+					// Device is now in BL  mode
 				}
 
 			}
@@ -143,6 +143,8 @@ Cp2104::GetCp2104_COM_num (void )
 
 	return port_num;
 }
+
+
 
 
 }
