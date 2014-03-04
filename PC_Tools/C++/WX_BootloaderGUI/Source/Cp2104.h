@@ -1,3 +1,4 @@
+// $ID$
 #pragma once
 using namespace std;
 #define ERROR_PORT_NUM -1
@@ -10,6 +11,7 @@ public:
 	Cp2104(void);
 	int	
 	GetCp2104_COM_num (void );
+
 
 private:
 	wstring 

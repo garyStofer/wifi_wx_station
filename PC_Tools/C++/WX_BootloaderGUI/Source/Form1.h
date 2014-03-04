@@ -1,3 +1,6 @@
+// $ID$
+
+
 #pragma once
 
 #include "Cp2104.h"
@@ -228,7 +231,7 @@ namespace WX_BootloaderGUI {
 			this->MinimizeBox = false;
 			this->Name = L"Form1";
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Hide;
-			this->Text = L"WWXS Bootloader";
+			this->Text = L"Wunder Weather Station Bootloader";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->statusStrip1->ResumeLayout(false);
 			this->statusStrip1->PerformLayout();

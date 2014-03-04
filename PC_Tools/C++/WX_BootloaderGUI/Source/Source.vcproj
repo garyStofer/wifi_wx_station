@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="WX_BootloaderGui"
+	Name="WX_Bootloader"
 	ProjectGUID="{EF25B2C8-2A19-4EB1-B1E6-2056925BD259}"
 	RootNamespace="WX_BootloaderGUI"
 	Keyword="ManagedCProj"
@@ -286,10 +286,6 @@
 			</File>
 			<File
 				RelativePath=".\roost.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\WUWS.ico"
 				>
 			</File>
 		</Filter>
