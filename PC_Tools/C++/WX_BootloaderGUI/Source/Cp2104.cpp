@@ -1,4 +1,4 @@
-// $ID$
+// $Id$
 
 #include "StdAfx.h"
 #include "Cp2104.h"
