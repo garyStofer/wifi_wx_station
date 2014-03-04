@@ -11460,7 +11460,7 @@ http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
 <text x="40.64" y="68.58" size="1.778" layer="91">5Volt</text>
 <text x="-30.48" y="66.04" size="1.778" layer="91">GND</text>
 <text x="119.38" y="-12.7" size="3.81" layer="94" ratio="20">WunderWxStation</text>
-<text x="181.61" y="-34.036" size="3.81" layer="94" ratio="20">B.2</text>
+<text x="181.61" y="-34.036" size="3.81" layer="94" ratio="20">B.1</text>
 </plain>
 <instances>
 <instance part="U1" gate="G$1" x="7.62" y="55.88"/>

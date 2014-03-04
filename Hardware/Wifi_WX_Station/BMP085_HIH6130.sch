@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -11365,6 +11365,42 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <pin name="XCLR" x="-12.7" y="-2.54" length="middle" direction="in"/>
 <pin name="NC" x="2.54" y="-12.7" length="middle" direction="nc" rot="R90"/>
 </symbol>
+<symbol name="8.5X11">
+<wire x1="0" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="266.7" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="190.5" width="0.254" layer="94"/>
+<wire x1="0" y1="190.5" x2="266.7" y2="190.5" width="0.254" layer="94"/>
+<wire x1="266.7" y1="190.5" x2="266.7" y2="0" width="0.254" layer="94"/>
+</symbol>
+<symbol name="DOCFIELD">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
+<text x="1.27" y="19.05" size="2.54" layer="94" font="vector">TITLE:</text>
+<text x="1.27" y="11.43" size="2.54" layer="94" font="vector">Document Number:</text>
+<text x="17.78" y="19.05" size="2.54" layer="94" font="vector">&gt;DRAWING_NAME</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="BMP085" uservalue="yes">
@@ -11383,6 +11419,20 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <connect gate="G$1" pin="VDD" pad="P$4"/>
 <connect gate="G$1" pin="XCLR" pad="P$8"/>
 </connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="8.5X11">
+<description>Schematic doc frame 8.5 x11"</description>
+<gates>
+<gate name="G$1" symbol="8.5X11" x="0" y="0"/>
+<gate name="G$2" symbol="DOCFIELD" x="165.1" y="0" addlevel="must"/>
+</gates>
+<devices>
+<device name="">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -11777,10 +11827,12 @@ Standard 5-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="C4" library="rcl" deviceset="C-US" device="C0805K" value="100nF"/>
 <part name="U2" library="1AA_Stofer" deviceset="BMP085" device=""/>
 <part name="JP2" library="wifi_WX" deviceset="M05" device="PTH"/>
+<part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="211.074" y="-62.23" size="3.81" layer="94">B.1</text>
 </plain>
 <instances>
 <instance part="R1" gate="G$1" x="78.74" y="63.5" smashed="yes" rot="R90">
@@ -11799,6 +11851,8 @@ Standard 5-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <instance part="C4" gate="G$1" x="35.56" y="22.86"/>
 <instance part="U2" gate="G$1" x="121.92" y="48.26"/>
 <instance part="JP2" gate="G$1" x="-3.81" y="50.8"/>
+<instance part="U$1" gate="G$1" x="-45.72" y="-68.58"/>
+<instance part="U$1" gate="G$2" x="119.38" y="-68.58"/>
 </instances>
 <busses>
 </busses>

@@ -1,0 +1,4 @@
+WX_bug: ID= p19756, Key = rvpilot, (num=31352)
+PWS/WeatherForYou: ID=KCACONCO29, pwd: weather
+Wunderground: KCACONCO18,KCACONCO29, pwd: weather
+CWOP: ID = EW4459, pwd: -1;

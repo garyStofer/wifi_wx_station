@@ -11659,6 +11659,64 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="1AA_Stofer">
+<packages>
+</packages>
+<symbols>
+<symbol name="8.5X11">
+<wire x1="0" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="266.7" y1="0" x2="254" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="190.5" width="0.254" layer="94"/>
+<wire x1="0" y1="190.5" x2="266.7" y2="190.5" width="0.254" layer="94"/>
+<wire x1="266.7" y1="190.5" x2="266.7" y2="0" width="0.254" layer="94"/>
+</symbol>
+<symbol name="DOCFIELD">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
+<text x="1.27" y="19.05" size="2.54" layer="94" font="vector">TITLE:</text>
+<text x="1.27" y="11.43" size="2.54" layer="94" font="vector">Document Number:</text>
+<text x="17.78" y="19.05" size="2.54" layer="94" font="vector">&gt;DRAWING_NAME</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="8.5X11">
+<description>Schematic doc frame 8.5 x11"</description>
+<gates>
+<gate name="G$1" symbol="8.5X11" x="0" y="0"/>
+<gate name="G$2" symbol="DOCFIELD" x="165.1" y="0" addlevel="must"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -11679,10 +11737,12 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <part name="TP2" library="Stofer" deviceset="TP" device="B1,27"/>
 <part name="JP1" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
 <part name="C4" library="rcl" deviceset="CPOL-US" device="R/2012-12R" value="4.7uF"/>
+<part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
+<text x="220.98" y="-22.86" size="3.81" layer="94">A.2</text>
 </plain>
 <instances>
 <instance part="U1" gate="CPC1822C" x="35.56" y="48.26"/>
@@ -11703,6 +11763,8 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <instance part="TP2" gate="G$1" x="45.72" y="35.56"/>
 <instance part="JP1" gate="A" x="121.92" y="55.88"/>
 <instance part="C4" gate="G$1" x="142.24" y="55.88"/>
+<instance part="U$1" gate="G$1" x="-33.02" y="-30.48"/>
+<instance part="U$1" gate="G$2" x="132.08" y="-30.48"/>
 </instances>
 <busses>
 </busses>

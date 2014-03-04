@@ -104,15 +104,16 @@
 <board>
 <plain>
 <circle x="13.97" y="13.97" radius="12.763340625" width="0.0254" layer="20"/>
-<text x="12.7" y="23.495" size="1.4224" layer="22" font="vector" rot="MR180">GND</text>
 <text x="22.704040625" y="18.75834375" size="1.27" layer="22" rot="MR270">WIND_SPEED</text>
-<text x="5.08" y="6.35" size="1.4224" layer="21" font="vector" rot="R90">+5V</text>
-<text x="21.59" y="5.08" size="1.4224" layer="21" font="vector" rot="R180">+5V</text>
-<text x="5.08" y="17.78" size="1.4224" layer="21" font="vector" rot="R90">GND</text>
-<text x="16.9590125" y="8.440984375" size="1.4224" layer="22" font="vector" rot="MR0">+5V</text>
-<text x="10.795" y="5.08" size="1.4224" layer="21" font="vector" rot="R180">GND</text>
-<text x="22.86" y="21.59" size="1.4224" layer="21" font="vector" rot="R270">GND</text>
-<text x="22.86" y="10.16" size="1.4224" layer="21" font="vector" rot="R270">+5V</text>
+<text x="5.08" y="6.35" size="1.27" layer="21" font="vector" rot="R90">+5V</text>
+<text x="21.59" y="5.08" size="1.27" layer="21" font="vector" rot="R180">+5V</text>
+<text x="5.08" y="18.415" size="1.27" layer="21" font="vector" rot="R90">GND</text>
+<text x="10.16" y="5.08" size="1.27" layer="21" font="vector" rot="R180">GND</text>
+<text x="22.86" y="21.59" size="1.27" layer="21" font="vector" rot="R270">GND</text>
+<text x="22.86" y="10.16" size="1.27" layer="21" font="vector" rot="R270">+5V</text>
+<text x="10.16" y="24.13" size="1.27" layer="21" font="vector" rot="R180">GND</text>
+<text x="21.59" y="24.13" size="1.27" layer="21" font="vector" rot="R180">+5V</text>
+<text x="8.89" y="13.97" size="1.778" layer="21" font="vector">Rev B.3</text>
 </plain>
 <libraries>
 <library name="wifi_WX">
@@ -375,6 +376,10 @@ design rules under a new name.</description>
 <attribute name="NAME" x="15.3162" y="5.6388" size="1.27" layer="26" ratio="10" rot="MR0"/>
 <attribute name="VALUE" x="17.78" y="0.635" size="1.27" layer="28" rot="MR0"/>
 </element>
+<element name="RAIN" library="wifi_WX" package="1X03" value="" x="13.97" y="24.13" smashed="yes" rot="MR0">
+<attribute name="NAME" x="22.3012" y="22.1488" size="1.27" layer="26" ratio="10" rot="MR0"/>
+<attribute name="VALUE" x="17.78" y="20.955" size="1.27" layer="28" rot="MR0"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
@@ -383,16 +388,18 @@ design rules under a new name.</description>
 <contactref element="WIND_DIR" pad="3"/>
 <contactref element="WIND_COUNT" pad="3"/>
 <contactref element="SUN" pad="3"/>
-<wire x1="3.81" y1="16.51" x2="6.35" y2="18.415" width="0.6096" layer="16"/>
-<wire x1="6.35" y1="18.415" x2="9.525" y2="18.415" width="0.6096" layer="16"/>
-<wire x1="9.525" y1="18.415" x2="9.525" y2="20.955" width="0.6096" layer="16"/>
-<wire x1="9.525" y1="20.955" x2="10.795" y2="20.955" width="0.6096" layer="16"/>
-<wire x1="10.795" y1="20.955" x2="10.795" y2="22.86" width="0.6096" layer="16"/>
-<wire x1="10.795" y1="22.86" x2="20.32" y2="22.86" width="0.6096" layer="16"/>
-<wire x1="20.32" y1="22.86" x2="24.13" y2="16.51" width="0.6096" layer="16"/>
-<wire x1="9.525" y1="18.415" x2="9.525" y2="15.875" width="0.6096" layer="1"/>
-<wire x1="9.525" y1="15.875" x2="11.43" y2="13.97" width="0.6096" layer="1"/>
-<wire x1="11.43" y1="13.97" x2="11.43" y2="3.81" width="0.6096" layer="1"/>
+<wire x1="3.81" y1="16.51" x2="6.35" y2="18.415" width="0.8128" layer="16"/>
+<wire x1="6.35" y1="18.415" x2="9.525" y2="18.415" width="0.8128" layer="16"/>
+<wire x1="9.525" y1="18.415" x2="9.525" y2="20.955" width="0.8128" layer="16"/>
+<wire x1="9.525" y1="20.955" x2="10.795" y2="20.955" width="0.8128" layer="16"/>
+<wire x1="9.525" y1="18.415" x2="9.525" y2="15.875" width="0.8128" layer="1"/>
+<wire x1="9.525" y1="15.875" x2="11.43" y2="15.24" width="0.8128" layer="1"/>
+<wire x1="11.43" y1="15.24" x2="11.43" y2="3.81" width="0.8128" layer="1"/>
+<contactref element="RAIN" pad="3"/>
+<wire x1="24.13" y1="16.51" x2="22.86" y2="15.24" width="0.8128" layer="1"/>
+<wire x1="22.86" y1="15.24" x2="11.43" y2="15.24" width="0.8128" layer="1"/>
+<wire x1="11.43" y1="24.13" x2="10.795" y2="24.13" width="0.6096" layer="16"/>
+<wire x1="10.795" y1="24.13" x2="10.795" y2="20.955" width="0.6096" layer="16"/>
 </signal>
 <signal name="+5V">
 <contactref element="J1" pad="P$3"/>
@@ -404,14 +411,19 @@ design rules under a new name.</description>
 <wire x1="15.875" y1="8.89" x2="15.875" y2="9.525" width="0.6096" layer="16"/>
 <wire x1="15.875" y1="9.525" x2="15.8787625" y2="8.8522125" width="0.6096" layer="16"/>
 <wire x1="15.8787625" y1="8.8522125" x2="15.8787625" y2="8.89" width="0.6096" layer="16"/>
-<wire x1="15.8787625" y1="8.89" x2="16.51" y2="8.89" width="0.6096" layer="16"/>
-<wire x1="16.51" y1="8.89" x2="16.51" y2="3.81" width="0.6096" layer="16"/>
-<wire x1="24.13" y1="11.43" x2="22.86" y2="8.89" width="0.6096" layer="16"/>
-<wire x1="22.86" y1="8.89" x2="16.51" y2="8.89" width="0.6096" layer="16"/>
-<wire x1="3.81" y1="11.43" x2="3.81" y2="10.16" width="0.6096" layer="16"/>
-<wire x1="3.81" y1="10.16" x2="5.08" y2="8.89" width="0.6096" layer="16"/>
-<wire x1="5.08" y1="8.89" x2="15.875" y2="8.89" width="0.6096" layer="16"/>
+<wire x1="15.8787625" y1="8.89" x2="16.51" y2="8.89" width="0.8128" layer="16"/>
+<wire x1="16.51" y1="8.89" x2="16.51" y2="3.81" width="0.8128" layer="16"/>
+<wire x1="24.13" y1="11.43" x2="22.86" y2="8.89" width="0.8128" layer="16"/>
+<wire x1="22.86" y1="8.89" x2="16.51" y2="8.89" width="0.8128" layer="16"/>
+<wire x1="3.81" y1="11.43" x2="3.81" y2="10.16" width="0.8128" layer="16"/>
+<wire x1="3.81" y1="10.16" x2="5.08" y2="8.89" width="0.8128" layer="16"/>
+<wire x1="5.08" y1="8.89" x2="12.065" y2="8.89" width="0.8128" layer="16"/>
+<wire x1="12.065" y1="8.89" x2="15.875" y2="8.89" width="0.8128" layer="16"/>
 <wire x1="15.875" y1="20.955" x2="12.065" y2="18.415" width="0.6096" layer="16"/>
+<contactref element="RAIN" pad="1"/>
+<wire x1="15.875" y1="20.955" x2="16.51" y2="21.59" width="0.6096" layer="16"/>
+<wire x1="12.065" y1="18.415" x2="12.065" y2="8.89" width="0.6096" layer="16"/>
+<wire x1="16.51" y1="24.13" x2="16.51" y2="21.59" width="0.6096" layer="16"/>
 </signal>
 <signal name="WIN_DIR_IN">
 <contactref element="J1" pad="P$4"/>
@@ -425,18 +437,25 @@ design rules under a new name.</description>
 <signal name="WIND_COUNT_IN">
 <contactref element="J1" pad="P$8"/>
 <contactref element="WIND_COUNT" pad="2"/>
-<wire x1="18.415" y1="20.955" x2="21.59" y2="15.875" width="0.6096" layer="16"/>
-<wire x1="21.59" y1="15.875" x2="24.13" y2="13.97" width="0.6096" layer="16"/>
+<wire x1="18.415" y1="20.955" x2="20.32" y2="20.955" width="0.6096" layer="16"/>
+<wire x1="20.32" y1="20.955" x2="20.32" y2="16.51" width="0.6096" layer="16"/>
+<wire x1="24.13" y1="13.97" x2="20.32" y2="16.51" width="0.6096" layer="16"/>
 </signal>
 <signal name="SUN_IN">
 <contactref element="J1" pad="P$5"/>
 <contactref element="SUN" pad="2"/>
-<wire x1="14.605" y1="18.415" x2="14.605" y2="14.605" width="0.6096" layer="1"/>
-<wire x1="14.605" y1="14.605" x2="13.97" y2="13.97" width="0.6096" layer="1"/>
-<wire x1="13.97" y1="13.97" x2="13.97" y2="3.81" width="0.6096" layer="1"/>
+<wire x1="13.97" y1="3.81" x2="13.97" y2="11.43" width="0.6096" layer="1"/>
+<via x="13.97" y="11.43" extent="1-16" drill="0.6" shape="square"/>
+<wire x1="13.97" y1="11.43" x2="13.97" y2="17.78" width="0.6096" layer="16"/>
+<wire x1="13.97" y1="17.78" x2="14.605" y2="18.415" width="0.6096" layer="16"/>
 </signal>
 <signal name="RAIN_CNT_IN">
 <contactref element="J1" pad="P$7"/>
+<contactref element="RAIN" pad="2"/>
+<wire x1="14.605" y1="24.13" x2="14.605" y2="20.32" width="0.508" layer="1"/>
+<wire x1="14.605" y1="20.32" x2="15.875" y2="19.05" width="0.508" layer="1"/>
+<wire x1="15.875" y1="19.05" x2="17.145" y2="18.415" width="0.508" layer="1"/>
+<wire x1="13.97" y1="24.13" x2="14.605" y2="24.13" width="0.6096" layer="1"/>
 </signal>
 </signals>
 </board>

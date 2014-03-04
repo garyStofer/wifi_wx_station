@@ -425,17 +425,19 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="SUN" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
 <part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
+<part name="RAIN" library="wifi_WX" deviceset="PINHD-1X3" device=""/>
+<part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="195.58" y="-33.02" size="3.81" layer="94" ratio="20">WunderWxStation</text>
-<text x="250.19" y="-54.61" size="3.81" layer="94" ratio="20">B.2</text>
+<text x="250.19" y="-54.61" size="3.81" layer="94" ratio="20">B.3</text>
 </plain>
 <instances>
 <instance part="SUPPLY20" gate="GND" x="106.68" y="38.1"/>
 <instance part="J1" gate="G$1" x="91.44" y="55.88" rot="R180"/>
-<instance part="P+3" gate="1" x="109.22" y="71.12"/>
+<instance part="P+3" gate="1" x="109.22" y="83.82"/>
 <instance part="WIND_DIR" gate="A" x="124.46" y="45.72"/>
 <instance part="WIND_COUNT" gate="A" x="162.56" y="55.88"/>
 <instance part="SUPPLY1" gate="GND" x="152.4" y="48.26"/>
@@ -443,6 +445,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="SUPPLY2" gate="GND" x="132.08" y="38.1"/>
 <instance part="U$1" gate="G$1" x="-5.08" y="-60.96"/>
 <instance part="U$1" gate="G$2" x="160.02" y="-60.96"/>
+<instance part="RAIN" gate="A" x="124.46" y="73.66"/>
+<instance part="SUPPLY3" gate="GND" x="114.3" y="68.58"/>
 </instances>
 <busses>
 </busses>
@@ -474,6 +478,11 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="132.08" y1="43.18" x2="132.08" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
 </segment>
+<segment>
+<pinref part="RAIN" gate="A" pin="3"/>
+<wire x1="121.92" y1="71.12" x2="114.3" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="SUPPLY3" gate="GND" pin="GND"/>
+</segment>
 </net>
 <net name="+5V" class="0">
 <segment>
@@ -490,13 +499,16 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="WIND_DIR" gate="A" pin="1"/>
 <wire x1="116.84" y1="48.26" x2="121.92" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="1" pin="+5V"/>
-<wire x1="109.22" y1="68.58" x2="109.22" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="76.2" x2="109.22" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="116.84" y1="58.42" x2="132.08" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="WIND_COUNT" gate="A" pin="1"/>
 <wire x1="132.08" y1="58.42" x2="160.02" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="58.42" x2="132.08" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="SUN" gate="A" pin="1"/>
 <wire x1="132.08" y1="48.26" x2="139.7" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="RAIN" gate="A" pin="1"/>
+<wire x1="121.92" y1="76.2" x2="109.22" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="76.2" x2="109.22" y2="81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="WIN_DIR_IN" class="0">
@@ -534,6 +546,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <label x="86.36" y="60.96" size="0.8128" layer="95" rot="R180" xref="yes"/>
 <wire x1="106.68" y1="60.96" x2="104.14" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="J1" gate="G$1" pin="7"/>
+<wire x1="106.68" y1="60.96" x2="106.68" y2="73.66" width="0.1524" layer="91"/>
+<pinref part="RAIN" gate="A" pin="2"/>
+<wire x1="106.68" y1="73.66" x2="121.92" y2="73.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

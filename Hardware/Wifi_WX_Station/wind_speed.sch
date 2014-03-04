@@ -3797,7 +3797,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <sheet>
 <plain>
 <text x="195.58" y="2.54" size="3.81" layer="94" ratio="20">WunderWxStation</text>
-<text x="258.826" y="-16.51" size="3.81" layer="94" ratio="20">B.2</text>
+<text x="258.826" y="-16.51" size="3.81" layer="94" ratio="20">B.1</text>
 </plain>
 <instances>
 <instance part="OPTO1" gate="G$1" x="101.6" y="60.96" smashed="yes">

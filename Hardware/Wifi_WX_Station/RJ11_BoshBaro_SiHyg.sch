@@ -11411,13 +11411,13 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <wire x1="2.54" y1="-7.62" x2="2.54" y2="-9.525" width="0.127" layer="21" style="shortdash"/>
 </package>
 <package name="DFN-6_SILABS">
-<smd name="P$1" x="0" y="2" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$2" x="0" y="1" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$3" x="0" y="0" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$4" x="2.9" y="0" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$5" x="2.9" y="1" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$6" x="2.9" y="2" dx="0.45" dy="0.85" layer="1" roundness="100" rot="R90"/>
-<smd name="P$7" x="1.45" y="0.95" dx="1.3" dy="2.2" layer="1"/>
+<smd name="P$1" x="0" y="2" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$2" x="0" y="1" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$3" x="0" y="0" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$4" x="2.9" y="0" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$5" x="2.9" y="1" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$6" x="2.9" y="2" dx="0.508" dy="0.85" layer="1" rot="R90"/>
+<smd name="P$7" x="1.45" y="0.95" dx="1.016" dy="1.905" layer="1"/>
 <wire x1="0.3" y1="2.5" x2="2.9" y2="2.5" width="0.127" layer="21"/>
 <wire x1="2.9" y1="2.5" x2="2.9" y2="-0.5" width="0.127" layer="21"/>
 <wire x1="2.9" y1="-0.5" x2="-0.1" y2="-0.5" width="0.127" layer="21"/>
