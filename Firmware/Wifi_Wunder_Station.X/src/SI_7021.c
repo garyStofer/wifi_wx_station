@@ -78,7 +78,7 @@ SI7021_Read_Process(void )
 
     if (SI7021_BusErr )    // Device did not init or failed-- This should not get called
     {
-        return;
+        return FALSE;
     }
 
     switch (ThisState)
@@ -163,6 +163,7 @@ SI7021_Read_Process(void )
             SensorReading.RH += WX.Calib.Hyg_offs/10.0;
 
             ThisState = SM_STOP;
+            return TRUE;
         }
             break;
 
@@ -179,5 +180,5 @@ SI7021_Read_Process(void )
             break;
     }
     
-    return TRUE;
+    return FALSE;
 }

@@ -2,8 +2,17 @@
 <html>
 <head>
 <link href="../styles.css" rel="stylesheet" type="text/css" >
+<script type="text/javascript">
+function setRadioBtn()
+{
+   document.WUNDERconfig.W_ENB[~W_ENB~].checked= true;
+   if ( parsInt(~W_ENB~) == 4)
+        document.WUNDERconfig.UpInt.value = "120";
+}
+</script>
+
 </head>
-<body class="inframe" >
+<body class="inframe" onload="setRadioBtn()" >
 	<h3>Station Configuration</h3>
 	
 	<div class="result fail" style="display:~status_fail~">
@@ -12,13 +21,24 @@
 	</div>
 
 	<form action="" method="GET" name="WUNDERconfig" > <!-- action="" == self posting form -->
-		<fieldset>
+		<fieldset name="fs_a">
 			<legend>Station Properties:</legend>
 			<div><label>Station ID :</label><input type="text" name="W_SID" size ="12" maxlength="12" value="~W_SID~"/></div>
 			<div><label>Station PWD :</label><input type="text" name="W_PASS" size ="12" maxlength="12" value="~W_PASS~"/></div>
 			<div><label>Station Elevation:</label><input type="text" name="ELEV" size ="5" maxlength="5" value="~ELEV~"/> (feet MSL)</div>
-		  	<div><label>Report Interval  :</label><input type="text" name="UpInt" size ="3" maxlength="3" value="~UpInt~"/> (seconds)</div>
-		  	<div><label>Enable Reporting :</label><input type="checkbox" name="W_ENB" ~W_ENB~ value="1"/> (Temperatur and Barometer)</div>
+            <div><label>Station Lat :</label><input type="text" name="W_LAT" size ="9" maxlength="9" value="~W_LAT~"/> (+/-)dd.ddddd </div>
+            <div><label>Station Lon :</label><input type="text" name="W_LON" size ="10" maxlength="10" value="~W_LON~"/> (+/-)ddd.ddddd</div>
+            <div><a href="http://www.geoplaner.com/" target="_blank"> Lat/Long and Elevation lookup</a></div>
+
+		  	<div><label>Report Interval :</label><input type="text" name="UpInt" size ="3" maxlength="3" value="~UpInt~"/> (seconds)</div>
+
+            <div><label>Enable Reporting :</label>
+                <input type="radio" name="W_ENB" value="0"/> None<br>
+                <input type="radio" name="W_ENB" value="1"/> Weather Underground<br>
+                <input type="radio" name="W_ENB" value="2"/> PWS-Weather/WeatherForYou<br>
+                <input type="radio" name="W_ENB" value="3"/> Weather Bug<br>
+                <input type="radio" name="W_ENB" value="4"/> CWOP/APRS 
+            </div>
 			<div><label>Report Wind      :</label><input type="checkbox" name="R_WND" ~R_WND~ value="1"/></div>
 			<div><label>Report Humidity  :</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>
 			<div><label>Report Solar     :</label><input type="checkbox" name="R_SOL" ~R_SOL~ value="1"/></div>

@@ -118,6 +118,8 @@ void HTTPPrint_R_WND(void);
 void HTTPPrint_R_HYG(void);
 void HTTPPrint_R_SOL(void);
 void HTTPPrint_R_RAIN(void);
+void HTTPPrint_W_LAT(void);
+void HTTPPrint_W_LON(void);
 
 void HTTPPrint(DWORD callbackID)
 {
@@ -443,6 +445,12 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x0000006a:
 			HTTPPrint_R_RAIN();
+			break;
+        case 0x0000006b:
+			HTTPPrint_W_LAT();
+			break;
+        case 0x0000006c:
+			HTTPPrint_W_LON();
 			break;
 		default:
 			// Output notification for undefined values

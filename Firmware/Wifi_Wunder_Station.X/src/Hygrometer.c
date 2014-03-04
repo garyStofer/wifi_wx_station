@@ -26,8 +26,7 @@ Hygro_startMeasure( void )
     else
     {
         SensorReading.RH = SensorReading.DewptF = SensorReading.DewptC =0;
-        SensorReading.TempC = 0;
-        SensorReading.TempF = 0;
+        // if only the SI7021 had a bus error then the temp will still be available from the BMP085 baro 
     }
 
 }
@@ -36,15 +35,16 @@ void
 Hygro_Read_Process(void )
 {
     float Y;
+    BOOL new_measure;
 
     if (!HIH6130_BusErr )
-        HIH6130_Read_Process( );
+       new_measure = HIH6130_Read_Process( );
     else if (!SI7021_BusErr)
-     SI7021_Read_Process( );
+       new_measure = SI7021_Read_Process( );
 
     if ( HIH6130_BusErr && SI7021_BusErr)
     {
-         // No hygromrter -- Cant calculate Dew Point
+         // No hygrometer -- Can't calculate Dew Point
          return;
     }
      /*	 Calculate DewPoint from Temp and humidity
@@ -72,9 +72,16 @@ Hygro_Read_Process(void )
              Y = (a*Tc /(b+Tc)) + ln(RH/100)
              Td = b * Y / (a - Y)
 */
+    // SI Hygro sends values >100% for condensing and user offset can add up to >100%
+    // Limit RH for all cases
+    if ( new_measure )
+    {
+        if (SensorReading.RH >100 )
+            SensorReading.RH = 100;
 
-    Y = ((17.271 * SensorReading.TempC) / (237.7+SensorReading.TempC ))+ log(SensorReading.RH/100);
-    SensorReading.DewptC = 237.7 * Y/(17.271-Y);
-    SensorReading.DewptF = SensorReading.DewptC*9/5.0+32;
+        Y = ((17.271 * SensorReading.TempC) / (237.7+SensorReading.TempC ))+ log(SensorReading.RH/100);
+        SensorReading.DewptC = 237.7 * Y/(17.271-Y);
+        SensorReading.DewptF = SensorReading.DewptC*9/5.0+32;
+    }
 
 }

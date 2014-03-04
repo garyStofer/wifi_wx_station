@@ -66,9 +66,7 @@ HIH6130_Read_Process(void )
 
     if (HIH6130_BusErr )    // Device did not init or failed
     {
-        // set impossible values for display
-        SensorReading.RH = SensorReading.DewptF = SensorReading.DewptC =0;
-        return;
+        return FALSE;
     }
     switch (ThisState)
     {
@@ -115,47 +113,15 @@ HIH6130_Read_Process(void )
             
             I2C1_Xfer(Stop, 0);
 
-          // Temp does not seem to work with i2C HIH6131
+          // Temp does not seem to work with i2C version of  HIH6131
           // tmp = (ADC_TEMP.val/16382.0 * 165)-40.0;
 
             // assigne values to global sensor struct
             SensorReading.RH = ADC_RH.val / 16382.0 * 100;      // need to do this in FP
             SensorReading.RH += WX.Calib.Hyg_offs/10.0;
 
-/*	 Calculate DewPoint from Temp and humidity
- *
- * // moved to hygrometer.c
-
-            Simple approximation formula: (not used)
-            Td = Temp_c -(100-RH)/5
-            tmp = (100 - tmp)/5;
-            tmp = Temp_c - tmp;
-            T_dewptF  = (tmp*9/5+32)*10;		// convert to 1/10 deg F
-
-
-            Close approximation formula:    (used)
-            This expression is based on the August?Roche?Magnus approximation for the saturation vapor
-            pressure of water in air as a function of temperature. It is considered valid for
-            0 °C < T < 60 °C
-            1% < RH < 100%
-            0 °C < Td < 50 °C
-
-             Formula:
-             a = 17.271
-             b = 237.7 °C
-             Tc = Temp in Celsius
-             Td = Dew point in Celsius
-             RH = Relative Humidity
-             Y = (a*Tc /(b+Tc)) + ln(RH/100)
-             Td = b * Y / (a - Y)
-
-
-            Y = ((17.271 * SensorReading.TempC) / (237.7+SensorReading.TempC ))+ log(SensorReading.RH/100);
-            SensorReading.DewptC = 237.7 * Y/(17.271-Y);
-            SensorReading.DewptF = SensorReading.DewptC*9/5.0+32;
- * */
-    
             ThisState = SM_STOP;
+            return TRUE;
         }
             break;
 
@@ -172,5 +138,5 @@ HIH6130_Read_Process(void )
             break;
     }
     
-    return TRUE;
+    return FALSE;
 }

@@ -46,7 +46,6 @@ Once_perSecTask(void)
         NIST_TimeSyncRequest();                             // Daily refresh the RTC with NIST time
     }
 
-
     if (sec_count % BARO_HYG_TEMP_MEAS_Interval == 0)
     {
         Baro_startMeasure();
@@ -169,8 +168,14 @@ Once_perSecTask(void)
         if (SensorReading.AvgWindDir < 0)
             SensorReading.AvgWindDir += 360;
 
-        WunderSendData(); // starts the HTTP client process to send data to Wunderground
+        WunderSendData(); // starts the HTTP client process to send data to Wunderground and others that do HTTP GET protocol
+       
      }
+
+    // CWOP accecpts data in 5 Minute intervals only -- Nothing faster. Web gui to set WX.Wunder.UplnkInterval to max  
+    // when switching to CWOP for longest possible averaging window
+    if (sec_count % 300 == 0)
+        CWOPSendData();
 
 }
 

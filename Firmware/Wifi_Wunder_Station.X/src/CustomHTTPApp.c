@@ -103,14 +103,30 @@ HTTP_GetExec_wuncgf_htm()
 {
     BYTE *ptr;
     BYTE err = 0;
-    BOOL enaRain = FALSE, enaStation = FALSE,enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
+    BOOL enaRain = FALSE, enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
+    BYTE enaStation = 0;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_SID")) != NULL )
         strncpy((char *) WX.Wunder.StationID, (char *) ptr, sizeof (WX.Wunder.StationID));
-
     
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_PASS")) != NULL)
         strncpy((char *) WX.Wunder.StationPW, (char*) ptr, sizeof (WX.Wunder.StationPW));
+
+    if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_LAT")) != NULL )
+    {
+        WX.Wunder.Lat = atof((char *) ptr);
+
+        if (WX.Wunder.Lat>90.0 || WX.Wunder.Lat<-90.0  )     // if not on this world
+            WX.Wunder.Lat = 0;
+    }
+
+     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_LON")) != NULL )
+     {
+        WX.Wunder.Lon = atof((char *) ptr);
+
+        if (WX.Wunder.Lon >180 ||WX.Wunder.Lon <-180 )       // if not on this world
+            WX.Wunder.Lon = 0;
+     }
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "ELEV")) != NULL)
         WX.Wunder.StationElev = atoi((char *) ptr);
@@ -119,8 +135,8 @@ HTTP_GetExec_wuncgf_htm()
     {
         WX.Wunder.UplnkInterval= atoi((char *) ptr);
 
-        // limitto sane values
-        if (WX.Wunder.UplnkInterval >MAX_UPLINK_INTERVAL )
+        // limit to sane values
+        if (WX.Wunder.UplnkInterval > MAX_UPLINK_INTERVAL )
             WX.Wunder.UplnkInterval = MAX_UPLINK_INTERVAL;
 
         if (WX.Wunder.UplnkInterval < MIN_UPLINK_INTERVAL )
@@ -152,12 +168,14 @@ HTTP_GetExec_wuncgf_htm()
             err++;
     }
 
-
+     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_ENB"))!= NULL)
+     {
+        enaStation = atoi((char *) ptr);
+     }
     // these are checkbox input, only checked items are transmitted, so we have to assume that they are notc checked if we don recive them
     // since there are multiple forms on the page we have to special case them and only set or clear when we know that the wunder config
     // form sent the form submit
-    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_ENB"))
-        enaStation  = 1;
+   
 
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_WND"))
         enaWind=1;
@@ -1176,10 +1194,10 @@ HTTPPrint_adc(WORD num)
             ADval = ADC1BUF2 * (ADC_SCALE * 3.3/1024);
              break;
         case 3:
-             ADval = ADC1BUF3 * ((26.1+14.0)/26.1) *(3.3/1024);
+             ADval = SOL_ADCBUFF * ((26.1+14.0)/26.1) *(3.3/1024);
              break;
         case 4:
-             ADval = ADC1BUF4 * ((26.1+8.2)/26.1) * (3.3/1024);
+             ADval = WIND_ADCBUFF * (3.3/1024);
              break;
         case 5:
              ADval = PWR_5V_ADCBUFF * ((10.0+10.0)/10.0)* (3.3/1024);// ADC is referenced of the 3.3V PS , AN5 input has 2:1 voltage divider
@@ -1251,17 +1269,29 @@ HTTPPrint_W_PASS(void)
     TCPPutString(sktHTTP, (BYTE *) WX.Wunder.StationPW);
 }
 
+void HTTPPrint_W_LAT(void)
+{
+    BYTE buff[12];
+    stoa_dec((char*) buff,  (long) (WX.Wunder.Lat*100000),5); 
+    TCPPutString(sktHTTP, (BYTE*) buff);
+ 
+}
 
+void HTTPPrint_W_LON(void)
+{
+    BYTE buff[12];
+    stoa_dec((char*) buff,  (long) (WX.Wunder.Lon*100000),5); // the integer part
+    TCPPutString(sktHTTP, (BYTE*) buff);
+}
 
 ROM BYTE HTML_checked[] = "checked";
 ROM BYTE HTML_off[] = "Off";
 void
 HTTPPrint_W_ENB(void)
 {
-    if (WX.Wunder.report_enable.Station)
-        TCPPutROMString(sktHTTP, HTML_checked);
-    else
-        TCPPutROMString(sktHTTP, HTML_off);
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Wunder.report_enable.Station, 0);
+    TCPPutString(sktHTTP, temp);
 }
 void
 HTTPPrint_R_WND(void)

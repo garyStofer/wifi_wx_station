@@ -30,6 +30,7 @@ function updateThisStatus(xmlData) {
 	var sol = getXMLValue(xmlData, 'Sol_W');
 	var rain = getXMLValue(xmlData, 'Rain');
 	var rainday = getXMLValue(xmlData, 'RainDay');
+	var elevation = getXMLValue(xmlData, 'Elevation');
 	
 
 	var ws_kmh = ws * 1.609344;
@@ -42,15 +43,18 @@ function updateThisStatus(xmlData) {
 	var rainday_mm = rainday *25.4;
 	
 	
-	//NWS formula for Density Altitude in feet based on inches Hg and F
-	var d_alt = tF-0.0+459.67;	// this strange subtraction of 0.0 seems to be nececcasry to convert the number in tF correctly to a floating pt 
-								// without it I get NAN later in the calculation -- Maybe some operator override on the "+" sign ??
-	d_alt = 17.326*baro / d_alt; //
+	//NWS formula for DRY Density Altitude in feet based on inches Hg station pressure and degF
+	//As used by ASOS/AWOS 
+	// tmp = 60 + 459.67; // fixed Rankine temp-- 60F == std temp at sea level ==519.67
+	var elev =  parseFloat(elevation);
+    var baro_comp = (29.92126 * (1.0 - (1.0 / Math.pow(10, ((0.0081350 * elev) / (519.67+ (0.00178308 * elev)))))));
+	var station_pressure = parseFloat(baro) - baro_comp;	//undo baro comp to get station pressure
+	var d_alt = 459.67 + parseFloat(tF);									
+	d_alt = 17.326 * station_pressure / d_alt; 
 	d_alt = 1.0 - Math.pow( d_alt, 0.235);
 	d_alt = 145442.16 * d_alt;
 	
-	var d_alt_m = d_alt * 0.3048;			// convert to meters 
-	
+		
 	
 	// Update the values on the screen
 	document.getElementById("tic").setAttribute("transform", "rotate("+wd+")");
@@ -64,7 +68,7 @@ function updateThisStatus(xmlData) {
 	document.getElementById("sol_rad").textContent = sol;
 	document.getElementById("rain_in").textContent = rain_mm.toFixed(0);
 	document.getElementById("rain_day").textContent = rainday_mm.toFixed(0);
-	document.getElementById("D_alt").textContent = d_alt_m.toFixed(0);
+	document.getElementById("D_alt").textContent = d_alt.toFixed(0);
 
 }
 
@@ -101,7 +105,7 @@ setTimeout("newAJAXCommand('sensors.xml', updateThisStatus, true)",100);
 <text x="-380" y= "60">Solar <tspan id="sol_rad"> </tspan> W/m2</text>
 <text x="-380" y= "90">Rain <tspan id="rain_in"> </tspan> mm/Hr</text>
 <text x="-380" y= "120">Rain Total <tspan id="rain_day"> </tspan> mm/Day</text>
-<text x="-380" y= "150">Density Altitude <tspan id="D_alt"> </tspan> m</text>
+<text x="-380" y= "150">Density Altitude <tspan id="D_alt"> </tspan> ft</text>
 
 
 </svg>

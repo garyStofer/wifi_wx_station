@@ -53,6 +53,8 @@ void WX_perm_data_init_toDefault( void)
 
    strcpy(WX.Wunder.StationID,MY_DEFAULT_WUNDER_STATION_ID);
    strcpy(WX.Wunder.StationPW,MY_DEFAULT_WUNDER_STATION_PWD);
+   WX.Wunder.Lat =0.0;
+   WX.Wunder.Lon = 0.0;
    strcpy(WX.Station.User_name,HTTP_USERNAME);
    strcpy(WX.Station.password,HTTP_PASSWORD);
 
@@ -88,14 +90,14 @@ void WX_perm_data_init_toDefault( void)
 // dec_places == 1 == decimal point and 1 digit after
 //  buff must be at least 9 bytes long for worst case: -0.00001\0
 void
-stoa_dec( char * buff,  short data, short dec_places)
+stoa_dec( char * buff,  long data, short dec_places)
 {
     short digit;
     short n;            // current digit beeing converted
-    short div;          // The decade divisor
+    long div;          // The decade divisor
     char leading0 = 1;  // flag to insert leading 0 if needed
 
-    if ( data == 0)     // The trivial case -- nothing to calculate, simpli set and return
+    if ( data == 0)     // The trivial case -- nothing to calculate, simply set and return
     {
         *buff++ = '0';
         if (dec_places)
@@ -113,7 +115,7 @@ stoa_dec( char * buff,  short data, short dec_places)
         data = -data;
     }
 
-    for ( n=5,div=10000; div ; n--,div/=10)     // convert each digit from the front
+    for ( n=8,div=10000000; div ; n--,div/=10)     // convert each digit from the front
     {
         if (n-dec_places == 0)                  // insert decimal point and leading 0 if needed
         {

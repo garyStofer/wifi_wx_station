@@ -22,9 +22,9 @@ typedef  struct
     float RH;
     short Wind_dir;             // momentary wind direction (1 sec)
     float Wind_speed;           // momentary wind speed     (1 sec)
-    float Wind_gust;            // Wind peak over wunderground update interval
+    float Wind_gust;            // Wind peak over  update interval
     float Wind_gust_5min;      // Wind peak over last 5 minutes
-    short AvgWindDir;           // Average wind direction over wunderground update interval
+    short AvgWindDir;           // Average wind direction over  update interval
     float AvgWindSpd;           // Average wind speed  ""
     short SolRad;
     float RainIn;
@@ -56,15 +56,16 @@ typedef  struct __attribute__((__packed__))
    short StationElev;
    struct tag_Report_enables
     {
-       short Station:1;
+       short Station:4;
        short Wind :1;
        short Hyg : 1;
        short Sol : 1;
        short Rain : 1;
-       short unused: 11;
+       short unused: 8;
     }report_enable;
     char TZ_offset;
-    char unused2[3];
+    float Lat;
+    float Lon;
 }t_wunder_data;
 
 typedef struct __attribute__((__packed__))
@@ -115,7 +116,7 @@ extern void WX_perm_data_init_toDefault( void);
 extern void WX_readPerm_data(void);
 extern void WX_writePerm_data(void);
 
-extern void stoa_dec( char * buff,  short data, short dec_places);
+extern void stoa_dec( char * buff,  long data, short dec_places);
 
 
 #ifdef	__cplusplus

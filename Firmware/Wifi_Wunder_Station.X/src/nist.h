@@ -25,7 +25,7 @@ extern "C" {
 
 #define NIST_DAYTIME_PORT	13 	// for Date_time service
 //#define NIST_NTP_PORT	123 	// for Network  Time Protocol
-#define NIST_TIMEOUT 	8       // time to wait for a reply from a NIST server before timeout, also time to wait to retry the call
+#define NIST_TIMEOUT 	10       // time to wait for a reply from a NIST server before timeout, also time to wait to retry the call
 
 enum _nist_SM{
     SM_START = 0,

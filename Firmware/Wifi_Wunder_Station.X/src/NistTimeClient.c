@@ -12,9 +12,12 @@ static  BOOL NistGotGoodTime = FALSE;
 void        // Function to restart a time sync from NIST
 NIST_TimeSyncRequest( void)
 {
-    NistGotGoodTime = FALSE;
-    ThisState = SM_START;
-    return;
+   if (ThisState == SM_IDLE)
+   {
+        NistGotGoodTime = FALSE;
+        ThisState = SM_START;
+   }
+   return;
 }
 
 BOOL  
@@ -82,7 +85,7 @@ NIST_DAYTIME_Client(void)
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
 
-                    putrsUART((ROM char*) "Nist timedout waiting for Socket connection,aborting\r\n");
+                    putrsUART((ROM char*) "NIST sock connect timed out,aborting\r\n");
 
                     // Close the socket so it can be used by other modules
                     ThisState = SM_DISCONNECT;
@@ -106,7 +109,7 @@ NIST_DAYTIME_Client(void)
                 if (NistRspBuffer[28] - '0' < 2)  // The time servers health status
                 {
 
-                    putrsUART((ROM char*) "Nist got good time\r\n");
+                    putrsUART((ROM char*) "NIST got good time\r\n");
 
                     //extracting the time from the response and setting the RTC clock
 
@@ -129,9 +132,6 @@ NIST_DAYTIME_Client(void)
             }
             else
             {
-
-                //                putrsUART((ROM char*)"w");
-
                 // wait to get data and abort if it takes too long
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
@@ -145,7 +145,6 @@ NIST_DAYTIME_Client(void)
 
             if (!TCPIsConnected(sock))
             {
-
                 //putrsUART((ROM char*) "NIST Server has disconnected\r\n");
                 ThisState = SM_DISCONNECT;
             }
@@ -153,10 +152,9 @@ NIST_DAYTIME_Client(void)
 
         case SM_DISCONNECT:
             // Close the socket so it can be used by other modules
-
             //putrsUART((ROM char*) "Nist Disconnect\r\n");
-
-            TCPDisconnect(sock);
+            TCPDisconnect(sock);        // This sends a "RST"
+            TCPDisconnect(sock);        // This sends a "FIN"
             sock = INVALID_SOCKET;
             if (NistGotGoodTime )
             {

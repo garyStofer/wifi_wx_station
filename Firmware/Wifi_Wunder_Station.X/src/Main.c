@@ -347,6 +347,7 @@ main(void)
         }
 
         WunderHttpClient();
+        CWOP_Client();
 
 
         // TODO: This could go somewhere else, i.e inside an event ??

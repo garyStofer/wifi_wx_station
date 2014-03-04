@@ -235,8 +235,9 @@
 	// Allocate how much total RAM (in bytes) you want to allocate
 	// for use by your TCP TCBs, RX FIFOs, and TX FIFOs.
 	#define TCP_ETH_RAM_SIZE			(4369ul)
-//	#define TCP_PIC_RAM_SIZE			(700ul)
-	#define TCP_PIC_RAM_SIZE			(780ul)
+//	#define TCP_PIC_RAM_SIZE			(780ul)  // for 200 byte receive buffer 
+        #define TCP_PIC_RAM_SIZE			(1080ul) // for 512 receive buffer -- see below
+//      #define TCP_PIC_RAM_SIZE			(1600ul) // for 1024 receive buffer -- see below
 	#define TCP_SPI_RAM_SIZE			(0ul)
 	#define TCP_SPI_RAM_BASE_ADDRESS		(0x00)
 
@@ -297,12 +298,13 @@
 			//{TCP_PURPOSE_BERKELEY_SERVER, TCP_ETH_RAM, 25, 20},
 			//{TCP_PURPOSE_BERKELEY_CLIENT, TCP_ETH_RAM, 125, 100},
 
-                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // Note these are sized so as to use up use up
+                     {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // Note these are sized so as to use up 
                      {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // all the available memory in the ethernet controller
                      {TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 65,65},
                      {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},
- //                    {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,1024 },  WU load switching center problem fix
-                     {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,200 },
+ //                  {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,1024 }, // Large receive buffer for WU load switching center problem fix
+                     {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,512 },
+ //                  {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,200 },
 		};
 		#define END_OF_TCP_CONFIGURATION
 	#endif
