@@ -182,8 +182,8 @@ BMP085_Read_Process(void )
             B5 = X1+X2;
             T = (B5+8)/16;
 
-            // calculate the Temperature only if there is no SI7021 present
-            if ( SI7021_BusErr )
+            // calculate the Temperature only if selected so  or there is no 7021
+            if ( SI7021_BusErr || WX.Wunder.report_enable.BaroT )
             {
                 SensorReading.TempC = T/10.0;
                 SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset

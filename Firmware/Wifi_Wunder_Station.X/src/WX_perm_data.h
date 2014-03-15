@@ -61,7 +61,8 @@ typedef  struct __attribute__((__packed__))
        short Hyg : 1;
        short Sol : 1;
        short Rain : 1;
-       short unused: 8;
+       short BaroT: 1;
+       short unused: 7;
     }report_enable;
     char TZ_offset;
     float Lat;

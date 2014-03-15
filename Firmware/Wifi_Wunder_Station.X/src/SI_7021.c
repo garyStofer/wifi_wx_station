@@ -152,11 +152,13 @@ SI7021_Read_Process(void )
 
             Temp_C = (ADC_TEMP.val*175.72/65536) -46.85;    // Magic numbers from SI datasheet  
             
-            // Overwrite temp reading from  Baro 
-            SensorReading.TempC = Temp_C;
-            SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset
-            SensorReading.TempF = SensorReading.TempC * 9.0 / 5.0 + 32;       // Conversion to deg F
-
+            // Overwrite temp reading from  Baro
+            if (! WX.Wunder.report_enable.BaroT)
+            {
+                SensorReading.TempC = Temp_C;
+                SensorReading.TempC += (WX.Calib.Temp_offs/10.0) * 5.0/9;         // apply cal offset
+                SensorReading.TempF = SensorReading.TempC * 9.0 / 5.0 + 32;       // Conversion to deg F
+            }
 
             RH = (ADC_RH.val*125.0/65536)-6.0;              // Magic numbers from SI datasheet
             SensorReading.RH = RH;      // need to do this in FP

@@ -6,7 +6,7 @@
 function setRadioBtn()
 {
    document.WUNDERconfig.W_ENB[~W_ENB~].checked= true;
-   if ( parsInt(~W_ENB~) == 4)
+	if ( parseInt(~W_ENB~) == 4)
         document.WUNDERconfig.UpInt.value = "120";
 }
 </script>
@@ -20,7 +20,7 @@ function setRadioBtn()
 		<p>Try again...</p>
 	</div>
 
-	<form action="" method="GET" name="WUNDERconfig" > <!-- action="" == self posting form -->
+	<form  action="" method="GET" name="WUNDERconfig" > <!-- action="" == self posting form -->
 		<fieldset name="fs_a">
 			<legend>Station Properties:</legend>
 			<div><label>Station ID :</label><input type="text" name="W_SID" size ="12" maxlength="12" value="~W_SID~"/></div>
@@ -43,6 +43,7 @@ function setRadioBtn()
 			<div><label>Report Humidity  :</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>
 			<div><label>Report Solar     :</label><input type="checkbox" name="R_SOL" ~R_SOL~ value="1"/></div>
 			<div><label>Report Rain      :</label><input type="checkbox" name="R_RAIN" ~R_RAIN~ value="1"/></div>
+            <div><label>Use Baro Temp    :</label><input type="checkbox" name="BARO_T" ~BARO_T~ value="1"/></div>
 			<div> <input type="submit" class="sm" name="_SAV1" value="Save"/> </div>
 		</fieldset>
 	</form>  

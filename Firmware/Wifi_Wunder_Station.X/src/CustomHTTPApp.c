@@ -98,12 +98,13 @@ HTTPCheckAuth(BYTE* cUser, BYTE* cPass)
 }
 #endif
 
+// ToDo -- this function would be better if we split  up into multiple functions dealing with just one form each
 static void
 HTTP_GetExec_wuncgf_htm()
 {
     BYTE *ptr;
     BYTE err = 0;
-    BOOL enaRain = FALSE, enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
+    BOOL enaBaroT =FALSE,enaRain = FALSE, enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
     BYTE enaStation = 0;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_SID")) != NULL )
@@ -172,10 +173,10 @@ HTTP_GetExec_wuncgf_htm()
      {
         enaStation = atoi((char *) ptr);
      }
-    // these are checkbox input, only checked items are transmitted, so we have to assume that they are notc checked if we don recive them
+    // these are checkbox input, only checked items are transmitted, so we have to assume that they are not checked if we don't recive them
     // since there are multiple forms on the page we have to special case them and only set or clear when we know that the wunder config
     // form sent the form submit
-   
+
 
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_WND"))
         enaWind=1;
@@ -188,7 +189,10 @@ HTTP_GetExec_wuncgf_htm()
         enaSol= 1;
 
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_RAIN"))
-        enaRain= 1;
+         enaRain= 1;
+
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "BARO_T"))
+        enaBaroT= 1;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALto")) != NULL)
         WX.Calib.Temp_offs =  atoi((char *) ptr);
@@ -257,6 +261,7 @@ HTTP_GetExec_wuncgf_htm()
               WX.Wunder.report_enable.Hyg = enaHyg;
               WX.Wunder.report_enable.Sol = enaSol;
               WX.Wunder.report_enable.Rain= enaRain;
+              WX.Wunder.report_enable.BaroT= enaBaroT;
               WX_writePerm_data();
               WDIR_cal_tmp.DoWindDirCal = FALSE;
     }
@@ -461,6 +466,7 @@ HTTPExecuteGet(void)
     // If it's the LED updater file
     if (!memcmppgm2ram(filename, "togg.cgi", 8))
         HTTP_GetExec_togg_outputs_cgi();
+// ToDo: Consider breaking the function  HTTP_GetExec_wuncgf_htm() up into 3 parts to deal witha single form each
     else if (!memcmppgm2ram(filename, "protect/wuncfg.htm", 18))
         HTTP_GetExec_wuncgf_htm();
     else if (!memcmppgm2ram(filename, "protect/snscfg.htm", 18))
@@ -1331,6 +1337,14 @@ HTTPPrint_Ala(WORD num)
 {
     // bit 1 is used as global alarm Arm/disarm
     if (WX.Alarms.enable & 1<<num )
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
+
+HTTPPrint_BARO_T()
+{
+       if ( WX.Wunder.report_enable.BaroT)
         TCPPutROMString(sktHTTP, HTML_checked);
     else
         TCPPutROMString(sktHTTP, HTML_off);

@@ -7,10 +7,10 @@
 <script type="text/javascript">
 function setCloudButton()
 {
-document.getElementById('cld_WU').style.display= (parseInt(~W_ENB~) == 1) ? "inherit":"none";
-document.getElementById('cld_CW').style.display= (parseInt(~W_ENB~) == 4) ? "inherit":"none";
-document.getElementById('cld_WX').style.display= (parseInt(~W_ENB~) == 3) ? "inherit":"none";
-document.getElementById('cld_PWS').style.display= (parseInt(~W_ENB~) == 2) ? "inherit":"none";
+	document.getElementById('cld_WU').style.display= (parseInt(~W_ENB~) == 1) ? "inherit":"none";
+	document.getElementById('cld_PWS').style.display= (parseInt(~W_ENB~) == 2) ? "inherit":"none";
+	document.getElementById('cld_WX').style.display= (parseInt(~W_ENB~) == 3) ? "inherit":"none";
+	document.getElementById('cld_CW').style.display= (parseInt(~W_ENB~) == 4) ? "inherit":"none";
 }       
 
 </script>
@@ -21,9 +21,9 @@ document.getElementById('cld_PWS').style.display= (parseInt(~W_ENB~) == 2) ? "in
 <div id="menu">
 <a href="compas.svg"  target="main_Iframe">Local Display</a>
 <a id="cld_WU" href="wunder.htm" target="main_Iframe">Wunder Display</a>
-<a id="cld_CW" href="cwop.htm" target="main_Iframe">CWOP Display</a>
-<a id="cld_WX" href="wxbug.htm" target="main_Iframe">WXbug Display</a>
-<a id="cld_PWS" href="pwswxfu.htm" target="main_Iframe">PWS Display</a>
+<a id="cld_CW" href="http://www.findu.com/cgi-bin/panel.cgi?call=~W_SID~&xsize=310&rcolor=0,0,255&acolor=0,0,255&fcolor=255,0,0&led=0" target="main_Iframe">CWOP Display</a>
+<a id="cld_WX" href="http://m.weatherbug.com/CA/Concord-weather/local-weather/current-conditions/~W_SID~" target="_blank">WXbug Display</a>
+<a id="cld_PWS" href="http://www.pwsweather.com/obs/~W_SID~.html" target="_blank">PWS Display</a>
 <a href="leds.htm" target="main_Iframe">System LEDs</a>
 <a href="outputs.htm" target="main_Iframe">Remote Control</a>
 <a href="inputs.htm"  target="main_Iframe">Inputs/Alarms </a>
