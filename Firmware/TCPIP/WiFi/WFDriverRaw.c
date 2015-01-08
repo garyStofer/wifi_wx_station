@@ -670,7 +670,8 @@ static UINT16 WaitForRawMoveComplete(UINT8 rawId)
 
     #if defined(WF_DEBUG)
     // Before we enter the while loop, get the tick timer count and save it
-    maxAllowedTicks = TICKS_PER_SECOND / 2;  /* 500 ms timeout */
+    // GS -- changed from 500ms timeout
+    maxAllowedTicks = TICKS_PER_SECOND ;  /* 1000 ms timeout */
     startTickCount = (UINT32)TickGet();
     #endif
     while (1)
