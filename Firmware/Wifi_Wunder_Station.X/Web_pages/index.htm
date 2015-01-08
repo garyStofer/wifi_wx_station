@@ -11,6 +11,7 @@ function setCloudButton()
 	document.getElementById('cld_PWS').style.display= (parseInt(~W_ENB~) == 2) ? "inherit":"none";
 	document.getElementById('cld_WX').style.display= (parseInt(~W_ENB~) == 3) ? "inherit":"none";
 	document.getElementById('cld_CW').style.display= (parseInt(~W_ENB~) == 4) ? "inherit":"none";
+   	document.getElementById('cld_WOW').style.display= (parseInt(~W_ENB~) == 5) ? "inherit":"none";
 }       
 
 </script>
@@ -21,9 +22,10 @@ function setCloudButton()
 <div id="menu">
 <a href="compas.svg"  target="main_Iframe">Local Display</a>
 <a id="cld_WU" href="wunder.htm" target="main_Iframe">Wunder Display</a>
-<a id="cld_CW" href="http://www.findu.com/cgi-bin/panel.cgi?call=~W_SID~&xsize=310&rcolor=0,0,255&acolor=0,0,255&fcolor=255,0,0&led=0" target="main_Iframe">CWOP Display</a>
+<a id="cld_CW" href="http://www.findu.com/cgi-bin/panel.cgi?call=~W_SID~&xsize=310&rcolor=0,0,255&acolor=0,0,255&fcolor=255,0,0&led=0" target="_blank">CWOP Display</a>
 <a id="cld_WX" href="http://m.weatherbug.com/CA/Concord-weather/local-weather/current-conditions/~W_SID~" target="_blank">WXbug Display</a>
 <a id="cld_PWS" href="http://www.pwsweather.com/obs/~W_SID~.html" target="_blank">PWS Display</a>
+<a id="cld_WOW" href="http://wow.metoffice.gov.uk/weather/view?siteID=~W_SID~" target="_blank">WOW Display</a>
 <a href="leds.htm" target="main_Iframe">System LEDs</a>
 <a href="outputs.htm" target="main_Iframe">Remote Control</a>
 <a href="inputs.htm"  target="main_Iframe">Inputs/Alarms </a>
