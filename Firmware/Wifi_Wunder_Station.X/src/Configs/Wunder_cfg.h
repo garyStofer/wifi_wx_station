@@ -13,12 +13,12 @@ extern "C" {
 #endif
 #define MY_DEFAULT_WUNDER_STATION_ID "StationID"
 #define MY_DEFAULT_WUNDER_STATION_PWD "passwd" 
-
+/*
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE1        (38ul)
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE2        (102ul)
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE3        (136ul)
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE4        (125ul)
-
+*/
 #define MY_DEFAULT_NIST1_IP_ADDR_BYTE1        (128ul)
 #define MY_DEFAULT_NIST1_IP_ADDR_BYTE2        (138ul)
 #define MY_DEFAULT_NIST1_IP_ADDR_BYTE3        (140ul)
@@ -29,9 +29,9 @@ extern "C" {
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE3        (141ul)
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE4        (172ul)
 
-#define MAX_UPLINK_INTERVAL 120
+#define MAX_UPLINK_INTERVAL 3600
 #define MIN_UPLINK_INTERVAL 2
-#define WIND_GUST_INTERVAL 60       // Local display wind-gusts are held for 60 seconds --
+//#define WIND_GUST_INTERVAL 60     // Local display wind-gusts are held for 60 seconds --
 
 
 #define UPLINK_INTERVAL_DEFAULT 60

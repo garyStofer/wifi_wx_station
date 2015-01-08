@@ -254,7 +254,7 @@
 #define RAIN_COUNTER  TMR4    // The count the Rain bucket generates in the Rain Measure Interval
 
 #define ADC_R1 (14.0)          // Voltage divider R1 on external ADC inputs
-#define ADC_R2 ( 26.1 )         // Voltage divider R2 on external ADC inputs
+#define ADC_R2 ( 26.1 )        // Voltage divider R2 on external ADC inputs
 #define ADC_SCALE ((ADC_R1+ADC_R2) / ADC_R2)
 
 
