@@ -108,8 +108,25 @@ HTTP_GetExec_wuncgf_htm()
     BYTE enaStation = 0;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_SID")) != NULL )
-        strncpy((char *) WX.Wunder.StationID, (char *) ptr, sizeof (WX.Wunder.StationID));
-    
+    {
+        WORD n =0;
+        while ( n < sizeof (WX.Wunder.StationID))  // strip out space
+        {
+            if (*ptr == 0x20)
+            {
+                ptr++;
+                continue;
+            }
+            WX.Wunder.StationID[n++] = *ptr;
+
+
+            if (*ptr++ == NULL )
+                break;
+        }
+
+       // strncpy((char *) WX.Wunder.StationID, (char *) ptr, sizeof (WX.Wunder.StationID));
+    }
+
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_PASS")) != NULL)
         strncpy((char *) WX.Wunder.StationPW, (char*) ptr, sizeof (WX.Wunder.StationPW));
 
@@ -1191,7 +1208,11 @@ HTTPPrint_adc(WORD num)
     switch (num)
     {
         case 0:
+#ifdef using_Solar_for_soil_wetness
+            ADval = ADC1BUF0 * ( 3.3/1024);
+#else
             ADval = ADC1BUF0 * (ADC_SCALE * 3.3/1024);
+#endif
             break;
         case 1:
             ADval = ADC1BUF1 * (ADC_SCALE * 3.3/1024);
