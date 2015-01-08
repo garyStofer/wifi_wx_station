@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -2482,52 +2482,31 @@ Source: AVX .. aphvc.pdf</description>
 </library>
 <library name="1AA_Stofer">
 <packages>
-<package name="TSSOP16">
-<description>&lt;b&gt;Thin Shrink Small Outline Plastic 16&lt;/b&gt;&lt;p&gt;
-http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
-<wire x1="-2.5146" y1="-2.2828" x2="2.5146" y2="-2.2828" width="0.1524" layer="21"/>
-<wire x1="2.5146" y1="2.2828" x2="2.5146" y2="-2.2828" width="0.1524" layer="21"/>
-<wire x1="2.5146" y1="2.2828" x2="-2.5146" y2="2.2828" width="0.1524" layer="21"/>
-<wire x1="-2.5146" y1="-2.2828" x2="-2.5146" y2="2.2828" width="0.1524" layer="21"/>
-<wire x1="-2.286" y1="-2.0542" x2="2.286" y2="-2.0542" width="0.0508" layer="21"/>
-<wire x1="2.286" y1="2.0542" x2="2.286" y2="-2.0542" width="0.0508" layer="21"/>
-<wire x1="2.286" y1="2.0542" x2="-2.286" y2="2.0542" width="0.0508" layer="21"/>
-<wire x1="-2.286" y1="-2.0542" x2="-2.286" y2="2.0542" width="0.0508" layer="21"/>
-<circle x="-1.6256" y="-1.2192" radius="0.4572" width="0.1524" layer="21"/>
-<smd name="1" x="-2.275" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="2" x="-1.625" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="3" x="-0.975" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="4" x="-0.325" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="5" x="0.325" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="6" x="0.975" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="7" x="1.625" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="8" x="2.275" y="-2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="9" x="2.275" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="10" x="1.625" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="11" x="0.975" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="12" x="0.325" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="13" x="-0.325" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="14" x="-0.975" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="15" x="-1.625" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<smd name="16" x="-2.275" y="2.9178" dx="0.3048" dy="0.9906" layer="1"/>
-<text x="-2.8956" y="-2.0828" size="1.016" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="3.8862" y="-2.0828" size="1.016" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
-<rectangle x1="-2.3766" y1="-3.121" x2="-2.1734" y2="-2.2828" layer="51"/>
-<rectangle x1="-1.7266" y1="-3.121" x2="-1.5234" y2="-2.2828" layer="51"/>
-<rectangle x1="-1.0766" y1="-3.121" x2="-0.8734" y2="-2.2828" layer="51"/>
-<rectangle x1="-0.4266" y1="-3.121" x2="-0.2234" y2="-2.2828" layer="51"/>
-<rectangle x1="0.2234" y1="-3.121" x2="0.4266" y2="-2.2828" layer="51"/>
-<rectangle x1="0.8734" y1="-3.121" x2="1.0766" y2="-2.2828" layer="51"/>
-<rectangle x1="1.5234" y1="-3.121" x2="1.7266" y2="-2.2828" layer="51"/>
-<rectangle x1="2.1734" y1="-3.121" x2="2.3766" y2="-2.2828" layer="51"/>
-<rectangle x1="2.1734" y1="2.2828" x2="2.3766" y2="3.121" layer="51"/>
-<rectangle x1="1.5234" y1="2.2828" x2="1.7266" y2="3.121" layer="51"/>
-<rectangle x1="0.8734" y1="2.2828" x2="1.0766" y2="3.121" layer="51"/>
-<rectangle x1="0.2234" y1="2.2828" x2="0.4266" y2="3.121" layer="51"/>
-<rectangle x1="-0.4266" y1="2.2828" x2="-0.2234" y2="3.121" layer="51"/>
-<rectangle x1="-1.0766" y1="2.2828" x2="-0.8734" y2="3.121" layer="51"/>
-<rectangle x1="-1.7266" y1="2.2828" x2="-1.5234" y2="3.121" layer="51"/>
-<rectangle x1="-2.3766" y1="2.2828" x2="-2.1734" y2="3.121" layer="51"/>
+<package name="AMS_5040_SPECIAL">
+<smd name="P$1" x="0" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$2" x="0.635" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$3" x="1.27" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$4" x="1.905" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$5" x="2.54" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$6" x="3.175" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$7" x="3.81" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$8" x="4.445" y="-0.635" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<wire x1="-0.635" y1="5.715" x2="5.08" y2="5.715" width="0.127" layer="21"/>
+<wire x1="5.08" y1="5.715" x2="5.08" y2="0.635" width="0.127" layer="21"/>
+<smd name="P$9" x="4.445" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$10" x="3.81" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$11" x="3.175" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$12" x="2.54" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$13" x="1.905" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$14" x="1.27" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$15" x="0.635" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<smd name="P$16" x="0" y="6.985" dx="1.397" dy="0.381" layer="1" rot="R90"/>
+<wire x1="-0.635" y1="5.715" x2="-0.635" y2="0.635" width="0.127" layer="21"/>
+<wire x1="-0.635" y1="0.635" x2="5.08" y2="0.635" width="0.127" layer="21"/>
+<circle x="0" y="1.905" radius="0.30524375" width="0.127" layer="21"/>
+<text x="-1.905" y="0" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="6.985" y="0" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<circle x="2.2225" y="3.175" radius="0.3175" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -2615,24 +2594,24 @@ http://www.maxim-ic.com .. MAX3223-MAX3243.pdf</description>
 <gate name="G$1" symbol="AS5040" x="-5.08" y="5.08"/>
 </gates>
 <devices>
-<device name="" package="TSSOP16">
+<device name="" package="AMS_5040_SPECIAL">
 <connects>
-<connect gate="G$1" pin="A_LSB_U" pad="3"/>
-<connect gate="G$1" pin="B_DIR_V" pad="4"/>
-<connect gate="G$1" pin="CLK" pad="10"/>
-<connect gate="G$1" pin="CS_" pad="11"/>
-<connect gate="G$1" pin="DO" pad="9"/>
-<connect gate="G$1" pin="INDEX_W" pad="6"/>
-<connect gate="G$1" pin="MAG_DEC" pad="2"/>
-<connect gate="G$1" pin="MAG_INC" pad="1"/>
-<connect gate="G$1" pin="NC_1" pad="5"/>
-<connect gate="G$1" pin="NC_2" pad="13"/>
-<connect gate="G$1" pin="NC_3" pad="14"/>
-<connect gate="G$1" pin="PROG" pad="8"/>
-<connect gate="G$1" pin="PWM_LSB" pad="12"/>
-<connect gate="G$1" pin="VDD3V3" pad="15"/>
-<connect gate="G$1" pin="VDD5V" pad="16"/>
-<connect gate="G$1" pin="VSS" pad="7"/>
+<connect gate="G$1" pin="A_LSB_U" pad="P$3"/>
+<connect gate="G$1" pin="B_DIR_V" pad="P$4"/>
+<connect gate="G$1" pin="CLK" pad="P$10"/>
+<connect gate="G$1" pin="CS_" pad="P$11"/>
+<connect gate="G$1" pin="DO" pad="P$9"/>
+<connect gate="G$1" pin="INDEX_W" pad="P$6"/>
+<connect gate="G$1" pin="MAG_DEC" pad="P$2"/>
+<connect gate="G$1" pin="MAG_INC" pad="P$1"/>
+<connect gate="G$1" pin="NC_1" pad="P$5"/>
+<connect gate="G$1" pin="NC_2" pad="P$13"/>
+<connect gate="G$1" pin="NC_3" pad="P$14"/>
+<connect gate="G$1" pin="PROG" pad="P$8"/>
+<connect gate="G$1" pin="PWM_LSB" pad="P$12"/>
+<connect gate="G$1" pin="VDD3V3" pad="P$15"/>
+<connect gate="G$1" pin="VDD5V" pad="P$16"/>
+<connect gate="G$1" pin="VSS" pad="P$7"/>
 </connects>
 <technologies>
 <technology name=""/>

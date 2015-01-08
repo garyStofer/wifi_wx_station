@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4752,75 +4752,6 @@ Source: AVX .. aphvc.pdf</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="wifi_WX">
-<packages>
-<package name="TP06R">
-<description>&lt;b&gt;TEST PAD&lt;/b&gt;</description>
-<smd name="TP_1" x="0" y="0" dx="0.6" dy="0.6" layer="1" roundness="100"/>
-<text x="-0.3" y="0.4001" size="1.016" layer="25">&gt;NAME</text>
-</package>
-<package name="TP_SOL">
-<pad name="P$1" x="0" y="0" drill="0.9" diameter="1.6764"/>
-<text x="-2.54" y="1.27" size="1.27" layer="21">&gt;NAME</text>
-</package>
-<package name="TP08R">
-<smd name="TP_1" x="0" y="0" dx="0.762" dy="0.762" layer="1" roundness="100"/>
-<text x="-0.3" y="0.4001" size="1.016" layer="25">&gt;NAME</text>
-</package>
-<package name="TP10R">
-<smd name="TP_1" x="0" y="0" dx="0.9144" dy="0.9144" layer="1" roundness="100"/>
-<text x="-0.3" y="0.4001" size="1.016" layer="25">&gt;NAME</text>
-</package>
-</packages>
-<symbols>
-<symbol name="TP">
-<pin name="P$1" x="5.08" y="0" visible="off" length="middle" rot="R180"/>
-<text x="-2.54" y="2.54" size="1.27" layer="95">&gt;NAME</text>
-<circle x="0" y="0" radius="0.803215625" width="0.254" layer="94"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="TP" prefix="TP">
-<gates>
-<gate name="G$1" symbol="TP" x="0" y="0"/>
-</gates>
-<devices>
-<device name="6R" package="TP06R">
-<connects>
-<connect gate="G$1" pin="P$1" pad="TP_1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="SOL" package="TP_SOL">
-<connects>
-<connect gate="G$1" pin="P$1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="8R" package="TP08R">
-<connects>
-<connect gate="G$1" pin="P$1" pad="TP_1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="10R" package="TP10R">
-<connects>
-<connect gate="G$1" pin="P$1" pad="TP_1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="1AA_Stofer">
 <packages>
 <package name="EM3242_SPECIAL">
@@ -4831,12 +4762,12 @@ Source: AVX .. aphvc.pdf</description>
 <wire x1="1" y1="2.8" x2="0" y2="2.8" width="0.127" layer="21"/>
 <wire x1="0" y1="2.8" x2="0" y2="-0.8" width="0.127" layer="21"/>
 <wire x1="1" y1="2.8" x2="2" y2="2.8" width="0.127" layer="21" curve="180"/>
-<smd name="1" x="-0.3" y="2" dx="0.6" dy="0.4" layer="1" roundness="20"/>
-<smd name="2" x="-0.3" y="1" dx="0.6" dy="0.4" layer="1" roundness="20"/>
-<smd name="3" x="-0.3" y="0" dx="0.6" dy="0.4" layer="1" roundness="20"/>
-<smd name="4" x="3.3" y="0" dx="0.6" dy="0.4" layer="1" roundness="20"/>
-<smd name="5" x="3.3" y="1" dx="0.6" dy="0.4" layer="1" roundness="20"/>
-<smd name="6" x="3.3" y="2" dx="0.6" dy="0.4" layer="1" roundness="20"/>
+<smd name="1" x="-0.3" y="2" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="2" x="-0.3" y="1" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="3" x="-0.3" y="0" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="4" x="3.3" y="0" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="5" x="3.3" y="1" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="6" x="3.3" y="2" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
 <text x="-0.365" y="-2.35" size="0.8128" layer="21">&gt;NAME</text>
 <wire x1="1.5" y1="0.5" x2="1.2" y2="0.6" width="0.127" layer="21" curve="326.309932"/>
 <wire x1="0.1" y1="2.7" x2="0.9" y2="2.7" width="0.127" layer="21"/>
@@ -5036,6 +4967,117 @@ Source: AVX .. aphvc.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="con-phoenix-350">
+<description>&lt;b&gt;Phoenix Connectors&lt;/b&gt; Grid 3.50 mm&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="1751251">
+<description>&lt;b&gt;MKDS 1/ 3-3,5&lt;/b&gt; Printklemme&lt;p&gt;
+Nennstrom: 10 A&lt;br&gt;
+Bemessungsspannung: 160 V&lt;br&gt;
+Raster: 3,5 mm&lt;br&gt;
+Polzahl: 3&lt;br&gt;
+Montageart: Löten&lt;br&gt;
+Anschlussart: Schraubanschluss&lt;br&gt;
+Anschlussrichtung vom Leiter zur Platine: 0°&lt;br&gt;
+Source: http://eshop.phoenixcontact.com .. 1751251.pdf</description>
+<wire x1="-5.5" y1="3.65" x2="5.5" y2="3.65" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="3.65" x2="-5.5" y2="1.9123" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-2.0993" x2="-5.5" y2="-2.0993" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-1.6163" x2="5.5" y2="1.4367" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-2.0993" x2="5.5" y2="-2.911" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-1.6163" x2="5.5" y2="-2.0993" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="1.9123" x2="-5.5" y2="1.4367" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="1.9123" x2="5.5" y2="1.9123" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="1.4367" x2="5.5" y2="1.9123" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-1.6163" x2="-5.5" y2="1.4367" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="1.4367" x2="-5.5" y2="1.4367" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-1.6163" x2="5.5" y2="-1.6163" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="3.65" x2="5.5" y2="1.9123" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-1.6163" x2="-5.5" y2="-2.0993" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-2.0993" x2="-5.5" y2="-2.911" width="0.1016" layer="21"/>
+<wire x1="-4.706" y1="-0.811" x2="-2.789" y2="1.106" width="0.1016" layer="51"/>
+<wire x1="5.5" y1="-2.911" x2="-5.5" y2="-2.911" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-3.65" x2="5.5" y2="-3.65" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-3.35" x2="5.5" y2="-3.65" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-3.35" x2="5.5" y2="-3.35" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-3.35" x2="-5.5" y2="-3.65" width="0.1016" layer="21"/>
+<wire x1="-5.5" y1="-2.911" x2="-5.5" y2="-3.35" width="0.1016" layer="21"/>
+<wire x1="5.5" y1="-2.911" x2="5.5" y2="-3.35" width="0.1016" layer="21"/>
+<wire x1="-2.294" y1="0.611" x2="-2.3" y2="0.605" width="0.1016" layer="21"/>
+<wire x1="-2.3" y1="0.605" x2="-4.211" y2="-1.306" width="0.1016" layer="51"/>
+<wire x1="-1.206" y1="-0.811" x2="0.711" y2="1.106" width="0.1016" layer="51"/>
+<wire x1="1.206" y1="0.611" x2="1.2" y2="0.605" width="0.1016" layer="21"/>
+<wire x1="1.2" y1="0.605" x2="-0.711" y2="-1.306" width="0.1016" layer="51"/>
+<wire x1="2.294" y1="-0.811" x2="4.211" y2="1.106" width="0.1016" layer="51"/>
+<wire x1="4.706" y1="0.611" x2="4.7" y2="0.605" width="0.1016" layer="21"/>
+<wire x1="4.7" y1="0.605" x2="2.789" y2="-1.306" width="0.1016" layer="51"/>
+<circle x="-3.5" y="-0.1" radius="1.45" width="0.1016" layer="21"/>
+<circle x="0" y="-0.1" radius="1.45" width="0.1016" layer="21"/>
+<circle x="3.5" y="-0.1" radius="1.45" width="0.1016" layer="21"/>
+<pad name="1" x="-3.5" y="-0.1" drill="1.1" diameter="1.7" shape="square" rot="R90"/>
+<pad name="2" x="0" y="-0.1" drill="1.1" diameter="1.7" rot="R90"/>
+<pad name="3" x="3.5" y="-0.1" drill="1.1" diameter="1.7" rot="R90"/>
+<text x="-3.95" y="2.2225" size="1.27" layer="21" font="vector">1</text>
+<text x="-0.4575" y="2.2225" size="1.27" layer="21" font="vector">2</text>
+<text x="3.035" y="2.2225" size="1.27" layer="21" font="vector">3</text>
+<text x="-5.855" y="-2.8575" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="-3.8025" y="4.1275" size="1.27" layer="27">&gt;VALUE</text>
+<polygon width="0.1016" layer="21">
+<vertex x="-4.9025" y="-2.8575"/>
+<vertex x="-5.22" y="-2.2225"/>
+<vertex x="-4.585" y="-2.2225"/>
+</polygon>
+</package>
+</packages>
+<symbols>
+<symbol name="SCHRAUBKLEMME">
+<wire x1="0" y1="-1.27" x2="0" y2="1.27" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-1.27" x2="0" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-1.27" x2="12.7" y2="1.27" width="0.254" layer="94"/>
+<wire x1="0" y1="1.27" x2="12.7" y2="1.27" width="0.254" layer="94"/>
+<circle x="11.43" y="0" radius="0.6839" width="0.254" layer="94"/>
+<text x="1.27" y="-0.889" size="1.778" layer="95" font="vector">&gt;NAME</text>
+<text x="13.97" y="-0.889" size="1.778" layer="96" font="vector">&gt;VALUE</text>
+<pin name="K" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="1751251" prefix="X">
+<description>&lt;b&gt;MKDS 1/ 3-3,5&lt;/b&gt; Printklemme&lt;p&gt;
+Nennstrom: 10 A&lt;br&gt;
+Bemessungsspannung: 160 V&lt;br&gt;
+Raster: 3,5 mm&lt;br&gt;
+Polzahl: 3&lt;br&gt;
+Montageart: Löten&lt;br&gt;
+Anschlussart: Schraubanschluss&lt;br&gt;
+Anschlussrichtung vom Leiter zur Platine: 0°&lt;br&gt;
+Source: http://eshop.phoenixcontact.com .. 1751251.pdf</description>
+<gates>
+<gate name="-1" symbol="SCHRAUBKLEMME" x="0" y="0" addlevel="always"/>
+<gate name="-2" symbol="SCHRAUBKLEMME" x="0" y="-7.62" addlevel="always"/>
+<gate name="-3" symbol="SCHRAUBKLEMME" x="0" y="-15.24" addlevel="always"/>
+</gates>
+<devices>
+<device name="" package="1751251">
+<connects>
+<connect gate="-1" pin="K" pad="1"/>
+<connect gate="-2" pin="K" pad="2"/>
+<connect gate="-3" pin="K" pad="3"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -5046,55 +5088,65 @@ Source: AVX .. aphvc.pdf</description>
 </class>
 </classes>
 <parts>
-<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="26.1k"/>
+<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="14.3k"/>
 <part name="C5" library="rcl" deviceset="C-US" device="C0805K" value="1uF"/>
 <part name="C1" library="rcl" deviceset="C-US" device="C0805K" value="1uf"/>
-<part name="OUT" library="wifi_WX" deviceset="TP" device="SOL"/>
-<part name="+5V" library="wifi_WX" deviceset="TP" device="SOL"/>
-<part name="GND" library="wifi_WX" deviceset="TP" device="SOL"/>
-<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="26.1k"/>
-<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="26.1k"/>
+<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="100k"/>
+<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="150k"/>
 <part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 <part name="IC1" library="1AA_Stofer" deviceset="EM3242" device=""/>
-<part name="IC2" library="1AA_Stofer" deviceset="TLVB2211" device=""/>
-<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="26.1k"/>
+<part name="IC2" library="1AA_Stofer" deviceset="TLVB2211" device="" value="TLV2211"/>
+<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="24.3k"/>
 <part name="R5" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
 <part name="IC3" library="1AA_Stofer" deviceset="TC10553.3V" device=""/>
+<part name="X1" library="con-phoenix-350" deviceset="1751251" device=""/>
+<part name="R6" library="rcl" deviceset="R-US_" device="R0603" value="0"/>
 </parts>
 <sheets>
 <sheet>
 <plain>
-<text x="119.38" y="-12.7" size="3.81" layer="94" ratio="20">Lorenzo's Wind Encoder</text>
-<text x="-40.64" y="5.08" size="1.778" layer="97">NOTE:
-The EM3242 is powered by up to 5.5V from a USB port. This is outside of the operating voltage of the device 2.7V - 3.3V and will potentially destroy the device.
-</text>
-<text x="-40.64" y="2.54" size="1.778" layer="97">The EM3242 device delivers a ratiometric voltage based on the supply voltage and the erntire sensor therefore does not provide an absolute voltage/angle. 
-A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V for an absolute angle encoder. </text>
-<wire x1="101.6" y1="38.1" x2="101.6" y2="78.74" width="0.1524" layer="97"/>
-<wire x1="101.6" y1="30.48" x2="101.6" y2="25.4" width="0.1524" layer="97"/>
-<text x="83.82" y="40.64" size="1.778" layer="97">R5 should be 120 ohms</text>
-<text x="83.82" y="38.1" size="1.778" layer="97">R1-4 should be higher value </text>
+<text x="119.38" y="-12.7" size="3.81" layer="94" ratio="20">Wind Encoder WE28</text>
 <text x="66.04" y="43.18" size="1.778" layer="97">IC2</text>
+<text x="33.02" y="96.52" size="1.778" layer="97">R6: Do Not populate -- For 3.3V input voltage operation only, when IC3 is removed.</text>
+<text x="182.88" y="-33.02" size="2.54" layer="94">A.1</text>
+<text x="-33.02" y="17.78" size="1.778" layer="96">R1,R2,R3,R4    Panasonic , 25ppm , 0.1% </text>
+<text x="-33.02" y="12.7" size="1.778" layer="96">R2: P150KDBCT-ND</text>
+<text x="-33.02" y="15.24" size="1.778" layer="96">R1: P100KDBCT-ND</text>
+<text x="-33.02" y="10.16" size="1.778" layer="96">R3: P24.3KDBCT-ND</text>
+<text x="-33.02" y="7.62" size="1.778" layer="96">R4: P14.3KDBCT-ND</text>
+<text x="-33.02" y="20.32" size="2.54" layer="96">Output Voltage 0.3 - 4.78V</text>
+<text x="114.3" y="73.66" size="1.778" layer="96">Input Voltage 5 - 12V</text>
+<text x="35.56" y="20.32" size="2.54" layer="96">Output Voltage 0.1 - 3.3V</text>
+<text x="35.56" y="17.78" size="1.778" layer="96">R1,R2,R3,R4    Panasonic , 25ppm , 0.1%</text>
+<text x="35.56" y="15.24" size="1.778" layer="96">R1.R2, P100KDBCT-ND</text>
+<text x="35.56" y="12.7" size="1.778" layer="96">R3,R4 P24.3KDBCT-ND</text>
 </plain>
 <instances>
 <instance part="R4" gate="G$1" x="40.64" y="50.8" rot="R180"/>
-<instance part="C5" gate="G$1" x="101.6" y="35.56"/>
+<instance part="C5" gate="G$1" x="109.22" y="40.64"/>
 <instance part="C1" gate="G$1" x="5.08" y="35.56"/>
-<instance part="OUT" gate="G$1" x="116.84" y="48.26" rot="R180"/>
-<instance part="+5V" gate="G$1" x="114.3" y="78.74" rot="R180"/>
-<instance part="GND" gate="G$1" x="116.84" y="25.4" rot="R180"/>
 <instance part="R1" gate="G$1" x="20.32" y="68.58" rot="R270"/>
 <instance part="R2" gate="G$1" x="20.32" y="35.56" rot="R270"/>
 <instance part="U$1" gate="G$1" x="-73.66" y="-40.64"/>
 <instance part="U$1" gate="G$2" x="91.44" y="-40.64"/>
 <instance part="IC1" gate="G$1" x="-25.4" y="48.26"/>
 <instance part="IC2" gate="G$1" x="60.96" y="48.26" smashed="yes" rot="MR180">
-<attribute name="VALUE" x="68.58" y="53.34" size="1.778" layer="96" rot="MR180"/>
+<attribute name="VALUE" x="66.04" y="40.64" size="1.778" layer="96" rot="MR180"/>
 </instance>
 <instance part="IC2" gate="G$2" x="63.5" y="48.26" smashed="yes"/>
 <instance part="R3" gate="G$1" x="68.58" y="58.42" rot="R180"/>
-<instance part="R5" gate="G$1" x="91.44" y="48.26" rot="R180"/>
+<instance part="R5" gate="G$1" x="83.82" y="48.26" rot="R180"/>
 <instance part="IC3" gate="G$1" x="33.02" y="73.66" rot="MR0"/>
+<instance part="X1" gate="-1" x="111.76" y="78.74" smashed="yes">
+<attribute name="NAME" x="113.03" y="77.851" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="X1" gate="-2" x="111.76" y="25.4" smashed="yes">
+<attribute name="NAME" x="113.03" y="24.511" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="X1" gate="-3" x="111.76" y="48.26" smashed="yes">
+<attribute name="NAME" x="113.03" y="47.371" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="R6" gate="G$1" x="33.02" y="91.44" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -5103,10 +5155,8 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 <segment>
 <wire x1="5.08" y1="25.4" x2="5.08" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
-<pinref part="GND" gate="G$1" pin="P$1"/>
-<wire x1="60.96" y1="25.4" x2="101.6" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="25.4" x2="109.22" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="G$2" pin="VDD_GND"/>
-<wire x1="101.6" y1="25.4" x2="111.76" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="25.4" x2="60.96" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="25.4" x2="33.02" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="25.4" x2="20.32" y2="25.4" width="0.1524" layer="91"/>
@@ -5127,14 +5177,9 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 <pinref part="IC3" gate="G$1" pin="GND"/>
 <wire x1="33.02" y1="63.5" x2="33.02" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="2"/>
-<wire x1="101.6" y1="30.48" x2="101.6" y2="25.4" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="OUT" gate="G$1" pin="P$1"/>
-<wire x1="96.52" y1="48.26" x2="111.76" y2="48.26" width="0.1524" layer="91"/>
-<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="109.22" y1="35.56" x2="109.22" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="X1" gate="-2" pin="K"/>
+<junction x="109.22" y="25.4"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -5154,6 +5199,10 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 <junction x="5.08" y="45.72"/>
 <junction x="5.08" y="55.88"/>
 <pinref part="IC3" gate="G$1" pin="OUT"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="27.94" y1="91.44" x2="20.32" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="91.44" x2="20.32" y2="78.74" width="0.1524" layer="91"/>
+<junction x="20.32" y="78.74"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -5178,13 +5227,13 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 <net name="N$7" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="73.66" y1="58.42" x2="81.28" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="81.28" y1="58.42" x2="81.28" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="58.42" x2="76.2" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="58.42" x2="76.2" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="G$1" pin="OUT"/>
-<wire x1="81.28" y1="48.26" x2="71.12" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="48.26" x2="71.12" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="81.28" y1="48.26" x2="86.36" y2="48.26" width="0.1524" layer="91"/>
-<junction x="81.28" y="48.26"/>
+<wire x1="76.2" y1="48.26" x2="78.74" y2="48.26" width="0.1524" layer="91"/>
+<junction x="76.2" y="48.26"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -5200,10 +5249,8 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="+5V" gate="G$1" pin="P$1"/>
-<wire x1="60.96" y1="78.74" x2="101.6" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="78.74" x2="109.22" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="G$2" pin="VDD"/>
-<wire x1="101.6" y1="78.74" x2="109.22" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="55.88" x2="60.96" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC3" gate="G$1" pin="IN"/>
 <wire x1="60.96" y1="78.74" x2="53.34" y2="78.74" width="0.1524" layer="91"/>
@@ -5212,7 +5259,20 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 <wire x1="45.72" y1="73.66" x2="53.34" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="53.34" y1="73.66" x2="53.34" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="1"/>
-<wire x1="101.6" y1="38.1" x2="101.6" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="43.18" x2="109.22" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="X1" gate="-1" pin="K"/>
+<junction x="109.22" y="78.74"/>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="38.1" y1="91.44" x2="53.34" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="91.44" x2="53.34" y2="78.74" width="0.1524" layer="91"/>
+<junction x="53.34" y="78.74"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="X1" gate="-3" pin="K"/>
+<wire x1="88.9" y1="48.26" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
@@ -5220,10 +5280,4 @@ A voltage regulator needs to be added to supply the EM3242 with a constant 3.3V 
 </sheets>
 </schematic>
 </drawing>
-<compatibility>
-<note version="6.3" minversion="6.2.2" severity="warning">
-Since Version 6.2.2 text objects can contain more than one line,
-which will not be processed correctly with this version.
-</note>
-</compatibility>
 </eagle>

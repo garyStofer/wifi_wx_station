@@ -1,0 +1,24 @@
+Title: * C:\Documents and Settings\Me\My Documents\Eagle_proj\WindDir_WE28_A.1\Spice\IWind_encoder.asc
+Date: Sun Oct 12 10:30:13 2014
+Plotname: Operating Point
+Flags: real
+No. Variables: 12
+No. Points:            1
+Offset:   0.0000000000000000e+000
+Command: Linear Technology Corporation LTspice IV
+Backannotation: u2 1 2 3
+Variables:
+	0	V(n004)	voltage
+	1	V(n003)	voltage
+	2	V(n005)	voltage
+	3	V(n002)	voltage
+	4	V(n001)	voltage
+	5	I(R8)	device_current
+	6	I(R6)	device_current
+	7	I(R5)	device_current
+	8	I(R4)	device_current
+	9	I(V2)	device_current
+	10	I(V1)	device_current
+	11	Ix(u2:3)	subckt_current
+Binary:
+…ëQ¸Õ?6™@¤pý?oý?33S@‘u]7‘u]·Ùøñ8Ùøñ8‘u]·Ùøñ8×øñ¸

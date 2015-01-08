@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1416,7 +1416,7 @@ einem neuen Namen ab.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="OPTO1" library="wifi_WX" package="OSRAM-6" value="OSRAM_SHF9201" x="7.62" y="15.24" smashed="yes" rot="R180">
+<element name="OPTO1" library="wifi_WX" package="OSRAM-6" value="OSRAM_SFH9201" x="7.62" y="15.24" smashed="yes" rot="R180">
 <attribute name="NAME" x="10.795" y="10.795" size="1.27" layer="25" rot="R90"/>
 </element>
 <element name="T1" library="transistor" package="SOT23" value="MMBT3904" x="13.335" y="6.35" smashed="yes" rot="R270">

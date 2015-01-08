@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -3781,7 +3781,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </class>
 </classes>
 <parts>
-<part name="OPTO1" library="wifi_WX" deviceset="OSRAM_SHF9201" device=""/>
+<part name="OPTO1" library="wifi_WX" deviceset="OSRAM_SHF9201" device="" value="OSRAM_SFH9201"/>
 <part name="T1" library="transistor" deviceset="BC846" device="" value="MMBT3904"/>
 <part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="10K"/>
 <part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="120o"/>

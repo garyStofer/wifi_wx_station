@@ -1,4 +1,6 @@
-WX_bug: ID= p19756, Key = rvpilot, (num=31352)
+WX_bug: ID= p19756, Key = rvpilot, (num=31352) // use ID as station ID -- num is not used as far as I can tell
 PWS/WeatherForYou: ID=KCACONCO29, pwd: weather
-Wunderground: KCACONCO18,KCACONCO29, pwd: weather
-CWOP: ID = EW4459, pwd: -1;
+Wunderground: KCACONCO18,KCACONCO29,KCACORNI2 KCACONCO30, pwd: weather
+CWOP: ID = EW4459, pwd: -1; 37.9788  -121.9948
+
+WOW -- login GaryStofer, Password KCACONCO18, Station: siteid=832346508, siteAuthenticationKey= 042760

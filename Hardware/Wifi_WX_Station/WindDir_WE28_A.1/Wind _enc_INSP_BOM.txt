@@ -1,0 +1,12 @@
+BOM for WE28-A1
+
+OP-Amp 	TLV2211			 
+Encoder EM3242			 
+VR 	TC10553.3V		 
+R1 	100K 0.5% 25ppm 	 
+R2	150K 0.1% 25ppm	 
+R3	24.3k 0.1% 25ppm	 
+R4 	14.3k 0.5% 25ppm	 
+R5	330O 2%			 
+C1,C2	1 uf/ 16V  		 
+

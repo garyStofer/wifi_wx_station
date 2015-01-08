@@ -1,0 +1,27 @@
+Circuit: * C:\Documents and Settings\Me\My Documents\Eagle_proj\WindDir_WE28_A.1\Spice\IWind_encoder.asc
+
+WARNING: Specified period is not longer than the sum of Trise, Tfall, and Ton for v1.  Increasing period to 0.0101001
+Direct Newton iteration for .op point succeeded.
+Ignoring empty pin current: Ix(u2:1)
+Ignoring empty pin current: Ix(u2:2)
+Ignoring empty pin current: Ix(u2:1)
+Ignoring empty pin current: Ix(u2:2)
+
+Date: Sun Oct 12 10:30:13 2014
+Total elapsed time: 0.078 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 2243
+traniter = 2240
+tranpoints = 1121
+accept = 1107
+rejected = 14
+matrix size = 7
+fillins = 1
+solver = Normal
+Matrix Compiler1: 232 bytes object code size  0.7/0.6/[0.5]
+Matrix Compiler2: 441 bytes object code size  0.6/0.7/[0.5]
+
+
