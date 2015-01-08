@@ -25,13 +25,20 @@ enum _Http_WunderClientState
 #define WU_URL "weatherstation.wunderground.com"        // This is the correct path so that it goes  through their load balancing center
 #define PWS_URL "pwsweather.com"
 #define WXBUG_URL "data.backyard2.weatherbug.com"
+#define WOW_URL "wow.metoffice.gov.uk"
 
 #define msgURL_WU "/weatherstation/updateweatherstation.php"
 #define msgURL_PWS "/pwsupdate/pwsupdate.php"
 #define msgURL_WXbg "/data/livedata.aspx"
+#define msgURL_WOW  "/automaticreading"
 
-#define  msgID "?ID=" // Station Identifier
-#define  msgPWD "&PASSWORD=" // Station Password
+#define msgID "?ID=" // Station Identifier
+#define msgId_WOW "?siteid="
+
+#define msgPWD "&PASSWORD=" // Station Password
+#define msgPWD_WXBUG "&Key="
+#define msgPWD_WOW "&siteAuthenticationKey="
+
 #define  msgACT "&action=updateraw"
 #define  msgDateNow "&dateutc=now"
 
@@ -48,7 +55,8 @@ enum _Http_WunderClientState
 #define msgWindGstSpd  "&windgustmph="
 #define msgBaro  "&baromin=" // in inches Mercury
 #define msgSolar  "&solarradiation=" // in Watts per sq meter
-#define msgSWtype  "&softwaretype=WuWxSt"
+#define msgSWtype  "&softwaretype=WuWxSt_1"
+#define msgSoil_m1 "&soilmoisture="
 // static ROM BYTE const msgWingGstSpd10m[]= "&windgustmph_10m="; This is not read by Wunderground
 //ROM BYTE const msgWingGstDir10m[]= "&windgustdir_10m=300";
 //ROM BYTE const msgWingGstDir[]= "&windgustdir=300";
@@ -146,6 +154,7 @@ WunderSendData(  void )
 /*----------------------------------------------------------------------------------------------------------------------
  *  This is the HTTP client state machine that prepares the connection to Wunderground and sends
  *  the report via a HTTP GET request
+ *  Also used for all the other report targets except for COPT/APRS
  */
 void
 WunderHttpClient(void)
@@ -161,27 +170,33 @@ WunderHttpClient(void)
         char * url;
         static BCD_RTCC         *time;
         ROM char  * msg_url;
-        char cache_ID = 0;
+        static char cache_ID = 0;
 
         switch ( WX.Wunder.report_enable.Station )
         {
-             case WU_CLIENT:     //WU
+             case WU_CLIENT:     
                 url = WU_URL;
                 msg_url =  msgURL_WU;
                 break;
            
-            case PWS_CLIENT:     //PWS
+            case PWS_CLIENT:    
                  url = PWS_URL;
                  msg_url =  msgURL_PWS;
                 break;
                            
-            case WXBUG_CLIENT:     //WXbg
+            case WXBUG_CLIENT:    
                 url = WXBUG_URL;
                 msg_url =  msgURL_WXbg;
                 break;
-                        
+
+            case WOW_CLIENT:
+                url = WOW_URL;
+                msg_url =  msgURL_WOW;
+                break;
+
             default:
                 cache_ID =0;
+                cache =NULL;
                 return;
         }
 
@@ -234,14 +249,14 @@ WunderHttpClient(void)
 			if(!TCPIsConnected(MySocket))
 			{
 				// Time out if too much time is spent in this state
-				if(TickGet()-Timer > 5*TICK_SECOND)
+				if(TickGet()-Timer > 9*TICK_SECOND)
 				{
 					// Close the socket 
 					TCPDisconnect(MySocket);
 					MySocket = INVALID_SOCKET;
 					ThisState = SM_IDLE;
                                         cache = NULL;
-                                        putrsUART((ROM char*) "Socket failed to open for 5 sec\r\n");
+                                        putrsUART((ROM char*) "Socket failed to open for 9 sec\r\n");
 				}
 				break;
 			}
@@ -259,7 +274,7 @@ WunderHttpClient(void)
 
 
                 case SM_SOCKET_CONNECTED:
-//putrsUART((ROM char*) "Socket connetced\r\n");
+//putrsUART((ROM char*) "Socket connected\r\n");
 			Timer = TickGet();
  
 			// Make certain the socket can be written to
@@ -273,25 +288,26 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
 			// Place the application protocol data into the transmit buffer.
                         len += WX_TCPPut(MySocket, "GET ");
                         len += WX_TCPPut(MySocket, msg_url);
-                        len += WX_TCPPut(MySocket, msgID);
+
+                        if (WX.Wunder.report_enable.Station == WOW_CLIENT)
+                            len += WX_TCPPut(MySocket, msgId_WOW);
+                        else
+                            len += WX_TCPPut(MySocket, msgID);
+
                         len += WX_TCPPut(MySocket, WX.Wunder.StationID);
 
                         if (WX.Wunder.report_enable.Station == WXBUG_CLIENT)       // WXbg
-                        {
-                            len += WX_TCPPut(MySocket,"&Key=");
-                            len += WX_TCPPut(MySocket,WX.Wunder.StationPW);
-                            // len += WX_TCPPut(MySocket,"&num=31352");  // Seems to work without the NUM parameter just as well
-                            // I never could get clarification as to what this would be good for from WX-Bug support
-                        }
+                            len += WX_TCPPut(MySocket,msgPWD_WXBUG);
+                        else if (WX.Wunder.report_enable.Station == WOW_CLIENT)
+                            len += WX_TCPPut(MySocket,msgPWD_WOW);
                         else
-                        {
                             len += WX_TCPPut(MySocket,msgPWD);
-                            len += WX_TCPPut(MySocket,WX.Wunder.StationPW);
-
-                        }
+                        
            
-                     
-                        if (WX.Wunder.report_enable.Station != WU_CLIENT)   // if not WU
+                        len += WX_TCPPut(MySocket,WX.Wunder.StationPW);
+
+
+                        if (WX.Wunder.report_enable.Station != WU_CLIENT)   // if not WU we have to provide the dateutc
                         {// reporting time for  PWS and WxBug
                             dat = mRTCCbcd2bin(time->yr)+2000;
                             len += put_WXparam_arg (MySocket,msgDate, dat, 0);
@@ -316,8 +332,7 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
                             len += WX_TCPPutC(MySocket,(time->sec>>4) +'0');    // tens
                             len += WX_TCPPutC(MySocket,(time->sec&0x0f) +'0');  // ones
                         }
-                    
-                        else
+                        else    // WU can use the TCP time
                         {
                             len += WX_TCPPut(MySocket, msgDateNow);
                             len += put_WXparam_arg (MySocket, msgRapid, (short)(WX.Wunder.UplnkInterval), 0);  // Send the rapid update flag and interval
@@ -379,10 +394,43 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
 
                         len += put_WXparam_arg (MySocket, msgBaro, (short)(SensorReading.BaromIn*100), 2);  // Send the Barometer reading, convert to inches Mercury at 0 degC
                         
+                        
+                             // Send the solar radiation index in watts/ sq Meter ( estimated)
+
+ 
+ // Reporting Soil moisture under the solar check mark for now
+//#defin in main.h
+#ifdef using_Solar_for_soil_wetness
+/* for VH400 probe
+ Voltage Range 	Equation
+0 to 1.1V 	VWC= 10*V-1
+1.1V to 1.3V 	VWC= 25*V- 17.5
+1.3V  to 1.82V 	VWC= 48.08*V- 47.5
+1.82V to 2.2V 	VWC= 26.32*V- 7.89
+*/
+                        if (WX.Wunder.report_enable.Sol)
+                        {
+                            float Vx;   // Voltage from VH400
+                            float VWC;  // Volumetric Water Content
+                            
+                            Vx =  ADC1BUF0 * (3.3/1024); // volts as read on ADC0 input pin.
+
+                            if ( Vx < 1.1)
+                                VWC = Vx*10.0 -1;
+                            else if ( Vx < 1.3)
+                                VWC = Vx*25.0 -17.5;
+                            else if ( Vx < 1.82 )
+                                VWC = Vx*48.08 - 47.5;
+                            else
+                                VWC= Vx*26.32- 7.89;
+                                
+                            len += put_WXparam_arg (MySocket, msgSoil_m1,(short)VWC*10, 1);
+                        }
+#else
                         if (WX.Wunder.report_enable.Sol)
                             len += put_WXparam_arg (MySocket, msgSolar,(short) SensorReading.SolRad, 0); // Send the solar radiation index in watts/ sq Meter ( estimated)
-
-                        if (WX.Wunder.report_enable.Station == PWS_CLIENT)   // if PWS
+#endif
+                        if (WX.Wunder.report_enable.Station == PWS_CLIENT || WX.Wunder.report_enable.Station == WOW_CLIENT)   // if PWS
                             len += WX_TCPPut(MySocket, msgSWtype);
                        
                         if (WX.Wunder.report_enable.Station == WXBUG_CLIENT)   // if WXbg
@@ -412,7 +460,7 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
                         }
                         
 			// Send the packet
-                        LED2_IO = 1;    // indicate sending of WU data
+                        LED2_IO = 1;    // indicate sending of WU data on orange LED
 			TCPFlush(MySocket);
                         putrsUART((ROM char*) "Uploading WX to host\r\n");
 			ThisState++;

@@ -68,7 +68,7 @@ s_to_a( char * buff,  short data, short sig_places, short dec_places)
 void
 CWOPSendData(  void )
 {   
-    if (WX.Wunder.report_enable.Station == 4)
+    if (WX.Wunder.report_enable.Station == CWOP_CLIENT)
     {
         if (ThisState == SM_IDLE)
             ThisState = SM_START;

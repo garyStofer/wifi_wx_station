@@ -49,8 +49,8 @@ typedef struct __attribute__((__packed__))
 
 typedef  struct __attribute__((__packed__))
 {
-   unsigned char UplnkInterval;
-   DWORD unused1;
+   unsigned short UplnkInterval;
+   char unused1[3];
    char StationID[13];
    char StationPW[13];
    short StationElev;

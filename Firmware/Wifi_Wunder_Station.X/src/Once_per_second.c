@@ -1,3 +1,8 @@
+
+/*
+ *  This task is called once per second and collects the stations sensor readings then kiks off reporting to the cloud server
+ */
+
 // Include all headers for any enabled TCPIP Stack functions
 #include "TCPIP Stack/TCPIP.h"
 #include "math.h"
@@ -7,19 +12,24 @@
 #include "Once_per_second.h"
 #include "Configs/Wunder_cfg.h"
 
-#define Long_gust_seconds 300    // This is to collect the wind gust for 5 minutes so that Wunderground records all fust readings  with their 5 minute data sampling time
-/*
- *  This task is called once per second and collects the stations sensor readings and kiks off reporting to wunderground
- */
+#define WIND_AVG_INTERVAL 128 // Must be power of 2 and must match width of index below  128 Seconds , 2 min 8 seconds
+                              // is is the maximum time the wind direction and speed are averaged -- For slow reporting when
+                              // the reporting interval is above this time, the last 128 seconds of readings will be averaged
+#define LONG_GUST_COUNT 5     // This is to collect the wind gust for 5 times WIND_AVG_INTERVAL seconds (10 min 40 secs)
+                              // so that Wunderground records all gust readings with their 5 to 10 minute data sampling time.
+
+struct tag_WindAvgNdx{
+    unsigned short n:7;         // To make the indexing math automatic on wrap around of circular buffer
+};
+
 static struct tagWind_avg {
     float NS_comp;
     float EW_comp;
     float Spd;
-} Wind_avg[MAX_UPLINK_INTERVAL] = {0};
+} Wind_avg[WIND_AVG_INTERVAL] = {0};
 
-static float WindGustSamples[WIND_GUST_INTERVAL]= {0};
-static float WindGustSamples10Min[ Long_gust_seconds/WIND_GUST_INTERVAL] ;
-static unsigned char Gust10min_ndx = 0;
+
+static float LongWindGustSamples[ LONG_GUST_COUNT] ;
 
 
 static unsigned char RAIN_Count_Samples[RAIN_SAMPLES_P_HOUR] = {0};
@@ -31,10 +41,11 @@ void
 Once_perSecTask(void)
 {
     static unsigned short sec_count = 0;        // Count will wrap around
+    static unsigned char LongGust_ndx = 0;
     short s_tmp;
     float sum_NS, sum_EW, sum_spd, f_tmp;
     int i;
-    float gust;
+    struct tag_WindAvgNdx Wind_ndx ;
 
     // Blink green LED
     LED1_IO ^= 1;
@@ -94,40 +105,29 @@ Once_perSecTask(void)
     // MPH = wind_counts_per_sec  *2.25 /7;
     // or MPH = wind_counts_per_sec * 0.32142
 
-    Wind_avg[sec_count%WX.Wunder.UplnkInterval].Spd = SensorReading.Wind_speed = ((float)Wind_1Sec_count * WX.Calib.Wind_AN_CalFactor)/WX.Calib.Wind_counts; // momentary wind speed
-    WindGustSamples[sec_count%WIND_GUST_INTERVAL]  =  SensorReading.Wind_speed;
+    
+    SensorReading.Wind_speed = ((float)Wind_1Sec_count * WX.Calib.Wind_AN_CalFactor)/WX.Calib.Wind_counts; // momentary wind speed
+    Wind_avg[sec_count%WIND_AVG_INTERVAL].Spd = SensorReading.Wind_speed ;
 
-    //SensorReading.Wind_gust is the maximum of the individual wind speed samples in WIND_GUST_INTERVAL
-    gust = 0;
-    for (i = 0; i < WIND_GUST_INTERVAL; i++)
+
+    //SensorReading.Wind_gust is the maximum of the individual wind speed samples in WIND_AVG_INTERVAL ( ~2 Minutes )
+    f_tmp = 0;
+    for (i = 0; i < WIND_AVG_INTERVAL; i++)
     {
-        if (WindGustSamples[i] > gust)
-            gust = WindGustSamples[i];
+        if (Wind_avg[i].Spd > f_tmp)
+            f_tmp = Wind_avg[i].Spd;
     }
-    SensorReading.Wind_gust = gust;
+    SensorReading.Wind_gust = f_tmp;
 
-    // collect the 10 minute peak
-    if (sec_count%WIND_GUST_INTERVAL == 0)   // happens once every WIND_GUST_INTERVAL time
+    // store the 2 minute peaks in the long Gust array ( ~10 Minutes)
+    if (sec_count%WIND_AVG_INTERVAL == 0)
     {
-        WindGustSamples10Min[Gust10min_ndx++ ] = gust;
-        if (Gust10min_ndx  >= Long_gust_seconds/WIND_GUST_INTERVAL)
-            Gust10min_ndx = 0;
-
-        // collect the 10 minute peak gust
-        gust = 0;
-        for (i = 0; i < (Long_gust_seconds/WIND_GUST_INTERVAL); i++)
-        {
-           if ( WindGustSamples10Min[i] > gust)
-               gust = WindGustSamples10Min[i];
-        }
-        SensorReading.Wind_gust_5min = gust;
+        LongWindGustSamples[LongGust_ndx++ ] = SensorReading.Wind_gust;
+        if (LongGust_ndx  >= LONG_GUST_COUNT)
+            LongGust_ndx = 0;
     }
 
 
-    {
-        if (WindGustSamples[i] > gust)
-            gust = WindGustSamples[i];
-    }
     // The Wind direction
     // the PWM of the wind-vane does not fully go between 0 and 100 %PWM i.e not fully between DC 0V and DC 5V
     // Winddir_min_ADC and Winddir_max_adc are calibrated values considering the variance in 5V from the powersupply
@@ -142,25 +142,37 @@ Once_perSecTask(void)
         s_tmp = 0;
 
     SensorReading.Wind_dir = (s_tmp + WX.Calib.WDir_offs) % 360; // Momentary wind diretion
+
     f_tmp = SensorReading.Wind_dir * 6.2832 / 360.0; // convert to radians
     // Vector addition of NS and EW wind vector samples for average calculation
-    Wind_avg[sec_count%WX.Wunder.UplnkInterval].NS_comp = cos(f_tmp) * SensorReading.Wind_speed;
-    Wind_avg[sec_count%WX.Wunder.UplnkInterval].EW_comp = sin(f_tmp) * SensorReading.Wind_speed;
+    Wind_avg[sec_count%WIND_AVG_INTERVAL].NS_comp = cos(f_tmp) * SensorReading.Wind_speed;
+    Wind_avg[sec_count%WIND_AVG_INTERVAL].EW_comp = sin(f_tmp) * SensorReading.Wind_speed;
+
+
+
 
     // Average and Peak calculation for WX_UPLINK_INTERVAL/Sec
-    // Pre-increment so that it runs for WX_UPLINK_INTERVAL before data is sent to wunderground
+    // Pre-increment so that it runs for WX_UPLINK_INTERVAL before data is sent out
     if (++sec_count % WX.Wunder.UplnkInterval == 0)
     {
         // Calculate the average wind direction from the NS and EW vectors
         sum_spd = sum_NS = sum_EW = 0.0;
-        for (i = 0; i < WX.Wunder.UplnkInterval; i++)
+     
+        Wind_ndx.n = (sec_count-1)%WIND_AVG_INTERVAL;  // last location that was filled with wind data 
+        
+        s_tmp = WX.Wunder.UplnkInterval;
+        if (s_tmp > WIND_AVG_INTERVAL)
+            s_tmp = WIND_AVG_INTERVAL;
+         
+        for (i=0;  i<s_tmp ; i++)
         {
-            sum_NS += Wind_avg[i].NS_comp;
-            sum_EW += Wind_avg[i].EW_comp;
-            sum_spd += Wind_avg[i].Spd;
+            sum_NS += Wind_avg[Wind_ndx.n].NS_comp;
+            sum_EW += Wind_avg[Wind_ndx.n].EW_comp;
+            sum_spd += Wind_avg[Wind_ndx.n].Spd;
+            Wind_ndx.n--;
         }
 
-        SensorReading.AvgWindSpd = sum_spd / i; // The linear average of the speed in interval
+        SensorReading.AvgWindSpd = sum_spd / s_tmp; // The linear average of the speed in wind average interval -- not the vector average --
         f_tmp = atan2(sum_EW, sum_NS); // the vector average of the direction -- using atan2() to get the 4 quadrands resolved automaticaly
         SensorReading.AvgWindDir = f_tmp * 360 / 6.2832; // Convert to deg
 
@@ -168,15 +180,19 @@ Once_perSecTask(void)
         if (SensorReading.AvgWindDir < 0)
             SensorReading.AvgWindDir += 360;
 
+        // collect the long gust ( ~10 min)
+        f_tmp = 0;
+        for (i = 0; i < LONG_GUST_COUNT; i++)
+        {
+           if ( LongWindGustSamples[i] > f_tmp)
+               f_tmp = LongWindGustSamples[i];
+        }
+        SensorReading.Wind_gust_5min = f_tmp;
+
         WunderSendData(); // starts the HTTP client process to send data to Wunderground and others that do HTTP GET protocol
-       
+        CWOPSendData();   // CWOP and WunderSendata are mutually exclusice  by the Uplink mode variable
      }
-
-    // CWOP accecpts data in 5 Minute intervals only -- Nothing faster. Web gui to set WX.Wunder.UplnkInterval to max  
-    // when switching to CWOP for longest possible averaging window
-    if (sec_count % 300 == 0)
-        CWOPSendData();
-
+ 
 }
 
 t_wind_cal_temp  WDIR_cal_tmp;
