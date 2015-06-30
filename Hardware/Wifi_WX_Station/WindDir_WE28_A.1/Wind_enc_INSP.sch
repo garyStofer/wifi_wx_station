@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4762,12 +4762,12 @@ Source: AVX .. aphvc.pdf</description>
 <wire x1="1" y1="2.8" x2="0" y2="2.8" width="0.127" layer="21"/>
 <wire x1="0" y1="2.8" x2="0" y2="-0.8" width="0.127" layer="21"/>
 <wire x1="1" y1="2.8" x2="2" y2="2.8" width="0.127" layer="21" curve="180"/>
-<smd name="1" x="-0.3" y="2" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
-<smd name="2" x="-0.3" y="1" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
-<smd name="3" x="-0.3" y="0" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
-<smd name="4" x="3.3" y="0" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
-<smd name="5" x="3.3" y="1" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
-<smd name="6" x="3.3" y="2" dx="1.1938" dy="0.5334" layer="1" roundness="20"/>
+<smd name="1" x="-0.3" y="2" dx="1.1938" dy="0.5334" layer="1"/>
+<smd name="2" x="-0.3" y="1" dx="1.1938" dy="0.5334" layer="1"/>
+<smd name="3" x="-0.3" y="0" dx="1.1938" dy="0.5334" layer="1"/>
+<smd name="4" x="3.3" y="0" dx="1.1938" dy="0.5334" layer="1"/>
+<smd name="5" x="3.3" y="1" dx="1.1938" dy="0.5334" layer="1"/>
+<smd name="6" x="3.3" y="2" dx="1.1938" dy="0.5334" layer="1"/>
 <text x="-0.365" y="-2.35" size="0.8128" layer="21">&gt;NAME</text>
 <wire x1="1.5" y1="0.5" x2="1.2" y2="0.6" width="0.127" layer="21" curve="326.309932"/>
 <wire x1="0.1" y1="2.7" x2="0.9" y2="2.7" width="0.127" layer="21"/>
@@ -5120,6 +5120,7 @@ Source: http://eshop.phoenixcontact.com .. 1751251.pdf</description>
 <text x="35.56" y="17.78" size="1.778" layer="96">R1,R2,R3,R4    Panasonic , 25ppm , 0.1%</text>
 <text x="35.56" y="15.24" size="1.778" layer="96">R1.R2, P100KDBCT-ND</text>
 <text x="35.56" y="12.7" size="1.778" layer="96">R3,R4 P24.3KDBCT-ND</text>
+<text x="127" y="48.26" size="1.778" layer="97">NOTE: Resistive load &gt;= 20Kohms only</text>
 </plain>
 <instances>
 <instance part="R4" gate="G$1" x="40.64" y="50.8" rot="R180"/>
