@@ -89,26 +89,26 @@ ${OBJECTDIR}/src/boot.o: src/boot.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/boot.o.d 
 	@${RM} ${OBJECTDIR}/src/boot.o.ok ${OBJECTDIR}/src/boot.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/src/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION) -Wall -O1 -MMD -MF "${OBJECTDIR}/src/boot.o.d" -o ${OBJECTDIR}/src/boot.o src/boot.c    
+	@${FIXDEPS} "${OBJECTDIR}/src/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/boot.o.d" -o ${OBJECTDIR}/src/boot.o src/boot.c    
 	
 ${OBJECTDIR}/src/memory.o: src/memory.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/memory.o.d 
 	@${RM} ${OBJECTDIR}/src/memory.o.ok ${OBJECTDIR}/src/memory.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/src/memory.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION) -Wall -O1 -MMD -MF "${OBJECTDIR}/src/memory.o.d" -o ${OBJECTDIR}/src/memory.o src/memory.c    
+	@${FIXDEPS} "${OBJECTDIR}/src/memory.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/memory.o.d" -o ${OBJECTDIR}/src/memory.o src/memory.c    
 	
 else
 ${OBJECTDIR}/src/boot.o: src/boot.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/boot.o.d 
 	@${RM} ${OBJECTDIR}/src/boot.o.ok ${OBJECTDIR}/src/boot.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/src/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION) -Wall -O1 -MMD -MF "${OBJECTDIR}/src/boot.o.d" -o ${OBJECTDIR}/src/boot.o src/boot.c    
+	@${FIXDEPS} "${OBJECTDIR}/src/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/boot.o.d" -o ${OBJECTDIR}/src/boot.o src/boot.c    
 	
 ${OBJECTDIR}/src/memory.o: src/memory.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/memory.o.d 
 	@${RM} ${OBJECTDIR}/src/memory.o.ok ${OBJECTDIR}/src/memory.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/src/memory.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION) -Wall -O1 -MMD -MF "${OBJECTDIR}/src/memory.o.d" -o ${OBJECTDIR}/src/memory.o src/memory.c    
+	@${FIXDEPS} "${OBJECTDIR}/src/memory.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -omf=elf -x c -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/memory.o.d" -o ${OBJECTDIR}/src/memory.o src/memory.c    
 	
 endif
 
@@ -117,7 +117,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/BL.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    src/BL\ 24FJ256GA108.gld
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -omf=elf -mcpu=$(MP_PROCESSOR_OPTION)  -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -o dist/${CND_CONF}/${IMAGE_TYPE}/BL.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}         -Wl,--defsym=__MPLAB_BUILD=1,-Map="${DISTDIR}/BL.X.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -omf=elf -mcpu=$(MP_PROCESSOR_OPTION)  -D__DEBUG  -o dist/${CND_CONF}/${IMAGE_TYPE}/BL.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}         -Wl,--defsym=__MPLAB_BUILD=1,-Map="${DISTDIR}/BL.X.${IMAGE_TYPE}.map",--report-mem$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/BL.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   src/BL\ 24FJ256GA108.gld
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
