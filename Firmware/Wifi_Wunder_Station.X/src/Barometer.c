@@ -1,7 +1,7 @@
 // Interface functions to access one or the other of the possible Barometer devices
 // The individual init function fill pass of fail depending wheter the particiular device is connect
 // The Bus_errors so obtained will then be used to steer the code to invoke the correct read functions.
-
+// 
 #include "TCPIP Stack/TCPIP.h"
 #include "WX_perm_data.h"
 #include "math.h"
