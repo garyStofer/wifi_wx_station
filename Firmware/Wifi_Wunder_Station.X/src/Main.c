@@ -17,6 +17,7 @@
 #include "Once_per_second.h"
 #include "Barometer.h"
 #include "Hygrometer.h"
+#include "UART1.h"
 
 
 #if defined(WF_CS_TRIS) &&  !defined(MRF24WG)
@@ -340,10 +341,12 @@ main(void)
             continue;
         }
 
-        if (RTC_1Sec_flag )     //  time yet
+        if (RTC_1Sec_flag) //  time yet ?
         {
+
             RTC_1Sec_flag = FALSE;
-            Once_perSecTask();      // This is the main application task that starts measurements and computes readings and averages
+            Once_perSecTask(); // This is the main application task that starts measurements and computes readings and averages
+
         }
 
         WunderHttpClient();

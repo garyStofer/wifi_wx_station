@@ -1,6 +1,7 @@
 #include "TCPIPConfig.h"
 #include "TCPIP Stack/TCPIP.h"
 #include "WX_perm_data.h"
+#include "WX_sensor_data.h"
 #include <stdlib.h>
 #include <math.h>
 #include "Main.h"

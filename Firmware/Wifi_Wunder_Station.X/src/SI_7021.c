@@ -1,6 +1,7 @@
 /* Functions to initialzie and read the HIH 6130 Relative humidity sensor device */
 #include "TCPIP Stack/TCPIP.h"
 #include "WX_perm_data.h"
+#include "WX_sensor_data.h"
 #include "math.h"
 #include "i2c1.h"
 #include "SI_7021.h"

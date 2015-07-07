@@ -215,7 +215,7 @@
 /*  To DISABLE the WF_ASSERT macro: Comment out '#define WF_DEBUG'                    */
 /*  To ENABLE the WF_ASSERT macro:  Uncomment  '#define WF_DEBUG'                     */
 /*====================================================================================*/
-//#define WF_DEBUG
+#define WF_DEBUG
 #if !defined(__18CXX) && defined WF_DEBUG
     #define DISPLAY_FILENAME  /* will diplay file names instead of module numbers on an assert */
 #endif

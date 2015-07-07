@@ -121,6 +121,15 @@ void HTTPPrint_R_RAIN(void);
 void HTTPPrint_W_LAT(void);
 void HTTPPrint_W_LON(void);
 void HTTPPrint_BARO_T(void);
+void HTTPPrint_R_SOILM1(void);
+void HTTPPrint_rfid(WORD);
+void HTTPPrint_rfvb(WORD);
+void HTTPPrint_rfr1_(WORD);
+void HTTPPrint_rfr2_(WORD);
+void HTTPPrint_rfr3_(WORD);
+void HTTPPrint_rfsi(WORD);
+void HTTPPrint_rftm(WORD);
+void HTTPPrint_SmID1(void);
 
 void HTTPPrint(DWORD callbackID)
 {
@@ -455,6 +464,138 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x0000006d:
 			HTTPPrint_BARO_T();
+			break;
+        case 0x0000006f:
+			HTTPPrint_R_SOILM1();
+			break;
+        case 0x00000070:
+			HTTPPrint_rfid(0);
+			break;
+        case 0x00000072:
+			HTTPPrint_rfvb(0);
+			break;
+        case 0x00000073:
+			HTTPPrint_rfr1_(0);
+			break;
+        case 0x00000074:
+			HTTPPrint_rfr2_(0);
+			break;
+        case 0x00000075:
+			HTTPPrint_rfr3_(0);
+			break;
+        case 0x00000076:
+			HTTPPrint_rfsi(0);
+			break;
+        case 0x00000077:
+			HTTPPrint_rftm(0);
+			break;
+        case 0x00000078:
+			HTTPPrint_rfid(1);
+			break;
+        case 0x0000007a:
+			HTTPPrint_rfvb(1);
+			break;
+        case 0x0000007b:
+			HTTPPrint_rfr1_(1);
+			break;
+        case 0x0000007c:
+			HTTPPrint_rfr2_(1);
+			break;
+        case 0x0000007d:
+			HTTPPrint_rfr3_(1);
+			break;
+        case 0x0000007e:
+			HTTPPrint_rfsi(1);
+			break;
+        case 0x0000007f:
+			HTTPPrint_rftm(1);
+			break;
+        case 0x00000080:
+			HTTPPrint_rfid(2);
+			break;
+        case 0x00000082:
+			HTTPPrint_rfvb(2);
+			break;
+        case 0x00000083:
+			HTTPPrint_rfr1_(2);
+			break;
+        case 0x00000084:
+			HTTPPrint_rfr2_(2);
+			break;
+        case 0x00000085:
+			HTTPPrint_rfr3_(2);
+			break;
+        case 0x00000086:
+			HTTPPrint_rfsi(2);
+			break;
+        case 0x00000087:
+			HTTPPrint_rftm(2);
+			break;
+        case 0x00000088:
+			HTTPPrint_rfid(3);
+			break;
+        case 0x0000008a:
+			HTTPPrint_rfvb(3);
+			break;
+        case 0x0000008b:
+			HTTPPrint_rfr1_(3);
+			break;
+        case 0x0000008c:
+			HTTPPrint_rfr2_(3);
+			break;
+        case 0x0000008d:
+			HTTPPrint_rfr3_(3);
+			break;
+        case 0x0000008e:
+			HTTPPrint_rfsi(3);
+			break;
+        case 0x0000008f:
+			HTTPPrint_rftm(3);
+			break;
+        case 0x00000090:
+			HTTPPrint_rfid(4);
+			break;
+        case 0x00000092:
+			HTTPPrint_rfvb(4);
+			break;
+        case 0x00000093:
+			HTTPPrint_rfr1_(4);
+			break;
+        case 0x00000094:
+			HTTPPrint_rfr2_(4);
+			break;
+        case 0x00000095:
+			HTTPPrint_rfr3_(4);
+			break;
+        case 0x00000096:
+			HTTPPrint_rfsi(4);
+			break;
+        case 0x00000097:
+			HTTPPrint_rftm(4);
+			break;
+        case 0x00000098:
+			HTTPPrint_rfid(5);
+			break;
+        case 0x0000009a:
+			HTTPPrint_rfvb(5);
+			break;
+        case 0x0000009b:
+			HTTPPrint_rfr1_(5);
+			break;
+        case 0x0000009c:
+			HTTPPrint_rfr2_(5);
+			break;
+        case 0x0000009d:
+			HTTPPrint_rfr3_(5);
+			break;
+        case 0x0000009e:
+			HTTPPrint_rfsi(5);
+			break;
+        case 0x0000009f:
+			HTTPPrint_rftm(5);
+			break;
+        case 0x000000a0:
+			HTTPPrint_SmID1();
 			break;
 		default:
 			// Output notification for undefined values

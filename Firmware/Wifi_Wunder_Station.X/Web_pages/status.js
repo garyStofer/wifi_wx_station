@@ -71,3 +71,21 @@ function updateADCStatus(xmlData)
 
 
 }
+function updateRFSensStatus(xmlData)
+{
+	if ( timed_out(	xmlData) )
+		return;
+
+    for(i = 0; i < 6; i++)
+	{
+        document.getElementById('RFid'+i).innerHTML = getXMLValue(xmlData, 'rfid'+i);    // The sensors ID
+      //  document.getElementById('RFtyp'+i).innerHTML = getXMLValue(xmlData, 'rftyp'+i);  // The sensors type
+        document.getElementById('RFvb'+i).innerHTML = getXMLValue(xmlData, 'rfvb'+i);    // battery voltage
+        document.getElementById('RFr1_'+i).innerHTML = getXMLValue(xmlData, 'rfr1_'+i);  // Reading 1 i.e. soil moisture if typ==8
+        document.getElementById('RFr2_'+i).innerHTML = getXMLValue(xmlData, 'rfr2_'+i);  // reading 2 i.e Raw voltage if typ ==8
+        document.getElementById('RFr3_'+i).innerHTML = getXMLValue(xmlData, 'rfr3_'+i);  // Reading 3 ..
+        document.getElementById('RFsi'+i).innerHTML = getXMLValue(xmlData, 'rfsi'+i);    // Relative signal strenght
+        document.getElementById('RFtm'+i).innerHTML = getXMLValue(xmlData, 'rftm'+i);    // time of most recent readings
+    }
+
+}

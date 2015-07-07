@@ -12,25 +12,10 @@
 extern "C" {
 #endif
 
-typedef  struct
+typedef struct __attribute__((__packed__))
 {
-    float BaromIn;
-    float TempF;
-    float TempC;
-    float DewptF;
-    float DewptC;
-    float RH;
-    short Wind_dir;             // momentary wind direction (1 sec)
-    float Wind_speed;           // momentary wind speed     (1 sec)
-    float Wind_gust;            // Wind peak over  update interval
-    float Wind_gust_5min;      // Wind peak over last 5 minutes
-    short AvgWindDir;           // Average wind direction over  update interval
-    float AvgWindSpd;           // Average wind speed  ""
-    short SolRad;
-    float RainIn;
-    float RainDaily;
-    float spare;
-} t_WX_Sensor_data;
+    short SoilM_Sensor_ID1;      // Sensor ID of sensord that is used to report readings to the cloud server
+}t_other_data;
 
 typedef struct __attribute__((__packed__))
 {
@@ -62,7 +47,8 @@ typedef  struct __attribute__((__packed__))
        short Sol : 1;
        short Rain : 1;
        short BaroT: 1;
-       short unused: 7;
+       short SoilM1:1;
+       short unused: 6;
     }report_enable;
     char TZ_offset;
     float Lat;
@@ -105,12 +91,13 @@ typedef struct __attribute__((__packed__))
     t_ST_data Station;
     t_ALARM_Data Alarms;
     t_cal_data Calib;
+    t_other_data Other;
 } t_WX_perm_data;
 
 
 
 extern t_WX_perm_data WX;
-extern t_WX_Sensor_data SensorReading;
+
 
 extern void WX_Sensor_fakeInit();
 extern void WX_perm_data_init_toDefault( void);

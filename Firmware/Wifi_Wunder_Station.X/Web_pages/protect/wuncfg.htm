@@ -32,7 +32,7 @@ function setRadioBtn()
 
 		  	<div><label>Report Interval :</label><input type="text" name="UpInt" size ="4" maxlength="4" value="~UpInt~"/> (seconds)</div>
 
-            <div><label>Enable Reporting :</label>
+            <div><label>Reporting to:</label>
                 <input type="radio" name="W_ENB" value="0"/> None<br>
                 <input type="radio" name="W_ENB" value="1"/> Weather Underground<br>
                 <input type="radio" name="W_ENB" value="2"/> PWS-Weather/WeatherForYou<br>
@@ -40,12 +40,17 @@ function setRadioBtn()
                 <input type="radio" name="W_ENB" value="4"/> CWOP/APRS<br>
                 <input type="radio" name="W_ENB" value="5"/> WOW
             </div>
-			<div><label>Report Wind      :</label><input type="checkbox" name="R_WND" ~R_WND~ value="1"/></div>
-			<div><label>Report Humidity  :</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>
-			<div><label>Report Solar     :</label><input type="checkbox" name="R_SOL" ~R_SOL~ value="1"/></div>
-			<div><label>Report Rain      :</label><input type="checkbox" name="R_RAIN" ~R_RAIN~ value="1"/></div>
-            <div><label>Use Baro Temp    :</label><input type="checkbox" name="BARO_T" ~BARO_T~ value="1"/></div>
+
+          	<div><label>Wind:</label><input type="checkbox" name="R_WND" ~R_WND~ value="1"/></div>
+			<div><label>Humidity:</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>
+			<div><label>Solar:</label><input type="checkbox" name="R_SOL" ~R_SOL~ value="1"/></div>
+			<div><label>Rain:</label><input type="checkbox" name="R_RAIN" ~R_RAIN~ value="1"/></div>
+            <div><label>Use Baro Temp:</label><input type="checkbox" name="BARO_T" ~BARO_T~ value="1"/></div>
+            <div><label>Soil Moisture:</label><input type="checkbox" name="R_SOILM1" ~R_SOILM1~ value="1"/>
+                 Reporting Sensor ID :<input type="text" name="SMID1" size ="4" maxlength="4" value="~SmID1~"/>
+            </div>
 			<div> <input type="submit" class="sm" name="_SAV1" value="Save"/> </div>
+           
 		</fieldset>
 	</form>  
 

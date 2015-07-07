@@ -8,6 +8,7 @@
 #include "math.h"
 #include "rtcc.h"
 #include "WX_perm_data.h"
+#include "WX_sensor_data.h"
 #include "wind_rain_cnt.h"
 #include "Once_per_second.h"
 #include "Configs/Wunder_cfg.h"
@@ -30,11 +31,8 @@ static struct tagWind_avg {
 
 
 static float LongWindGustSamples[ LONG_GUST_COUNT] ;
-
-
 static unsigned char RAIN_Count_Samples[RAIN_SAMPLES_P_HOUR] = {0};
 static unsigned short rain_sample_ndx = 0;
-
 
 
 void
@@ -148,7 +146,8 @@ Once_perSecTask(void)
     Wind_avg[sec_count%WIND_AVG_INTERVAL].NS_comp = cos(f_tmp) * SensorReading.Wind_speed;
     Wind_avg[sec_count%WIND_AVG_INTERVAL].EW_comp = sin(f_tmp) * SensorReading.Wind_speed;
 
-
+    // process the input from RF-sensors via the UART1 connection
+    Read_RF_sensors();
 
 
     // Average and Peak calculation for WX_UPLINK_INTERVAL/Sec
@@ -188,6 +187,8 @@ Once_perSecTask(void)
                f_tmp = LongWindGustSamples[i];
         }
         SensorReading.Wind_gust_5min = f_tmp;
+
+
 
         WunderSendData(); // starts the HTTP client process to send data to Wunderground and others that do HTTP GET protocol
         CWOPSendData();   // CWOP and WunderSendata are mutually exclusice  by the Uplink mode variable

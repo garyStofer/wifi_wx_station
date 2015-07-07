@@ -8,11 +8,13 @@
 #include "TCPIP Stack/TCPIP.h"
 #include "Main.h"
 #include "WX_perm_data.h"		// Needed for SaveAppConfig() prototype
+#include "WX_sensor_data.h"
 #include "APP_cfg.h"
 #include "rtcc.h"
 #include "Mail_Alarm.h"
 #include "Once_per_second.h"
 #include "Configs/Wunder_cfg.h"
+#include "RF_Sensors.h"
 
 /****************************************************************************
   Section:
@@ -104,8 +106,9 @@ HTTP_GetExec_wuncgf_htm()
 {
     BYTE *ptr;
     BYTE err = 0;
-    BOOL enaBaroT =FALSE,enaRain = FALSE, enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE;
+    BOOL enaBaroT =FALSE,enaRain = FALSE, enaWind =FALSE,enaHyg=FALSE,enaSol=FALSE,enaSoilM1= FALSE;
     BYTE enaStation = 0;
+    short soilm1ID;
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "W_SID")) != NULL )
     {
@@ -205,11 +208,17 @@ HTTP_GetExec_wuncgf_htm()
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_SOL"))
         enaSol= 1;
 
+    if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_SOILM1"))
+        enaSoilM1= 1;
+
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "R_RAIN"))
          enaRain= 1;
 
     if (HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "BARO_T"))
         enaBaroT= 1;
+
+   if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "SMID1")) != NULL)
+        soilm1ID = atoi((char *) ptr);
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALto")) != NULL)
         WX.Calib.Temp_offs =  atoi((char *) ptr);
@@ -234,9 +243,8 @@ HTTP_GetExec_wuncgf_htm()
 
     // allows manual entry of the north offset without having to go on top of the roof
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALwo")) != NULL)
-    {
         WX.Calib.WDir_offs =  atoi((char *) ptr);
-    }
+    
 
 
     if ((ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *) "CALws")) != NULL)
@@ -279,6 +287,8 @@ HTTP_GetExec_wuncgf_htm()
               WX.Wunder.report_enable.Sol = enaSol;
               WX.Wunder.report_enable.Rain= enaRain;
               WX.Wunder.report_enable.BaroT= enaBaroT;
+              WX.Wunder.report_enable.SoilM1 = enaSoilM1;
+              WX.Other.SoilM_Sensor_ID1 = soilm1ID;
               WX_writePerm_data();
               WDIR_cal_tmp.DoWindDirCal = FALSE;
     }
@@ -1208,11 +1218,7 @@ HTTPPrint_adc(WORD num)
     switch (num)
     {
         case 0:
-#ifdef using_Solar_for_soil_wetness
-            ADval = ADC1BUF0 * ( 3.3/1024);
-#else
             ADval = ADC1BUF0 * (ADC_SCALE * 3.3/1024);
-#endif
             break;
         case 1:
             ADval = ADC1BUF1 * (ADC_SCALE * 3.3/1024);
@@ -1236,6 +1242,102 @@ HTTPPrint_adc(WORD num)
 
     stoa_dec((char*) temp, ADval * 100, 2);  // Two decimals
     TCPPutString(sktHTTP, temp);
+}
+
+void HTTPPrint_rfid(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].ID, 0); // no decimals
+        TCPPutString(sktHTTP, temp);
+    }
+
+}
+
+void HTTPPrint_rftyp(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].Typ, 0); // no decimals
+        TCPPutString(sktHTTP, temp);
+    }
+
+}
+
+void HTTPPrint_rfvb(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].v[0] * 100, 2); // Two decimal
+        TCPPutString(sktHTTP, temp);
+        TCPPutString(sktHTTP, (BYTE *) "V");
+    }
+
+}
+
+void HTTPPrint_rfr1_(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+
+
+        stoa_dec((char*) temp, RF_sens[num].v[1] * 100, 2); // Two decimals
+        TCPPutString(sktHTTP, temp);
+
+        if (RF_sens[num].Typ == 8)
+            TCPPutString(sktHTTP, (BYTE *) "%");
+    }
+}
+
+void HTTPPrint_rfr2_(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].v[2] * 100, 2); // Two decimals
+        TCPPutString(sktHTTP, temp);
+        TCPPutString(sktHTTP, (BYTE *) "V");
+    }
+
+}
+
+void HTTPPrint_rfr3_(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].v[3] * 100, 2); // Two decimals
+        TCPPutString(sktHTTP, temp);
+        TCPPutString(sktHTTP, (BYTE *) "V");
+    }
+}
+
+void HTTPPrint_rfsi(WORD num)
+{
+    BYTE temp[9];
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        stoa_dec((char*) temp, RF_sens[num].rssi, 0); // no decimals
+        TCPPutString(sktHTTP, temp);
+    }
+}
+
+void HTTPPrint_rftm(WORD num)
+{
+    char *p;
+    if (num >= 0 && num < N_RF_SENSORS)
+    {
+        p = RTC_Convert_BCD_Time_to_String(&(RF_sens[num].time));
+        TCPPutString(sktHTTP, (BYTE *) p);
+        TCPPutString(sktHTTP, (BYTE *) "-");
+        p = RTC_Convert_BCD_Date_to_String(&(RF_sens[num].time));
+        TCPPutString(sktHTTP, (BYTE *) p);
+    }
+
 }
 void
 HTTPPrint_pwr5V()
@@ -1344,6 +1446,15 @@ HTTPPrint_R_SOL(void)
     else
         TCPPutROMString(sktHTTP, HTML_off);
 }
+
+void
+HTTPPrint_R_SOILM1(void)
+{
+    if ( WX.Wunder.report_enable.SoilM1)
+        TCPPutROMString(sktHTTP, HTML_checked);
+    else
+        TCPPutROMString(sktHTTP, HTML_off);
+}
 void
 HTTPPrint_R_RAIN(void)
 {
@@ -1375,6 +1486,13 @@ HTTPPrint_ELEV(void)
 {
     BYTE temp[8];
     stoa_dec((char*) temp, WX.Wunder.StationElev, 0);
+    TCPPutString(sktHTTP, temp);
+}
+void
+HTTPPrint_SmID1(void)
+{
+    BYTE temp[8];
+    stoa_dec((char*) temp, WX.Other.SoilM_Sensor_ID1, 0);
     TCPPutString(sktHTTP, temp);
 }
 void

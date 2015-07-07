@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="styles.css" rel="stylesheet" type="text/css" >
+<script src="ajax.js" type="text/javascript"></script>
+<script src="status.js" type="text/javascript"></script>
+<script type="text/javascript">
+// Kick off the status updating in the browser in forever repeat  mode  
+// status_rf_sens.xml fetches the HW status of the board every 500ms
+setTimeout("newAJAXCommand('status_rf_sens.xml', updateRFSensStatus, true)",500);
+</script>
+</head>
+
+<body class="inframe" style="font-weight:normal" >
+ 	<h2>Wireless Sensors:</h2>
+    <h3>S#, ID, Vbat ,Res1, Res2, Res3, RSSI, Time </h3>
+	<div id="loading" style="display:none">Error: Connection was lost.</div>
+<!--  put in table   -->
+	<div id="display">S1: <span id="RFid0">?</span>, <span id="RFvb0">?</span>, <span id="RFr1_0">?</span>, <span id="RFr2_0">?</span>, <span id="RFr3_0">?</span>, <span id="RFsi0">?</span>, <span id="RFtm0">?</span></div>
+	<div id="display">S2: <span id="RFid1">?</span>, <span id="RFvb1">?</span>, <span id="RFr1_1">?</span>, <span id="RFr2_1">?</span>, <span id="RFr3_1">?</span>, <span id="RFsi1">?</span>, <span id="RFtm1">?</span></div>
+	<div id="display">S3: <span id="RFid2">?</span>, <span id="RFvb2">?</span>, <span id="RFr1_2">?</span>, <span id="RFr2_2">?</span>, <span id="RFr3_2">?</span>, <span id="RFsi2">?</span>, <span id="RFtm2">?</span></div>
+	<div id="display">S4: <span id="RFid3">?</span>, <span id="RFvb3">?</span>, <span id="RFr1_3">?</span>, <span id="RFr2_3">?</span>, <span id="RFr3_3">?</span>, <span id="RFsi3">?</span>, <span id="RFtm3">?</span></div>
+	<div id="display">S5: <span id="RFid4">?</span>, <span id="RFvb4">?</span>, <span id="RFr1_4">?</span>, <span id="RFr2_4">?</span>, <span id="RFr3_4">?</span>, <span id="RFsi4">?</span>, <span id="RFtm4">?</span></div>
+	<div id="display">S6: <span id="RFid5">?</span>, <span id="RFvb5">?</span>, <span id="RFr1_5">?</span>, <span id="RFr2_5">?</span>, <span id="RFr3_5">?</span>, <span id="RFsi5">?</span>, <span id="RFtm5">?</span></div>
+
+</body>
+</html>

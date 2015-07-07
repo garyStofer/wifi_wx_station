@@ -3,6 +3,7 @@
 #include "wind_rain_cnt.h"
 #include "Mail_Alarm.h"
 #include "HW_initialize.h"
+#include "UART1.h"
 /****************************************************************************
   Function:
     static void InitializeBoard(void)
@@ -143,7 +144,8 @@ InitializeBoard(void)
 
     AD1CON1bits.ADON = 1; // enable the device
 
-    // UART
+ //TODO: Clean this up -- removed the macro magic about UART 1 or 2 setting in  WX_WUNDER_BRD_MRF24W
+    // UART2
     UARTTX_TRIS = 0;
     UARTRX_TRIS = 1;
     UMODE = 0x8000; // Set UARTEN.  Note: this must be done before setting UTXEN
@@ -161,6 +163,9 @@ InitializeBoard(void)
 #endif
 
     UBRG = CLOSEST_UBRG_VALUE;
+
+
+    UART1_Init(UBRG);
 
     // Deassert all chip select lines so there isn't any problem with
     // initialization order.  Ex: When ENC28J60 is on SPI2 with Explorer 16,

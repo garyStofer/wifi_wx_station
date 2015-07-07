@@ -4,7 +4,7 @@
 #include "APP_cfg.h"
 #include "Configs/Wunder_cfg.h"
 
-t_WX_Sensor_data SensorReading = {0};
+
 t_WX_perm_data WX;       // all WX station related data
 
 void
@@ -82,6 +82,7 @@ void WX_perm_data_init_toDefault( void)
    WX.Wunder.TZ_offset = GMT_TZ_OFFSET_DEFAULT;
    WX.Calib.Wind_counts = WIND_COUNT_CAL_DEFAULT;
    WX.Calib.Wind_AN_CalFactor = AN_CAL_FACTOR_DEFAULT;
+   WX.Other.SoilM_Sensor_ID1 = 0;   // this also turns reporting for this off
    WX_writePerm_data();
 }
 

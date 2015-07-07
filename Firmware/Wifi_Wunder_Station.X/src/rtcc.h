@@ -6,7 +6,7 @@
  */
 #ifndef RTCC_H
 #define RTCC_H
-
+#include "GenericTypeDefs.h"
 #define mRTCCbcd2bin(bcd) (10*(bcd>>4)+(bcd&0x0f))
 #define mRTCCbin2bcd(bin) (((bin/10)<<4)|(bin%10))
 
@@ -43,7 +43,7 @@ extern short Get_1Sec_RTCC_tic_diff ( short T1 );   // T1 beeing an earlier time
 extern void RTC_Init(void);                         // configures the oscialltor to clock the RTC
 extern BCD_RTCC * RTC_Read_BCD_Time(void);          // reads RTC and stores BCD time in global _RTC_time
 extern char * RTC_Convert_BCD_Date_to_String (BCD_RTCC * t);
-extern char * RTC_Convert_BCD_Timer_to_String(BCD_RTCC * t);
+extern char * RTC_Convert_BCD_Time_to_String(BCD_RTCC * t);
 extern void RTC_CalculateWeekDay( BCD_RTCC *t);     // Calculate the day of the week for century 2000
 extern void RTC_Set_BCD_time( BCD_RTCC * t);        // RTC BCD time structure
 extern BOOL RTC_isMidnight( BCD_RTCC * t, short  timezone_offset);

@@ -2,10 +2,12 @@
 #include "TCPIP Stack/TCPIP.h"
 #include "rtcc.h"
 #include "WX_perm_data.h"
+#include "WX_sensor_data.h"
 #include <stdlib.h>
 #include <math.h>
 #include "Main.h"
 #include "WunderHttpClient.h"
+#include "RF_Sensors.h"
 
 
 enum _Http_WunderClientState
@@ -171,6 +173,7 @@ WunderHttpClient(void)
         static BCD_RTCC         *time;
         ROM char  * msg_url;
         static char cache_ID = 0;
+        int i;
 
         switch ( WX.Wunder.report_enable.Station )
         {
@@ -393,14 +396,8 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
                         }
 
                         len += put_WXparam_arg (MySocket, msgBaro, (short)(SensorReading.BaromIn*100), 2);  // Send the Barometer reading, convert to inches Mercury at 0 degC
-                        
-                        
-                             // Send the solar radiation index in watts/ sq Meter ( estimated)
-
  
- // Reporting Soil moisture under the solar check mark for now
-//#defin in main.h
-#ifdef using_Solar_for_soil_wetness
+// TODO need soil calibration data per actual soil
 /* for VH400 probe
  Voltage Range 	Equation
 0 to 1.1V 	VWC= 10*V-1
@@ -408,28 +405,39 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
 1.3V  to 1.82V 	VWC= 48.08*V- 47.5
 1.82V to 2.2V 	VWC= 26.32*V- 7.89
 */
-                        if (WX.Wunder.report_enable.Sol)
+                        if (WX.Wunder.report_enable.SoilM1)
                         {
-                            float Vx;   // Voltage from VH400
-                            float VWC;  // Volumetric Water Content
-                            
-                            Vx =  ADC1BUF0 * (3.3/1024); // volts as read on ADC0 input pin.
+                            // using the compansation table as provided by Vegetronix -- computation buit into RF sensor
+                            // TODO: Need to get actual soil calibration data and use  raw voltage to calculate
+                            // TODO: neeed tp rovide mechanism to select multiple SM readingsfor reporting
+                            // BUT since WOW can only record one SM reading and WU doesn't store any SM readings
+                            // I'm nailing this to be the first entry in the RF sensor table
 
-                            if ( Vx < 1.1)
-                                VWC = Vx*10.0 -1;
-                            else if ( Vx < 1.3)
-                                VWC = Vx*25.0 -17.5;
-                            else if ( Vx < 1.82 )
-                                VWC = Vx*48.08 - 47.5;
-                            else
-                                VWC= Vx*26.32- 7.89;
-                                
-                            len += put_WXparam_arg (MySocket, msgSoil_m1,(short)VWC*10, 1);
+                            if (WX.Other.SoilM_Sensor_ID1)  // if the reporting sensor ID is set
+                            {
+                                for ( i=0; i< N_RF_SENSORS ;i++)
+                                {
+                                    // pick out the sensor the user wants to send to the could
+                                    if ( RF_sens[i].ID == WX.Other.SoilM_Sensor_ID1  &&  RF_sens[i].Typ == 8)   // making sure it's a SM sensor
+                                    {
+                                        // prevent more than one day old readings from beeing reported
+                                        if ( RF_sens[i].time.day == _RTC_time.day &&
+                                             RF_sens[i].time.mth == _RTC_time.mth &&
+                                             RF_sens[i].time.yr== _RTC_time.yr )
+                                        {
+                                            SensorReading.SoilM1 = RF_sens[i].v[1]; // V1 = VMC as caluclated by formula from Vegetronics
+                                            len += put_WXparam_arg (MySocket, msgSoil_m1,(short)((SensorReading.SoilM1+0.5)*10), 1);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                           
                         }
-#else
+                        // Send the solar radiation index in watts/ sq Meter ( estimated)
                         if (WX.Wunder.report_enable.Sol)
                             len += put_WXparam_arg (MySocket, msgSolar,(short) SensorReading.SolRad, 0); // Send the solar radiation index in watts/ sq Meter ( estimated)
-#endif
+
                         if (WX.Wunder.report_enable.Station == PWS_CLIENT || WX.Wunder.report_enable.Station == WOW_CLIENT)   // if PWS
                             len += WX_TCPPut(MySocket, msgSWtype);
                        
