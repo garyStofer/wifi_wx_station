@@ -1,0 +1,24 @@
+# Object files
+*.o
+*.o.d
+*.obj
+*.elf
+*.map
+*.hex
+
+# Makefile stuff
+*.mk
+*.properties
+*.bash
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+
