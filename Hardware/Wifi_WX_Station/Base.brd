@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -2464,7 +2464,7 @@ einem neuen Namen ab.</description>
 <element name="C2" library="rcl" package="C0805" value="0.1uF" x="14.2875" y="25.7175" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.6525" y="29.845" size="1.016" layer="25" rot="R270"/>
 </element>
-<element name="R5" library="rcl" package="R0603" value="8.2k" x="25.7175" y="24.4475" smashed="yes">
+<element name="R5" library="rcl" package="R0603" value="14K" x="25.7175" y="24.4475" smashed="yes">
 <attribute name="NAME" x="24.765" y="22.225" size="0.889" layer="25"/>
 </element>
 <element name="R6" library="rcl" package="R0603" value="26.1K" x="30.4165" y="25.4" smashed="yes" rot="R90">

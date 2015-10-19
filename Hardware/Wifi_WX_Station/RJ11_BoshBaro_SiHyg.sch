@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -11533,7 +11533,7 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
 <part name="C3" library="rcl" deviceset="CPOL-US" device="SMCB" value="22uF/10V"/>
 <part name="C1" library="rcl" deviceset="C-US" device="C0805K" value="100nF"/>
-<part name="U2" library="1AA_Stofer" deviceset="BMP085" device=""/>
+<part name="U2" library="1AA_Stofer" deviceset="BMP085" device="" value="BMP085"/>
 <part name="JP2" library="wifi_WX" deviceset="RJ11-6" device="HOR_LP"/>
 <part name="U$1" library="1AA_Stofer" deviceset="8.5X11" device=""/>
 <part name="U1" library="wifi_WX" deviceset="SI7021" device="-DFN6"/>

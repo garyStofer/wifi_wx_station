@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -17564,7 +17564,7 @@ Standard 5-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="C8" library="rcl" deviceset="C-US" device="C0805" value="0.1uF"/>
 <part name="C2" library="rcl" deviceset="C-US" device="C0805" value="0.1uF"/>
 <part name="P+1" library="supply1" deviceset="+5V" device=""/>
-<part name="R5" library="rcl" deviceset="R-US_" device="R0603" value="8.2k"/>
+<part name="R5" library="rcl" deviceset="R-US_" device="R0603" value="14K"/>
 <part name="R6" library="rcl" deviceset="R-US_" device="R0603" value="26.1K"/>
 <part name="C9" library="rcl" deviceset="C-US" device="C0805" value="0.1uF"/>
 <part name="R13" library="rcl" deviceset="R-US_" device="R0603" value="2.2K"/>
@@ -17672,7 +17672,7 @@ Standard 5-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <text x="127" y="40.64" size="1.778" layer="95" rot="R90">Baro/Hyg/Temp</text>
 <text x="-83.82" y="55.88" size="1.27" layer="95">PIC24FJ256GA108</text>
 <text x="43.18" y="78.74" size="1.778" layer="95">MRF24</text>
-<text x="-226.06" y="-40.64" size="1.778" layer="96">R6 - do not load for revision B.1 Wind Direction Sensor</text>
+<text x="-226.06" y="-40.64" size="1.778" layer="96">R6 - do not load for 3V WE28 Wind direction Sensor. </text>
 <text x="118.872" y="-59.69" size="3.81" layer="94" ratio="15">B.2</text>
 <text x="35.56" y="-38.1" size="3.81" layer="94" ratio="15">WunderWxStation</text>
 <text x="-226.06" y="-45.72" size="1.778" layer="97">R7,R19,R20 Use 100K for 15V ADC  input range.</text>
