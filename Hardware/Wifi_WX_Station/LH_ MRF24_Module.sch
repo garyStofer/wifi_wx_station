@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -12294,42 +12294,42 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <wire x1="20.32" y1="5.08" x2="17.78" y2="5.08" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="1.27" width="0.127" layer="21"/>
 <circle x="19.05" y="3.81" radius="0.635" width="0.127" layer="21"/>
-<smd name="1" x="-0.127" y="29.21" dx="0.8" dy="0.85" layer="1"/>
-<smd name="2" x="-0.127" y="27.94" dx="0.8" dy="0.85" layer="1"/>
-<smd name="3" x="-0.127" y="26.67" dx="0.8" dy="0.85" layer="1"/>
-<smd name="4" x="-0.127" y="25.4" dx="0.8" dy="0.85" layer="1"/>
-<smd name="5" x="-0.127" y="24.13" dx="0.8" dy="0.85" layer="1"/>
-<smd name="6" x="-0.127" y="22.86" dx="0.8" dy="0.85" layer="1"/>
-<smd name="7" x="-0.127" y="21.59" dx="0.8" dy="0.85" layer="1"/>
-<smd name="8" x="-0.127" y="20.32" dx="0.8" dy="0.85" layer="1"/>
-<smd name="9" x="-0.127" y="19.05" dx="0.8" dy="0.85" layer="1"/>
-<smd name="10" x="-0.127" y="17.78" dx="0.8" dy="0.85" layer="1"/>
-<smd name="11" x="-0.127" y="16.51" dx="0.8" dy="0.85" layer="1"/>
-<smd name="12" x="-0.127" y="15.24" dx="0.8" dy="0.85" layer="1"/>
-<smd name="13" x="-0.127" y="13.97" dx="0.8" dy="0.85" layer="1"/>
-<smd name="14" x="-0.127" y="12.7" dx="0.8" dy="0.85" layer="1"/>
-<smd name="15" x="-0.127" y="11.43" dx="0.8" dy="0.85" layer="1"/>
-<smd name="16" x="-0.127" y="10.16" dx="0.8" dy="0.85" layer="1"/>
-<smd name="17" x="-0.127" y="8.89" dx="0.8" dy="0.85" layer="1"/>
-<smd name="18" x="-0.127" y="7.62" dx="0.8" dy="0.85" layer="1"/>
-<smd name="19" x="20.955" y="7.62" dx="0.8" dy="0.85" layer="1"/>
-<smd name="20" x="20.955" y="8.89" dx="0.8" dy="0.85" layer="1"/>
-<smd name="21" x="20.955" y="10.16" dx="0.8" dy="0.85" layer="1"/>
-<smd name="22" x="20.955" y="11.43" dx="0.8" dy="0.85" layer="1"/>
-<smd name="23" x="20.955" y="12.7" dx="0.8" dy="0.85" layer="1"/>
-<smd name="24" x="20.955" y="13.97" dx="0.8" dy="0.85" layer="1"/>
-<smd name="25" x="20.955" y="15.24" dx="0.8" dy="0.85" layer="1"/>
-<smd name="26" x="20.955" y="16.51" dx="0.8" dy="0.85" layer="1"/>
-<smd name="27" x="20.955" y="17.78" dx="0.8" dy="0.85" layer="1"/>
-<smd name="28" x="20.955" y="19.05" dx="0.8" dy="0.85" layer="1"/>
-<smd name="29" x="20.955" y="20.32" dx="0.8" dy="0.85" layer="1"/>
-<smd name="30" x="20.955" y="21.59" dx="0.8" dy="0.85" layer="1"/>
-<smd name="31" x="20.955" y="22.86" dx="0.8" dy="0.85" layer="1"/>
-<smd name="32" x="20.955" y="24.13" dx="0.8" dy="0.85" layer="1"/>
-<smd name="33" x="20.955" y="25.4" dx="0.8" dy="0.85" layer="1"/>
-<smd name="34" x="20.955" y="26.67" dx="0.8" dy="0.85" layer="1"/>
-<smd name="35" x="20.955" y="27.94" dx="0.8" dy="0.85" layer="1"/>
-<smd name="36" x="20.955" y="29.21" dx="0.8" dy="0.85" layer="1"/>
+<smd name="1" x="-0.127" y="29.21" dx="1.27" dy="0.635" layer="1"/>
+<smd name="2" x="-0.127" y="27.94" dx="1.27" dy="0.635" layer="1"/>
+<smd name="3" x="-0.127" y="26.67" dx="1.27" dy="0.635" layer="1"/>
+<smd name="4" x="-0.127" y="25.4" dx="1.27" dy="0.635" layer="1"/>
+<smd name="5" x="-0.127" y="24.13" dx="1.27" dy="0.635" layer="1"/>
+<smd name="6" x="-0.127" y="22.86" dx="1.27" dy="0.635" layer="1"/>
+<smd name="7" x="-0.127" y="21.59" dx="1.27" dy="0.635" layer="1"/>
+<smd name="8" x="-0.127" y="20.32" dx="1.27" dy="0.635" layer="1"/>
+<smd name="9" x="-0.127" y="19.05" dx="1.27" dy="0.635" layer="1"/>
+<smd name="10" x="-0.127" y="17.78" dx="1.27" dy="0.635" layer="1"/>
+<smd name="11" x="-0.127" y="16.51" dx="1.27" dy="0.635" layer="1"/>
+<smd name="12" x="-0.127" y="15.24" dx="1.27" dy="0.635" layer="1"/>
+<smd name="13" x="-0.127" y="13.97" dx="1.27" dy="0.635" layer="1"/>
+<smd name="14" x="-0.127" y="12.7" dx="1.27" dy="0.635" layer="1"/>
+<smd name="15" x="-0.127" y="11.43" dx="1.27" dy="0.635" layer="1"/>
+<smd name="16" x="-0.127" y="10.16" dx="1.27" dy="0.635" layer="1"/>
+<smd name="17" x="-0.127" y="8.89" dx="1.27" dy="0.635" layer="1"/>
+<smd name="18" x="-0.127" y="7.62" dx="1.27" dy="0.635" layer="1"/>
+<smd name="19" x="20.955" y="7.62" dx="1.27" dy="0.635" layer="1"/>
+<smd name="20" x="20.955" y="8.89" dx="1.27" dy="0.635" layer="1"/>
+<smd name="21" x="20.955" y="10.16" dx="1.27" dy="0.635" layer="1"/>
+<smd name="22" x="20.955" y="11.43" dx="1.27" dy="0.635" layer="1"/>
+<smd name="23" x="20.955" y="12.7" dx="1.27" dy="0.635" layer="1"/>
+<smd name="24" x="20.955" y="13.97" dx="1.27" dy="0.635" layer="1"/>
+<smd name="25" x="20.955" y="15.24" dx="1.27" dy="0.635" layer="1"/>
+<smd name="26" x="20.955" y="16.51" dx="1.27" dy="0.635" layer="1"/>
+<smd name="27" x="20.955" y="17.78" dx="1.27" dy="0.635" layer="1"/>
+<smd name="28" x="20.955" y="19.05" dx="1.27" dy="0.635" layer="1"/>
+<smd name="29" x="20.955" y="20.32" dx="1.27" dy="0.635" layer="1"/>
+<smd name="30" x="20.955" y="21.59" dx="1.27" dy="0.635" layer="1"/>
+<smd name="31" x="20.955" y="22.86" dx="1.27" dy="0.635" layer="1"/>
+<smd name="32" x="20.955" y="24.13" dx="1.27" dy="0.635" layer="1"/>
+<smd name="33" x="20.955" y="25.4" dx="1.27" dy="0.635" layer="1"/>
+<smd name="34" x="20.955" y="26.67" dx="1.27" dy="0.635" layer="1"/>
+<smd name="35" x="20.955" y="27.94" dx="1.27" dy="0.635" layer="1"/>
+<smd name="36" x="20.955" y="29.21" dx="1.27" dy="0.635" layer="1"/>
 <text x="2.54" y="31.75" size="1.27" layer="25">&gt;NAME</text>
 <text x="5.08" y="15.24" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
 </package>
@@ -13005,6 +13005,7 @@ Standard 10-pin dual row 0.1" header. Commonly used with AVR-ISP. Use with Spark
 <plain>
 <text x="109.22" y="-30.48" size="5.08" layer="94" ratio="20">WunderWxStation</text>
 <text x="176.784" y="-49.276" size="3.81" layer="94" ratio="20">B.2</text>
+<text x="22.86" y="-5.08" size="1.778" layer="97">Top mount WiFI</text>
 </plain>
 <instances>
 <instance part="+3V6" gate="G$1" x="60.96" y="40.64"/>
