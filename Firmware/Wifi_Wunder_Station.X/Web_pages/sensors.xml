@@ -10,4 +10,6 @@
 <Rain>~Rain_In~</Rain>
 <RainDay>~RainDay~</RainDay>
 <Elevation>~ELEV~</Elevation>
+<Date>~date~</Date>
+<Time>~time~</Time>
 </response>

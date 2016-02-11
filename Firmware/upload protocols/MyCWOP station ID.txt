@@ -1,0 +1,4 @@
+Station ID for Concord station on CWOP
+
+ID: EW4459
+Passwd: -1

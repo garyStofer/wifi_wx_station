@@ -1,6 +1,7 @@
 #include <time.h>
 #include "TCPIPConfig.h"
 #include "TCPIP Stack/TCPIP.h"
+#include "Main.h"
 #include "rtcc.h"
 #include "nist.h"
 #include "WX_perm_data.h"
@@ -53,10 +54,12 @@ NIST_DAYTIME_Client(void)
                 NistIP_addr = WX.TimeServer.NIST1.Val;
 
             // Connect a socket to the remote TCP server
-            //sock = TCPOpen((DWORD) NIST_TIME_URL, TCP_OPEN_ROM_HOST, NIST_DAYTIME_PORT, TCP_PURPOSE_NIST_CLIENT);
-           // sock = TCPOpen((DWORD) "128.138.140.44", TCP_OPEN_ROM_HOST, NIST_DAYTIME_PORT, TCP_PURPOSE_NIST_CLIENT);
-            sock = TCPOpen( NistIP_addr, TCP_OPEN_IP_ADDRESS, NIST_DAYTIME_PORT, TCP_PURPOSE_NIST_CLIENT);
-
+            //sock = TCPOpen((DWORD) NIST_TIME_URL, TCP_OPEN_ROM_HOST, NIST_DAYTIME_PORT, TCP_PURPOSE_DEFAULT);
+            // or with IP address ( faster, and uses less space in eeprom)
+            // sock = TCPOpen((DWORD) "128.138.140.44", TCP_OPEN_ROM_HOST, NIST_DAYTIME_PORT, TCP_PURPOSE_DEFAULT);
+            sock = TCPOpen( NistIP_addr, TCP_OPEN_IP_ADDRESS, NIST_DAYTIME_PORT, TCP_PURPOSE_DEFAULT);
+//             sock = TCPOpen( NistIP_addr, TCP_OPEN_IP_ADDRESS, NIST_DAYTIME_PORT, TCP_PURPOSE_WUNDER_CLIENT);
+//putrsUART((ROM char*) "NIST using 1Kbuffer");
             // Abort operation if no socket of proper type is available
             // If this ever happens, you need to go add one to TCPIPConfig.h
             if (sock == INVALID_SOCKET)
@@ -71,7 +74,9 @@ NIST_DAYTIME_Client(void)
             ThisState++;
             Timer = TickGet();
 
-            putrsUART((ROM char*) "NIST waiting for socket connect\r\n");
+            putrsUART((ROM char*) "NIST waiting for socket connect on ");
+            DisplayIPValue((IP_ADDR) NistIP_addr);
+            putsUART(" Port 13\r\n");
 
             break;
 
@@ -85,7 +90,7 @@ NIST_DAYTIME_Client(void)
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
 
-                    putrsUART((ROM char*) "NIST sock connect timed out,aborting\r\n");
+                    putrsUART((ROM char*) "NIST connection timed out,aborting\r\n");
 
                     // Close the socket so it can be used by other modules
                     ThisState = SM_DISCONNECT;
@@ -99,7 +104,7 @@ NIST_DAYTIME_Client(void)
 
         case SM_PROCESS_RESPONSE:
             // collect the time data output from the sever and/or react to a Disconnect from the server
-            // The Server automatically disconnects from the client after it output the data
+            // The Server automatically disconnects from the client after it outputs the data
             w = sizeof (NistRspBuffer) - 1;
             if (TCPIsGetReady(sock) >= w)
             {
@@ -128,6 +133,9 @@ NIST_DAYTIME_Client(void)
 
                     // set flag that we got good time
                 }
+                else
+                     putrsUART((ROM char*) "NIST server has healt issues\r\n");
+
                 ThisState = SM_DISCONNECT;
             }
             else
@@ -136,7 +144,7 @@ NIST_DAYTIME_Client(void)
                 if (TickGet() - Timer > NIST_TIMEOUT * TICK_SECOND)
                 {
 
-                    putrsUART((ROM char*) "Nist timed-out waiting for Data, aborting\r\n");
+                    putrsUART((ROM char*) "Nist data timeout, aborting\r\n");
 
                     ThisState = SM_DISCONNECT;
                     break;
@@ -144,15 +152,15 @@ NIST_DAYTIME_Client(void)
             }
 
             if (!TCPIsConnected(sock))
-            {
-                //putrsUART((ROM char*) "NIST Server has disconnected\r\n");
+            {   // If the Server disconnects before we do 
+                putrsUART((ROM char*) "NIST Server disconnected\r\n");
                 ThisState = SM_DISCONNECT;
             }
             break;
 
         case SM_DISCONNECT:
             // Close the socket so it can be used by other modules
-            //putrsUART((ROM char*) "Nist Disconnect\r\n");
+            putrsUART((ROM char*) "NIST Client disconnected\r\n");
             TCPDisconnect(sock);        // This sends a "RST"
             TCPDisconnect(sock);        // This sends a "FIN"
             sock = INVALID_SOCKET;

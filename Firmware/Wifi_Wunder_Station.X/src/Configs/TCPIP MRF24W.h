@@ -255,7 +255,7 @@
 		#define TCP_PURPOSE_DEFAULT 9
 		#define TCP_PURPOSE_BERKELEY_SERVER 10
 		#define TCP_PURPOSE_BERKELEY_CLIENT 11
-                #define TCP_PURPOSE_NIST_CLIENT    12
+                #define TCP_PURPOSE_NIST_CLIENT    12       // not used anymore but left here to for now -- Using Default for NIST
                 #define TCP_PURPOSE_WUNDER_CLIENT    13
 	#define END_OF_TCP_SOCKET_TYPES
 
@@ -300,10 +300,8 @@
 
                      {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // Note these are sized so as to use up 
                      {TCP_PURPOSE_HTTP_SERVER, TCP_ETH_RAM, 992, 992},       // all the available memory in the ethernet controller
-                     {TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 65,65},
-                     {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},
-//                   {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,200 },
-//                   {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,512 },
+                     {TCP_PURPOSE_DEFAULT, TCP_ETH_RAM, 85,115},
+//                   {TCP_PURPOSE_NIST_CLIENT, TCP_ETH_RAM, 20, 50},        // moved this memory into the default socket above --do not re-enable without shrinking Default
                      {TCP_PURPOSE_WUNDER_CLIENT, TCP_PIC_RAM, 512,1024 }, // Large receive buffer for WU load switching center problem fix
 
 		};

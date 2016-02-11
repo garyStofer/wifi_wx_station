@@ -19,10 +19,10 @@ extern "C" {
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE3        (136ul)
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE4        (125ul)
 */
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE1        (128ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE2        (138ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE3        (140ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE4        (44ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE1        (137ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE2        (107ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE3        (13ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE4        (100ul)
 
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE1        (128ul)
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE2        (138ul)

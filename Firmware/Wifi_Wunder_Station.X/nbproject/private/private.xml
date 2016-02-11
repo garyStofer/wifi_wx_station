@@ -5,18 +5,18 @@
             <line>296</line>
         </file>
         <file>
-            <url>src/CustomHTTPApp.c</url>
-            <line>1673</line>
-            <line>1689</line>
-            <line>1703</line>
-        </file>
-        <file>
             <url>src/WX_perm_data.c</url>
             <line>18</line>
         </file>
         <file>
             <url>file:/C:/MPLAB_X_projects/PIC_WIFI_WX_STATION/TCPIP/IP.c</url>
             <line>263</line>
+        </file>
+        <file>
+            <url>src/CustomHTTPApp.c</url>
+            <line>1673</line>
+            <line>1689</line>
+            <line>1703</line>
         </file>
     </editor-bookmarks>
 </project-private>

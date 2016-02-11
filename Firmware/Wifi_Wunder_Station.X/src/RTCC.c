@@ -107,6 +107,8 @@ RTC_Init(void) // configures the oscialltor to clock the RTC
 
     // Start the RTC running so that the OneSecondTask can start up,  even though the time is not set
     RTC_SetChime1Sec(); // Enables the one second alarm and starts RTC running
+    _RTC_time.prt00 =  _RTC_time.prt01 =  _RTC_time.prt10 =  _RTC_time.prt11=  0;
+    RTC_Set_BCD_time( &_RTC_time); // initialize with time all zeros -- will read year 2000
 }
 
 /*****************************************************************************/
@@ -351,7 +353,7 @@ RTC_CalculateWeekDay(BCD_RTCC *t) // Calculate the day of the week for century 2
 /*****************************************************************************
  * Function: RTC_Set_BCD_time
  *
- * Overview: The function Sets the RTCC hardware to to time conveid in the function argument
+ * Overview: The function Sets the RTCC hardware to the time given in the function argument
  * Input: The BCD formatted time.
  * The RTCC is stopped monentarily to set the time and then re-enabled upon exit for a running clock
  * A Unlock/Lock sequence is executed to enable the writing of the RTCC counters.
@@ -370,7 +372,7 @@ RTC_Set_BCD_time(BCD_RTCC * t) // RTC BCD time structure
     RTCVAL = t->prt10;
     RTCVAL = t->prt01;
     RTCVAL = t->prt00;
-    // Note: Alarm resistors do not need to be set since we want an interrupt every one second. 
+    // Note: Alarm registors do not need to be set since we want an interrupt every one second.
     RCFGCALbits.RTCEN = 1; // Start the clock to run
 
     RTC_Lock(); // Lock the RTCC from beeing written
@@ -395,7 +397,7 @@ BOOL RTC_isMidnight( BCD_RTCC * t, short  timezone_offset)
     hour = (t->hr >> 4) *10 + (t->hr & 0xF);   // convert to decimal
     hour = (hour + timezone_offset)%24;
 
-    if (hour == 00 && t->sec < 4 && t->min == 0)        // The first 3 seconds of a new day -- in case the function doesn't get called fast enough
+    if (hour == 00 && t->sec < 5 && t->min == 0)        // The first 4 seconds of a new day -- in case the function doesn't get called fast enough
         return TRUE;
 
     return FALSE;

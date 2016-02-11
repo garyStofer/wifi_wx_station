@@ -31,6 +31,8 @@ function updateThisStatus(xmlData) {
 	var rain = getXMLValue(xmlData, 'Rain');
 	var rainday = getXMLValue(xmlData, 'RainDay');
 	var elevation = getXMLValue(xmlData, 'Elevation');
+    var g_tm = getXMLValue(xmlData, 'Time');
+    var g_da = getXMLValue(xmlData, 'Date');
 	
 	//NWS formula for DRY Density Altitude in feet based on inches Hg station pressure and degF
 	//As used by ASOS/AWOS 
@@ -57,8 +59,9 @@ function updateThisStatus(xmlData) {
 	document.getElementById("rain_in").textContent = rain;
 	document.getElementById("rain_day").textContent = rainday;
 	document.getElementById("D_alt").textContent = d_alt.toFixed(0);
+    document.getElementById("GMTtm").textContent = g_tm;
+	document.getElementById("GMTda").textContent = g_da;
 }
-
 
 // kick off the repeated status request in 100ms
 setTimeout("newAJAXCommand('sensors.xml', updateThisStatus, true)",100);
@@ -93,4 +96,9 @@ setTimeout("newAJAXCommand('sensors.xml', updateThisStatus, true)",100);
 <text x="-380" y= "90">Rain <tspan id="rain_in"> </tspan> inch/Hr</text>
 <text x="-380" y= "120">Rain Total <tspan id="rain_day"> </tspan> inch/Day</text>
 <text x="-380" y= "150">Density Altitude <tspan id="D_alt"> </tspan> ft</text>
+<text x="-380" y= "180" font-size="small">Time:<tspan id="GMTtm"> </tspan> </text>
+<text x="-240" y= "180" font-size="small">Date:<tspan id="GMTda"> </tspan> </text>
+
+
+
 </svg>

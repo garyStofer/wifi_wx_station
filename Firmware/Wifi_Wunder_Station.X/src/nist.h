@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 // The following URLS are only reference examples -- The implementation is using IP addresses instead of URLs
-// The website http://tf.nist.gov/tf-cgi/servers.cgi has a current lits of active and able servers with their IP address listed
+// The website http://tf.nist.gov/tf-cgi/servers.cgi has a current lists of active and able servers with their IP address listed
 //#define NIST_TIME_URL "time.nist.gov"
 //#define NIST_TIME_URL "time-a.nist.gov"
 //#define NIST_TIME_URL "time-b.nist.gov"
@@ -25,7 +25,7 @@ extern "C" {
 
 #define NIST_DAYTIME_PORT	13 	// for Date_time service
 //#define NIST_NTP_PORT	123 	// for Network  Time Protocol
-#define NIST_TIMEOUT 	10       // time to wait for a reply from a NIST server before timeout, also time to wait to retry the call
+#define NIST_TIMEOUT 	20       // time to wait for a reply from a NIST server before timeout, also time to wait to retry the call
 
 enum _nist_SM{
     SM_START = 0,
