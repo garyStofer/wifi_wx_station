@@ -6,7 +6,7 @@
 #include "nist.h"
 #include "WX_perm_data.h"
 
-static enum _nist_SM ThisState = SM_RETRY;   // Start out with SM_RETRY. This provides an intial delay for the stack to get DHCP completed
+static enum _nist_SM ThisState = SM_START;   // Start out with SM_RETRY. This provides an intial delay for the stack to get DHCP completed
 static  BOOL NistGotGoodTime = FALSE;
 
 
@@ -58,8 +58,7 @@ NIST_DAYTIME_Client(void)
             // or with IP address ( faster, and uses less space in eeprom)
             // sock = TCPOpen((DWORD) "128.138.140.44", TCP_OPEN_ROM_HOST, NIST_DAYTIME_PORT, TCP_PURPOSE_DEFAULT);
             sock = TCPOpen( NistIP_addr, TCP_OPEN_IP_ADDRESS, NIST_DAYTIME_PORT, TCP_PURPOSE_DEFAULT);
-//             sock = TCPOpen( NistIP_addr, TCP_OPEN_IP_ADDRESS, NIST_DAYTIME_PORT, TCP_PURPOSE_WUNDER_CLIENT);
-//putrsUART((ROM char*) "NIST using 1Kbuffer");
+
             // Abort operation if no socket of proper type is available
             // If this ever happens, you need to go add one to TCPIPConfig.h
             if (sock == INVALID_SOCKET)

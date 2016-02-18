@@ -160,7 +160,7 @@
 #define MY_DEFAULT_IP_ADDR_BYTE1        (192ul)
 #define MY_DEFAULT_IP_ADDR_BYTE2        (168ul)
 #define MY_DEFAULT_IP_ADDR_BYTE3        (1ul)
-#define MY_DEFAULT_IP_ADDR_BYTE4        (254ul)
+#define MY_DEFAULT_IP_ADDR_BYTE4        (254ul)     // Arbitrary default address when DHCP is disabled and user has not enter a IP adddr
 
 #define MY_DEFAULT_MASK_BYTE1           (255ul)
 #define MY_DEFAULT_MASK_BYTE2           (255ul)

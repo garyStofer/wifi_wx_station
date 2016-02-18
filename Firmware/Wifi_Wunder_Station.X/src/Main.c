@@ -18,6 +18,8 @@
 #include "Barometer.h"
 #include "Hygrometer.h"
 
+#include "Configs/WX_WUNDER_BRD_MRF24W.h"       // to make the IDE's error checking happy  (if defined (WS_CS_TRIS) -- Already included by compiler
+#include "Configs/TCPIP MRF24W.h"               // ""
 
 #if defined(WF_CS_TRIS) &&  !defined(MRF24WG)
  extern BOOL gRFModuleVer1209orLater;
@@ -130,7 +132,7 @@ Display_MAC_Addr( void )
 
     putrsUART("\r\n");
 }
-
+ 
 
 // Writes an IP address to the UART 
 void
@@ -164,6 +166,7 @@ Announce_My_IP_addr(void)
     // If the local IP address has changed (ex: due to DHCP lease change)
     // write the new IP address to the LCD display, UART, and Announce
     // service
+
     if (My_last_IP_addr != AppConfig.MyIPAddr.Val)
     {
         My_last_IP_addr = AppConfig.MyIPAddr.Val;
@@ -299,7 +302,7 @@ main(void)
              if ( WiFi_con_watchdog++ %1000 == 0)
                  putrsUART("... waiting for WiFi connection...\r\n");
 
-             if ( WiFi_con_watchdog > 24000) // That's 10 minues worth of (25ms) delays with no connection
+             if ( WiFi_con_watchdog > 24000) // That's 10 minutes worth of (25ms) delays with no connection
              {
                  putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting. \r\n");
                  Reset(); // This would get triggert in case there is no connection with a accesspoint for >10 min.
@@ -318,7 +321,23 @@ main(void)
 
         // This tasks invokes each of the core stack application tasks
         StackApplications();
-        Announce_My_IP_addr();      // For the TCPIP discover tool
+
+        // Wait until we have a valid DHCP setup if so enabled,
+        // otherwise the Announce_My_IP address and following calls could use an conflicting
+        // IP address on their initial calls, causing traffic collisions on the network.
+
+        if (AppConfig.Flags.bIsDHCPEnabled && AppConfig.Flags.bInConfigMode)
+        {
+             DelayMs(15);// blink faster
+             LED1_IO ^= 1;
+             if ( WiFi_con_watchdog++ %2000 == 0)
+                  putrsUART("... waiting for DHCP completion\r\n");
+             
+            continue;  // wait until DHCP is completed
+        }
+
+        Announce_My_IP_addr();      // For the TCPIP discover tool and the uart status message
+
 #if defined(STACK_USE_ZEROCONF_LINK_LOCAL)
         ZeroconfLLProcess();
 #endif
