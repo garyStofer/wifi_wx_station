@@ -187,12 +187,12 @@ Announce_My_IP_addr(void)
 //
 // Main application entry point.
 //
-short g_isPSK_Ready = 0;
+
 
 main(void)
 {
     unsigned short WiFi_con_watchdog;  // This is a work around for the problem when the WIFI board crashes and stops sending interrupts
-    g_isPSK_Ready = 0;
+    short Sec_mode;
 
 
     // Initialize application specific hardware
@@ -277,9 +277,11 @@ main(void)
     WiFi_con_watchdog = 0;
     putrsUART("\r\nInit complete... waiting for WiFi connection...\r\n");
 
-    if (AppConfig.SecurityMode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
-        AppConfig.SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
-        AppConfig.SecurityMode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE)
+    Sec_mode = AppConfig.SecurityMode;
+
+    if (Sec_mode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
+        Sec_mode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
+        Sec_mode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE)
     {
         putrsUART("Waiting for WPA Passphrase encryption.....\r\nThis takes about 1 Minute. Do not interrupt!.\r\n");
     }
@@ -299,7 +301,7 @@ main(void)
         {
              DelayMs(25);// blink fast
              LED1_IO ^= 1;
-             if ( WiFi_con_watchdog++ %1000 == 0)
+             if ( WiFi_con_watchdog++ %200 == 0)
                  putrsUART("... waiting for WiFi connection...\r\n");
 
              if ( WiFi_con_watchdog > 24000) // That's 10 minutes worth of (25ms) delays with no connection
@@ -314,11 +316,16 @@ main(void)
 #if defined (WF_USE_POWER_SAVE_FUNCTIONS)
 #if !defined(MRF24WG)
         if (gRFModuleVer1209orLater)
-#endif
             WiFiPowerSavingTask();
 #endif
-
-
+#endif
+        // When encrytion mode has changed during the connection store it so the passphrase encryption doesn't have to be redone
+        if ( Sec_mode != AppConfig.SecurityMode)
+        {
+            putrsUART("Saving PSK \r\n");
+            SaveAppConfig(&AppConfig);
+            Sec_mode = AppConfig.SecurityMode;
+        }
         // This tasks invokes each of the core stack application tasks
         StackApplications();
 
@@ -368,31 +375,6 @@ main(void)
         WunderHttpClient();
         CWOP_Client();
 
-
-        // TODO: This could go somewhere else, i.e inside an event ??
-        if (g_isPSK_Ready)
-        {
-            g_isPSK_Ready = 0;
-            //  This is to extract the computed encryption key  from the MRF24 module and to store it instead of the passphrase
-            //   so that next time the device is rebooted it can connect without having to re-calculate it
-            if (AppConfig.SecurityMode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
-                    AppConfig.SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
-                    AppConfig.SecurityMode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE)
-            {
-                tWFCPElements profile;
-                UINT8 connState;
-                UINT8 connID;
-
-                putrsUART("Storing WPA encryption key for future use \r\n");
-
-                WF_CMGetConnectionState(&connState, &connID);
-                WF_CPGetElements(connID, &profile);
-                AppConfig.SecurityKeyLength = 32;
-                memcpy((char*) AppConfig.SecurityKey, (char*) profile.securityKey, AppConfig.SecurityKeyLength);
-                AppConfig.SecurityMode--;
-                SaveAppConfig(&AppConfig);
-            }
-        }
 
     } // end while for ever loop
 }

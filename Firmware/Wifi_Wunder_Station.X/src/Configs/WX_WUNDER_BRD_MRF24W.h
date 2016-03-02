@@ -51,6 +51,7 @@
 #ifndef HARDWARE_PROFILE_H
 #define HARDWARE_PROFILE_H
 
+#define MRF24WG
 #include "Compiler.h"
 
 // Clock frequency values

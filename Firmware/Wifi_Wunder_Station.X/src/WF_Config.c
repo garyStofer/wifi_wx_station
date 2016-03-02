@@ -109,7 +109,6 @@ extern void ReenablePowerSaveMode(void);
   *
  *           Customize this function as needed for your application.
  *****************************************************************************/
-extern short g_isPSK_Ready;
 void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
 {
 
@@ -124,7 +123,6 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
         case WF_EVENT_CONNECTION_SUCCESSFUL:
         /*--------------------------------------*/   
             putrsUART("WiFi Connection Successful\r\n");
-            g_isPSK_Ready = 1;
             break;
         
         /*--------------------------------------*/            

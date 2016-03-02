@@ -60,6 +60,8 @@
 
 #if !defined(MRF24WG)
 BOOL gRFModuleVer1209orLater = FALSE;
+#else
+BOOL gRFModuleVer1209orLater = TRUE;
 #endif
 
 #if defined(WF_CONSOLE)

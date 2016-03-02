@@ -52,7 +52,7 @@
 *                                       DEFINES
 *********************************************************************************************************
 */
-#error "this file inc"
+// #error "this file inc"
 /* Supported RAW Windows */
 #define RAW_ID_0                        (0)
 #define RAW_ID_1                        (1)

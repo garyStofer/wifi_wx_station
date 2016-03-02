@@ -882,6 +882,11 @@ void WF_AssertionFailed(UINT8 moduleNumber, UINT16 lineNumber)
     while(1);
 }    
 
+
+
+
+#endif /* WF_DEBUG */
+
 #if defined(MRF24WG)
 void WF_DisplayModuleAssertInfo()
 {
@@ -897,11 +902,6 @@ void WF_DisplayModuleAssertInfo()
     #endif
 }
 #endif /* MRF24WG */
-
-
-#endif /* WF_DEBUG */
-
-
 
 #endif /* WF_CS_TRIS */
 

@@ -173,6 +173,10 @@ extern void SetSleepNeeded(void);
 extern void ClearSleepNeeded(void);
 extern BOOL GetAppPowerSaveMode(void);
 
+BOOL WiFi_isConnected( void)
+{
+    return g_WiFiConnection;
+}
 void WiFiTask(void)
 {
     #if defined (WF_USE_POWER_SAVE_FUNCTIONS) 

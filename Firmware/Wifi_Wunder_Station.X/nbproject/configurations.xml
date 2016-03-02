@@ -301,7 +301,7 @@
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="WX-Wunder_128_GA008" type="2">
+    <conf name="WX-Wunder_128_MRF24W_G" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ128GA008</targetDevice>
@@ -328,8 +328,8 @@
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
-        <makeCustomizationPostStep></makeCustomizationPostStep>
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStep>cp  ${ImagePath} ${ImageDir}\WiFi${ConfName}.${OUTPUT_SUFFIX}</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
@@ -448,7 +448,15 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="../TCPIP/WiFi/WFDriverCom_24G.c" ex="true" overriding="false">
+      <item path="../TCPIP/Include/TCPIP Stack/WFDriverPrv.h"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="../TCPIP/Include/TCPIP Stack/WFRaw.h" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverCom.c" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverCom_24G.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AS>
@@ -458,7 +466,9 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="../TCPIP/WiFi/WFDriverRaw_24G.c" ex="true" overriding="false">
+      <item path="../TCPIP/WiFi/WFDriverRaw.c" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFDriverRaw_24G.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AS>
@@ -468,7 +478,9 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="../TCPIP/WiFi/WFMac_24G.c" ex="true" overriding="false">
+      <item path="../TCPIP/WiFi/WFMac.c" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFMac_24G.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AS>
@@ -478,7 +490,9 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="../TCPIP/WiFi/WFMgmtMsg_24G.c" ex="true" overriding="false">
+      <item path="../TCPIP/WiFi/WFMgmtMsg.c" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFMgmtMsg_24G.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AS>
@@ -488,7 +502,9 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="../TCPIP/WiFi/WFParamMsg_24G.c" ex="true" overriding="false">
+      <item path="../TCPIP/WiFi/WFParamMsg.c" ex="true" overriding="false">
+      </item>
+      <item path="../TCPIP/WiFi/WFParamMsg_24G.c" ex="false" overriding="false">
         <C30>
         </C30>
         <C30-AS>
@@ -617,21 +633,33 @@
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="false"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.end" value="0x157fb"/>
+        <property key="memories.programmemory.partition2" value="true"/>
+        <property key="memories.programmemory.partition2.end"
+                  value="${memories.programmemory.partition2.end.value}"/>
+        <property key="memories.programmemory.partition2.start"
+                  value="${memories.programmemory.partition2.start.value}"/>
         <property key="memories.programmemory.start" value="0x000"/>
         <property key="poweroptions.powerenable" value="false"/>
         <property key="programmertogo.imagename" value=""/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmspeed" value="2"/>
+        <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveprogramrange" value="false"/>
         <property key="programoptions.preserveprogramrange.end" value="0xbff"/>
         <property key="programoptions.preserveprogramrange.start" value="0x0"/>
         <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
@@ -687,7 +715,7 @@
         </C30Global>
       </item>
     </conf>
-    <conf name="WX-Wunder_256_GA108" type="2">
+    <conf name="WX-Wunder_256_MRF24W_G" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ256GA108</targetDevice>
@@ -1018,21 +1046,33 @@
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="false"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="false"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.end" value="0x157fb"/>
+        <property key="memories.programmemory.partition2" value="true"/>
+        <property key="memories.programmemory.partition2.end"
+                  value="${memories.programmemory.partition2.end.value}"/>
+        <property key="memories.programmemory.partition2.start"
+                  value="${memories.programmemory.partition2.start.value}"/>
         <property key="memories.programmemory.start" value="0x0"/>
         <property key="poweroptions.powerenable" value="false"/>
         <property key="programmertogo.imagename" value=""/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmspeed" value="2"/>
+        <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveprogramrange" value="false"/>
         <property key="programoptions.preserveprogramrange.end" value="0xff"/>
         <property key="programoptions.preserveprogramrange.start" value="0x0"/>
         <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>

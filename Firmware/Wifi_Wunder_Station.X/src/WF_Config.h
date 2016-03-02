@@ -243,9 +243,8 @@
 #define USE_GRATUITOUS_ARP
 
 extern void WF_Connect(void);
-extern short g_isPSK_Ready;
 extern void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo);
-
+extern BOOL gRFModuleVer1209orLater;
 //#define WF_CONSOLE		
 
 //#define WF_CONSOLE_IFCFGUTIL		
