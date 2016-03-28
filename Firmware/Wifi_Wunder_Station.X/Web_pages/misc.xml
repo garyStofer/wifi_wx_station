@@ -1,0 +1,7 @@
+<response>
+<Date>~date~</Date>
+<Time>~time~</Time>
+<TZ>~TZoff~</TZ>
+<Lat>~W_LAT~</Lat>
+<Lon>~W_LON~</Lon>
+</response>
