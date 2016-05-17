@@ -4,8 +4,6 @@
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
-      <itemPath>../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld</itemPath>
-      <itemPath>../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld</itemPath>
       <itemPath>src/p24FJ128GA008_BL.gld</itemPath>
       <itemPath>src/p24FJ256GA108_BL.gld</itemPath>
     </logicalFolder>
@@ -334,30 +332,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
         <C30>
         </C30>
@@ -613,6 +587,7 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
@@ -720,30 +695,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
         <C30>
         </C30>

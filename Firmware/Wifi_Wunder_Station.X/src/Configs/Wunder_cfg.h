@@ -41,8 +41,9 @@ extern "C" {
 #define WIND_COUNT_CAL_DEFAULT 8
 #define AN_CAL_FACTOR_DEFAULT  2.5 // Anemometer calibration factor from DAVIS Instruments
 #define BARO_HYG_TEMP_MEAS_Interval 5 // not too fast because of sensor self heating
-#define RAIN_MEAS_Interval (60*1)    // Read and reset the rain counter every 1 minutes
-#define RAIN_SAMPLES_P_HOUR   (60*60/RAIN_MEAS_Interval) // sum up this many samples for one hours worth of rain
+#define RAIN_MEAS_Interval (60)    // Read and reset the rain counter every 1 minutes
+#define RAIN_SAMPLES    5 // average this many RAIN_MEAS_Intervals data points to calculate the rain rateper hour --
+                          // 5 minutes because of WU's sample interval -- Any faster than this and we keep loosing datapoints with WU
 
 #ifdef	__cplusplus
 }
