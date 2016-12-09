@@ -57,7 +57,7 @@ Once_perSecTask(void)
     {
 
         IEC1bits.T4IE = 0;      // disable interrupt for Timer4
-        RainCountSinceMidnight = 0;
+        curr_RainCnt = last_RainCnt = RainCountSinceMidnight = 0;
         IEC1bits.T4IE = 1;      // re-enable interrupt for Timer4
 
         NIST_TimeSyncRequest();                             // Daily refresh the RTC with NIST time
@@ -76,7 +76,9 @@ Once_perSecTask(void)
 	// since midnight the count is reset for the new day.
 	// Once every RAIN_MEAS_Interval (60 seconds) the rain rate is calculated from the difference in count over that period. The last 5 minutes 
 	// of that rain rate are then averaged and sent to WU -- Note that 5 minutes is the sample interval for WU's data collection and averaging 
-	// over less than 5 minutes would lead to a loss of data as far as WU's records are concerned. 
+	// over less than 5 minutes would lead to a loss of data as far as WU's records are concerned.
+        // WU clearly states that the RainIn parameter is to report the rain that has fallen in the last 60 minutes, therefore only a full
+        // 60 Minute window will capture the expected data correctly. 
 	// The rain rate displayed on the local user interface is the same as is being sent to WU. 
 
     // Suspend Tmr4 interrupt when reading RainCountSinceMidnight, otherwise read could be interrupted
@@ -86,7 +88,7 @@ Once_perSecTask(void)
 
     SensorReading.RainDaily = curr_RainCnt/(float) WX.Calib.Rain_counts;
 
-    // update the rain rate once a minute from an average of the last 5 minutes since WU samples that data stream every 5 minutes
+    // update the rain rate once a minute from an average of the last RAIN_SAMPLES minutes since WU samples that data stream every 5 minutes
     if (sec_count % RAIN_MEAS_Interval == 0)        // i.e. every 60 seconds
     {
         RAIN_Count_Samples[rain_sample_ndx++] = curr_RainCnt - last_RainCnt;

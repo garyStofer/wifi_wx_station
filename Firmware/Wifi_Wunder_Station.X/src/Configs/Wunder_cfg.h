@@ -42,8 +42,14 @@ extern "C" {
 #define AN_CAL_FACTOR_DEFAULT  2.5 // Anemometer calibration factor from DAVIS Instruments
 #define BARO_HYG_TEMP_MEAS_Interval 5 // not too fast because of sensor self heating
 #define RAIN_MEAS_Interval (60)    // Read and reset the rain counter every 1 minutes
-#define RAIN_SAMPLES    5 // average this many RAIN_MEAS_Intervals data points to calculate the rain rateper hour --
-                          // 5 minutes because of WU's sample interval -- Any faster than this and we keep loosing datapoints with WU
+#define RAIN_SAMPLES    (60)       // 60 minutes summing interval as per WU specs for RainIn
+                                   // WU states that RainIn is to report the rain that has fallen in the last 60 minutes
+      // average this many RAIN_MEAS_Intervals data points to calculate the rain rateper hour --
+      // No less than 5 minutes becasue of the WU 5 min sample rate.  The lower the number the less the rain rate resolution
+      // will be. For example for a 5 min window the rate resolution will be < 0.12"/hr, becasue 1 tip per 5 minute expanded
+      // to a rate/hr that comes out to be (60/5) * 0.01"  == 0.12" .   15 min == 0.04"/hr resolution.
+      // This means that at 15Min mesure interval ( moving average of 15 one minute samples) rain less than 0.04"/hr will cause a
+      // a spiky grapgh toggling between 0 and 0.04"/hr
 
 #ifdef	__cplusplus
 }
