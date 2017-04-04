@@ -1248,7 +1248,7 @@ HTTPPrint_adc(WORD num)
         case 0: 
         case 1:
         case 2: //ADC0 .. ADC2
-            ADval = ADC * (ADC_SCALE_5V * 3.3 / 1024);
+            ADval = ADC * (ADC_SCALE_15V * 3.3 / 1024);
             break;
         case 3:// SOL_ADCBUFF
             ADval = ADC * (ADC_SCALE_5V * 3.3 / 1024);
