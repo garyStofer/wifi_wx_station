@@ -6,9 +6,9 @@
         </file>
         <file>
             <url>src/CustomHTTPApp.c</url>
-            <line>1673</line>
-            <line>1689</line>
-            <line>1703</line>
+            <line>1702</line>
+            <line>1718</line>
+            <line>1732</line>
         </file>
         <file>
             <url>src/WunderHttpClient.c</url>

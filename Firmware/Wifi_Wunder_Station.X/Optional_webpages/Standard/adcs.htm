@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="styles.css" rel="stylesheet" type="text/css" >
+<script src="ajax.js" type="text/javascript"></script>
+<script src="status.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+setTimeout("newAJAXCommand('status_adc.xml', updateADCStatus, true)",100);
+// uses readings as scaled by the firmware, ADC0-5
+function updateADCStatus(xmlData)
+{
+	if ( timed_out(	xmlData) )
+		return;
+
+    for(i = 0; i < 6; i++)
+        document.getElementById('adc'+i).innerHTML = getXMLValue(xmlData, 'adc'+i);
+}
+</script>
+</head>
+
+<body class="inframe" >
+ 	<h3>Analog Inputs:</h3>
+	<div id="err" style="display:none">Error: Connection was lost.<br></div>
+	<div id ="ok_">
+	<h4>ADC Volts</h4>
+	ADC0: <span id="adc0">?</span><br>
+	ADC1: <span id="adc1">?</span><br>
+	ADC2: <span id="adc2">?</span><br>
+    SUN: <span id="adc3">?</span><br> 
+    WIND: <span id="adc4">?</span><br>
+	POWER: <span id="adc5">?</span><br>  
+	</div>
+</body>
+</html>

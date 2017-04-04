@@ -393,43 +393,11 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
                         }
 
                         len += put_WXparam_arg (MySocket, msgBaro, (short)(SensorReading.BaromIn*100), 2);  // Send the Barometer reading, convert to inches Mercury at 0 degC
-                        
-                        
-                             // Send the solar radiation index in watts/ sq Meter ( estimated)
 
- 
- // Reporting Soil moisture under the solar check mark for now
-//#defin in main.h
-#ifdef using_Solar_for_soil_wetness
-/* for VH400 probe
- Voltage Range 	Equation
-0 to 1.1V 	VWC= 10*V-1
-1.1V to 1.3V 	VWC= 25*V- 17.5
-1.3V  to 1.82V 	VWC= 48.08*V- 47.5
-1.82V to 2.2V 	VWC= 26.32*V- 7.89
-*/
-                        if (WX.Wunder.report_enable.Sol)
-                        {
-                            float Vx;   // Voltage from VH400
-                            float VWC;  // Volumetric Water Content
-                            
-                            Vx =  ADC1BUF0 * (3.3/1024); // volts as read on ADC0 input pin.
-
-                            if ( Vx < 1.1)
-                                VWC = Vx*10.0 -1;
-                            else if ( Vx < 1.3)
-                                VWC = Vx*25.0 -17.5;
-                            else if ( Vx < 1.82 )
-                                VWC = Vx*48.08 - 47.5;
-                            else
-                                VWC= Vx*26.32- 7.89;
-                                
-                            len += put_WXparam_arg (MySocket, msgSoil_m1,(short)VWC*10, 1);
-                        }
-#else
+                        // Send the solar radiation index in watts/ sq Meter ( estimated)
                         if (WX.Wunder.report_enable.Sol)
                             len += put_WXparam_arg (MySocket, msgSolar,(short) SensorReading.SolRad, 0); // Send the solar radiation index in watts/ sq Meter ( estimated)
-#endif
+
                         if (WX.Wunder.report_enable.Station == PWS_CLIENT || WX.Wunder.report_enable.Station == WOW_CLIENT)   // if PWS
                             len += WX_TCPPut(MySocket, msgSWtype);
                        

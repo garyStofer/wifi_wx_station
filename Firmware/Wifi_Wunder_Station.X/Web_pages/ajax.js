@@ -5,7 +5,7 @@ var timeOutMS = 5000; //ms
 var ajaxList = new Array();
 
 // Initiates a new AJAX command
-//	url: the url to access
+//	URL: the URL to access
 //	container: the document ID to fill, or a function to call with response XML (optional)
 //	repeat: true to repeat this call indefinitely (optional)
 //	data: an URL encoded string to be submitted as POST data (optional)
@@ -53,7 +53,7 @@ function pollAJAX() {
 			continue;
 		elapsed = theTimer.getTime() - curAjax.lastCalled;
 				
-		// If we suceeded
+		// If we succeeded
 		if(curAjax.ajaxReq.readyState == 4 && curAjax.ajaxReq.status == 200) {
 			// If it has a container, write the result
 			if(typeof(curAjax.container) == 'function'){
@@ -94,12 +94,12 @@ function pollAJAX() {
 		ajaxList.push(curAjax);
 	}
 	
-	// Call ourselves again in 10ms
-	setTimeout("pollAJAX()",10);
+	// Call ourselves again in 100ms
+	setTimeout("pollAJAX()",100);
 	
 }
 			
-// Parses the xmlResponse returned by an XMLHTTPRequest object
+//  Parses the xmlResponse returned by an XMLHTTPRequest object
 //	xmlData: the xmlData returned
 //  field: the field to search for
 function getXMLValue(xmlData, field) {
@@ -110,6 +110,8 @@ function getXMLValue(xmlData, field) {
 			return null;
 	} catch(err) { return null; }
 }
+
+
 
 //kick off the AJAX Updater
 setTimeout("pollAJAX()",500);

@@ -15,6 +15,4 @@ void DoUARTConfig(void);
 // address on the UART and/or LCD.
 void DisplayIPValue(IP_ADDR IPVal);
 
-// Reporting Soil moisture under the solar check mark for now
-// #define using_Solar_for_soil_wetness
 #endif // _MAINDEMO_H

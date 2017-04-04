@@ -8,13 +8,15 @@
 // Kick off the status updating in the browser in forever repeat  mode  
 // Status.xml fetches the HW status of the board
 setTimeout("newAJAXCommand('status_leds.xml', updateLedStatus, true)",100);
+// Parses the xmlResponse from status_xyz.xml and updates the status box
+
 </script>
 </head>
 
 <body class="inframe" >
 	<h3>System LEDs</h3>
-	<div id="loading" style="display:none">Error: Connection was lost.</div>
-	<div id="display"> 
+	<div id="err" style="display:none">Error: Connection was lost.</div>
+	<div id="ok_"> 
 	
 
 		<table cellspacing="10px" style="margin-top:20px; text-align:center"  >

@@ -1196,45 +1196,74 @@ HTTPPrint_va_max()
         TCPPutROMString(sktHTTP, "-");
 }
 
-
 void
 HTTPPrint_adc(WORD num)
 {
     BYTE temp[9];
-    float ADval;
+    float ADval = 0;
+    unsigned short ADC = 0;
 
-// Note: the ADC1BUFn are assigned on a dynamic basis and do not necessarily map to correspoinding AN inputs.
-// A 1:1 mapping is only achieved if all analog inputs are ennabled  in the ADC configuration.
-    switch (num)
+    // Note: the ADC1BUFn are assigned on a dynamic basis and do not necessarily map to correspoinding AN inputs.
+    // A 1:1 mapping is only achieved if all analog inputs are ennabled  in the ADC configuration.
+
+    switch (num) //read raw ADC value into ADC var
     {
-        case 0:
-#ifdef using_Solar_for_soil_wetness
-            ADval = ADC1BUF0 * ( 3.3/1024);
-#else
-            ADval = ADC1BUF0 * (ADC_SCALE * 3.3/1024);
-#endif
-            break;
-        case 1:
-            ADval = ADC1BUF1 * (ADC_SCALE * 3.3/1024);
-            break;
-        case 2:
-            ADval = ADC1BUF2 * (ADC_SCALE * 3.3/1024);
-             break;
-        case 3:
-             ADval = SOL_ADCBUFF * ((26.1+14.0)/26.1) *(3.3/1024);
-             break;
-        case 4:
-             ADval = WIND_ADCBUFF * (3.3/1024);
-             break;
-        case 5:
-             ADval = PWR_5V_ADCBUFF * ((10.0+10.0)/10.0)* (3.3/1024);// ADC is referenced of the 3.3V PS , AN5 input has 2:1 voltage divider
-             break;
-        default:
-            ADval =0;
+    case 0:
+    case 10:
+        ADC = ADC1BUF0;
+        break;
+    case 1:
+    case 11:
+        ADC = ADC1BUF1;
+        break;
+    case 2:
+    case 12:
+        ADC = ADC1BUF2;
+        break;
+    case 3:
+    case 13:
+        ADC = ADC1BUF3; // SOL_ADCBUFF
+        break;
+    case 4:
+    case 14:
+        ADC = ADC1BUF4; //WIND_ADCBUFF
+        break;
+    case 5:
+    case 15:
+        ADC = ADC1BUF5; //PWR_5V_ADCBUFF
+        break;
+    default:
+        ADC = 0;
 
     }
 
-    stoa_dec((char*) temp, ADval * 100, 2);  // Two decimals
+    if (num >= 10)
+    {
+        stoa_dec((char*) temp, ADC, 0); // Raw ADC values 0-1024 
+    }
+    else // formatted as volts with two decimals
+    {
+        switch (num)
+        {
+        case 0: 
+        case 1:
+        case 2: //ADC0 .. ADC2
+            ADval = ADC * (ADC_SCALE_5V * 3.3 / 1024);
+            break;
+        case 3:// SOL_ADCBUFF
+            ADval = ADC * (ADC_SCALE_5V * 3.3 / 1024);
+            break;
+        case 4://WIND_ADCBUFF
+            ADval = ADC * (ADC_SCALE_3_3V * 3.3 / 1024);
+            break;
+        case 5://PWR_5V_ADCBUFF
+            ADval = ADC * ((10.0 + 10.0) / 10.0)* (3.3 / 1024); // ADC is referenced of the 3.3V PS , AN5 input has 2:1 voltage divider
+            break;
+        }
+        stoa_dec((char*) temp, ADval * 100, 2); // Two decimals
+    }
+
+
     TCPPutString(sktHTTP, temp);
 }
 void
