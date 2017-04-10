@@ -15,19 +15,18 @@ var Vr; // voltage Result
 	if ( timed_out(	xmlData) )
 		return;
 
-	for(i = 10; i <= 14; i++)
+	for(i=10;i<=14;i++)
 	{	
-		Vx = getXMLValue(xmlData, 'adc'+i);
-		Vx = Vx * (3.3/1024);
-		
-		if ( i==13 )	// The soil temp from LM34 -- 10mv == 1 deg F
+		Vx = getXMLValue(xmlData, 'adc'+i) * (3.3/1023);
+				
+		if (i==13)	// The soil temp from LM34 -- 10mv == 1 deg F
 		{
 			Vr = Vx / 0.01;
 		}
 		else if (i==14)	// VBAT
 		{
 			Vx = getXMLValue(xmlData, 'adc'+i);
-			Vr = Vx * (15/1024); //15V scale 
+			Vr = Vx * (15.95/1023); //15V scale 
 		}
 		else
 		{
@@ -43,6 +42,13 @@ var Vr; // voltage Result
         document.getElementById('adc'+i).innerHTML = Vr.toFixed(2);
     }
 	document.getElementById('adc5').innerHTML = getXMLValue(xmlData, 'adc5');
+	
+	for (i=0;i<3;i++)
+	{
+		var j = i+10;
+		Vx = getXMLValue(xmlData, 'adc'+j) * (3.3/1023);
+		document.getElementById('adc'+i).innerHTML = Vx.toFixed(2);
+	}
 
 }
 </script>
@@ -54,10 +60,12 @@ var Vr; // voltage Result
 	<div id="ok_">
 
 	<h4>Soil Probes</h4>
-	SM 1: <span id="adc10">?</span>% VWC<br>
-	SM 2: <span id="adc11">?</span>% VWC<br>
-	SM 3: <span id="adc12">?</span>% VWC<br>
+	 
+	SM 1: <span id="adc0">?</span> Volt, <span id="adc10">?</span>% VWC<br>
+	SM 2: <span id="adc1">?</span> Volt, <span id="adc11">?</span>% VWC<br>
+	SM 3: <span id="adc2">?</span> Volt, <span id="adc12">?</span>% VWC<br>
 	Temp: <span id="adc13">?</span> deg F<br>
+ 
 	<h4>Power</h4>
 	VBAT: <span id="adc14">?</span> V<br>
 	Sys5V: <span id="adc5">?</span> V<br>  

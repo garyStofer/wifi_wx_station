@@ -404,7 +404,7 @@ static void SyncENCPtrRAWState(UINT8 encPtrId)
 //following is the workaround algorithm for the 11Mbps broadcast bugfix
 
 extern BOOL ARPSendPkt(DWORD SrcIPAddr, DWORD DestIPAddr, BYTE op_req );
-int WFArpBroadcastIntervalSec = 50; //interval in seconds, default to 5, can be changed
+int WFArpBroadcastIntervalSec = 5; //interval in seconds, default to 5, can be changed
 
 /*****************************************************************************
  * FUNCTION: WFPeriodicGratuitousArp
