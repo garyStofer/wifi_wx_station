@@ -1,0 +1,5 @@
+This is a Java Netbeans project. 
+Last built with NB 8.1 Using Java 6 source 
+
+The executable .jar file is found in the dist folder.
+
