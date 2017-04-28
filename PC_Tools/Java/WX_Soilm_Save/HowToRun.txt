@@ -1,10 +1,21 @@
-The Java application is built in dist/WXSoilSave.jar. It can be started from a CMD command line window as  follows:
+First Install Java Runtime environment (JRE) on the computer. If it's a Windows XP computer you will get 
+an notice that Java 8 is not actively supported any more. You can disregard the message and install it anyway. 
+
+The application is WXSoilSave.jar and requires two command line arguments, one for the IP address the other
+for the sample interval (optional, default 12 mins).
 
 java -jar WXSoilSave.jar -ip 192.168.1.201 -i 12 
 
 	Mandatory argument "-ip  xxx.xxx.xxx.xxx" defines the address of the WX station 
-	Optional argument "-i nn" sets the interval in minutes the polling of that station happens
+	Optional argument "-i nn" sets the interval in minutes for polling of that station.
 	
-See also the Run.cmd file which calls the application and is click-able from the Windows file browser.	
-edit run.cmd to suit. 
 
+The file "run.cmd" is a batch file that can be customized for your particular requirements. 
+Make a copy each of this file and change the IP addresses to match the addresses from the stations
+and run each copy.
+
+The output data file will be stored in the local folder and named according to the IP address of the
+station sampled. 
+
+You can stop the program by switching to the terminal window and close it or issue a Ctrl-C.
+The application also terminates if the station is off and it times-out on the read. 
