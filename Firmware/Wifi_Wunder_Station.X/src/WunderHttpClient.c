@@ -56,7 +56,7 @@ enum _Http_WunderClientState
 #define msgBaro  "&baromin=" // in inches Mercury
 #define msgSolar  "&solarradiation=" // in Watts per sq meter
 #define msgSWtype  "&softwaretype=WuWxSt_1"
-#define msgSoil_m1 "&soilmoisture="
+//#define msgSoil_m1 "&soilmoisture="
 // static ROM BYTE const msgWingGstSpd10m[]= "&windgustmph_10m="; This is not read by Wunderground
 //ROM BYTE const msgWingGstDir10m[]= "&windgustdir_10m=300";
 //ROM BYTE const msgWingGstDir[]= "&windgustdir=300";
@@ -146,6 +146,23 @@ put_WXparam_arg(TCP_SOCKET theSocket, ROM char const * pMsg, short data, BYTE de
 void
 WunderSendData(  void )
 {
+    // requirees WiFI connection to do any reporting
+   if ( ! WiFi_isConnected() )
+            return;
+
+   // the following uplink protocols are supported by this client
+    switch ( WX.Wunder.report_enable.Station )
+    {
+        case WU_CLIENT:
+        case PWS_CLIENT:
+        case WXBUG_CLIENT:
+        case WOW_CLIENT:
+            break;
+
+        default:
+            return;
+    }
+
     if (ThisState == SM_IDLE)
         ThisState = SM_START;
 }

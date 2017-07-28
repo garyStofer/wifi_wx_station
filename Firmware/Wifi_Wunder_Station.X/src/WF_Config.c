@@ -186,7 +186,7 @@ UINT8 ConnectionProfileID;
  *           for your application.
  *****************************************************************************/
 void
-WF_Connect(void)
+WF_Connect(int Retry_count)
 {
     UINT8 channelList[] = MY_DEFAULT_CHANNEL_LIST;
 
@@ -209,7 +209,7 @@ WF_Connect(void)
     // purpose of attempting to establish a network in the Adhoc case is only to verify that one does not
     // initially exist.  If the retry count was set to WF_RETRY_FOREVER in the AdHoc mode, an AdHoc network
     // would never be established.
-    WF_CASetListRetryCount(MY_DEFAULT_LIST_RETRY_COUNT);
+    WF_CASetListRetryCount(Retry_count);
     WF_CASetEventNotificationAction(MY_DEFAULT_EVENT_NOTIFICATION_LIST);
     WF_CASetBeaconTimeout(MY_DEFAULT_BEACON_TIMEOUT);
 

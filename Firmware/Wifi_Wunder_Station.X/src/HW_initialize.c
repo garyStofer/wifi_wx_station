@@ -3,6 +3,9 @@
 #include "wind_rain_cnt.h"
 #include "Mail_Alarm.h"
 #include "HW_initialize.h"
+#include "UART1.h"
+#include "WX_perm_data.h"
+
 /****************************************************************************
   Function:
     static void InitializeBoard(void)
@@ -142,13 +145,11 @@ InitializeBoard(void)
     AD1CON2bits.SMPI = 5; // NUMBER of conversion before interrupt is generaterd --- This is the numbver of inputs scanned
 
     AD1CON1bits.ADON = 1; // enable the device
-
-    // UART
-    UARTTX_TRIS = 0;
-    UARTRX_TRIS = 1;
-    UMODE = 0x8000; // Set UARTEN.  Note: this must be done before setting UTXEN
-    USTA = 0x0400; // UTXEN set
-
+    // See the macromaic in  WX_WUNDER_BRD_MRF24W and implementation in ../../TCPIP/UART.c and ../../TCPIP/include/uart2.h
+    // all UART defines without a specific number are assigned to UART2 in the above files and can't be easily changed
+    // This implementation runs without interrupts.
+ 
+    // some compile time checks about the accuracy of the baudrate
 #define CLOSEST_UBRG_VALUE ((GetPeripheralClock()+8ul*BAUD_RATE)/16/BAUD_RATE-1)
 #define BAUD_ACTUAL (GetPeripheralClock()/16/(CLOSEST_UBRG_VALUE+1))
 #define BAUD_ERROR ((BAUD_ACTUAL > BAUD_RATE) ? BAUD_ACTUAL-BAUD_RATE : BAUD_RATE-BAUD_ACTUAL)
@@ -161,6 +162,14 @@ InitializeBoard(void)
 #endif
 
     UBRG = CLOSEST_UBRG_VALUE;
+    UARTTX_TRIS = 0;
+    UARTRX_TRIS = 1;
+    UMODE = 0x8000; // Set UARTEN to 8n1. Note: this must be done before setting UTXEN
+    USTA = 0x0400; // UTXEN set
+
+ #define BUADRATE_U1 9600
+    UART1_Init(((GetPeripheralClock()+8ul*BUADRATE_U1)/16/BUADRATE_U1-1));
+ 
 
     // Deassert all chip select lines so there isn't any problem with
     // initialization order.  Ex: When ENC28J60 is on SPI2 with Explorer 16,

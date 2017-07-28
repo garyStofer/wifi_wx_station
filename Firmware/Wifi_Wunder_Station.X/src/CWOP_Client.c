@@ -8,8 +8,33 @@
 #include "rtcc.h"
 
 #define Debug_CWOP_Response
-//#define CWOP_SEND_TIME
+
 //#define POSTSENDWAIT
+
+#define APRS_BUFF_SZ 128
+static char aprs_buff[APRS_BUFF_SZ+1];  // Buffer to assemble the APRS message in
+static unsigned char aprs_buf_ndx = 0 ;
+
+static short
+aprs_buff_cat (char * s)
+{
+    while ( *s != 0)
+    {
+        if ( aprs_buf_ndx >= APRS_BUFF_SZ)
+                break;
+
+        aprs_buff[aprs_buf_ndx++] = *s++;
+
+    }
+    aprs_buff[aprs_buf_ndx] = 0;
+    return aprs_buf_ndx;
+}
+static short
+aprs_buff_set(char * s)
+{
+    aprs_buf_ndx = 0;
+    return aprs_buff_cat (s);
+}
 
 enum CWOP_ClientState
 {
@@ -18,6 +43,7 @@ enum CWOP_ClientState
         SM_GET_SERVER_VERSION,
         SM_SEND_LOGIN,
         SM_WAIT_LOGIN_ACK,
+        SM_SEND_CWOP_PREAMBLE,
         SM_SEND_APRS_REPORT,
 #ifdef POSTSENDWAIT
         SM_POST_SEND_WAIT,
@@ -65,24 +91,86 @@ s_to_a( char * buff,  short data, short sig_places, short dec_places)
 /*----------------------------------------------------------------------------------------------------------------------
  * Kiks off a data transmit process
  */
+
+// Kick-off function to send a report to CWOP/APRS via TCP/IP
 void
 CWOPSendData(  void )
 {   
-    if (WX.Wunder.report_enable.Station == CWOP_CLIENT)
+    if (WX.Wunder.report_enable.Station == CWOP_CLIENT && WiFi_isConnected() )
     {
         if (ThisState == SM_IDLE)
             ThisState = SM_START;
     }
 }
 
+// Kick-off function to send a report to APRS-RF via modem and 2M ham radio tuned to the local APRS frequency (144.390Mhz in the US)
+// This function also initializes some aspects of the modem on first run, namemly the ham radio station callsign , ssid and APRS
+// display symbol.
+// NOTE: the Station ID must be set to the HAM radio station callsign, and a current ham radio licence (Technician) needs to be present
+// to operate a RF APRS station.
+void
+APRSSendData(  void )
+{
+    static char ModemInitialized = 0;
+    
+    if (WX.Wunder.report_enable.Station == APRS_CLIENT)
+    {
+        if (ModemInitialized == 0)
+        {   // UART1 is initialized in HW_Init
+            ModemInitialized = 1;
+            putrsUART("APRS modem init:");
+            DelayMs(50);
+            aprs_buff_set("c");         // set call sign from station ID
+            aprs_buff_cat(WX.Wunder.StationID);
+            UART1_PutS(aprs_buff);
+            putrsUART(aprs_buff);
+            DelayMs(50);
+
+            UART1_PutS("sc13");         // set staion ssid to 13 as suggested for WX stations
+            DelayMs(50);
+            UART1_PutS( "ls_");         // set Symbol to "_" indicating Weather stations
+            DelayMs(50);
+
+            UART1_PutS("mcAPRS");       // set message recipient and destignation to APRS as suggested for WX stations
+            DelayMs(50);
+            UART1_PutS("dAPRS");
+            DelayMs(50);
+
+            UART1_PutS("s1WIDE1-1");       // set PATH SSIDs
+            DelayMs(50);
+            UART1_PutS("s2WIDE2-2");
+            DelayMs(50);
+
+            UART1_PutS("w200");       // set preamble and tail delay for PTT
+            DelayMs(50);
+            UART1_PutS("W50");
+            DelayMs(50);
+
+            UART1_PutS("S");    // Save Configuration
+            DelayMs(50);
+
+         //   UART1_PutS( "!>See http://WWS.us.to\n"); // This is the status message -- Not needed sending the URL as part of the report
+         //   DelayMs(50);
+         //   UART1_PutS("H");                        // This prints out the configuration for debugging
+        }
+        if (ThisState == SM_IDLE)
+            ThisState = SM_SEND_APRS_REPORT;
+    }
+}
 
 
 /*----------------------------------------------------------------------------------------------------------------------
- *  This is the TCP client state machine that prepares the connection to CWOP and sends
- *  the report via a CWOP defined connection protocol in a APRS define data format.
+ * This is the state machine that manages the connction and sending of data to either CWOP/APRS via a TCP/IP connection or
+ * direct via modem and 2M radio on 144.390Mhz to other APRS users and via APRS I-GATE stations to the internet. For an RF APRS 
+ * connection this statemachine is entered atSM_SEND_APRS_REPORT, whereas for the TCP/IP connection it is entered at SM_START.
+ *
+ * The option to send a time record is if-defed out and the "!" symbol is sent indicationg that the transmit time and the data
+ * aquisition time are the same, i.e. now.
+ *
+ * 
  */
 short
-CWOP_Client(void)
+APRS_Client(void)
 {
        
   	char	buff[60];
@@ -92,14 +180,16 @@ CWOP_Client(void)
         short tmp;
         float ftmp;
         short retry=0;
-        static BCD_RTCC         *time;
+
 #ifdef Debug_CWOP_Response
         WORD    len;
 #endif
  
 
-        if ( WX.Wunder.report_enable.Station != 4)
-            return retry;
+        // this test is redundnt since the kick-off functions check to see if it's valid to start the client
+
+        if ( WX.Wunder.report_enable.Station != CWOP_CLIENT && WX.Wunder.report_enable.Station != APRS_CLIENT)
+            return 0;
 
 
 	switch(ThisState)
@@ -118,14 +208,7 @@ CWOP_Client(void)
                             ThisState == SM_IDLE;
                             break;
                         }
-#ifdef CWOP_SEND_TIME
-                        if ( (time = RTC_Read_BCD_Time()) == NULL )     // can not report if the RTC is not currently set and running
-                        {
-                                putrsUART((ROM char*) "WX RTC not set! Can not upload data\r\n");
-                                ThisState = SM_IDLE;
-                                break;
-                        }
-#endif
+
 			ThisState++;
 			Timer = TickGet();
 			break;
@@ -268,7 +351,7 @@ CWOP_Client(void)
                          }
                          break;
 
-		case SM_SEND_APRS_REPORT:
+		case SM_SEND_CWOP_PREAMBLE:
                     	if(TCPIsPutReady(MySocket) < 250u)
                         {
                             ThisState = SM_DISCONNECT;
@@ -278,42 +361,33 @@ CWOP_Client(void)
                         putrsUART((ROM char*) "\r\nSending APRS data:\r\n");
                         WX_TCPPut(MySocket, WX.Wunder.StationID);
                         WX_TCPPut(MySocket,">APRS,TCPIP*:"); // The APRS boiler plate header
-#ifdef CWOP_SEND_TIME
-                        WX_TCPPut(MySocket,"@");
-                        WX_TCPPutC(MySocket,(time->day>>4) +'0');    // tens
-                        WX_TCPPutC(MySocket,(time->day&0x0f) +'0');  // ones
+                        ThisState++; // and fall through to next
 
-                        WX_TCPPutC(MySocket,(time->hr>>4) +'0');    // tens
-                        WX_TCPPutC(MySocket,(time->hr&0x0f) +'0');  // ones
+                case  SM_SEND_APRS_REPORT:
 
-                        WX_TCPPutC(MySocket,(time->min>>4) +'0');    // tens
-                        WX_TCPPutC(MySocket,(time->min&0x0f) +'0');  // ones
-                        WX_TCPPut(MySocket,"z"); // The "z" indicates that I don't send a time
-#else
-                        WX_TCPPut(MySocket,"!"); // The "!" indicates that I don't send a time
-#endif
+                        aprs_buff_set("!"); // The "!" indicates that I don't send a time and that the report is from NOW
 
                         // i.e. WX_TCPPut(MySocket,"3758.73N/12159.69W");
                         // Our location. This is ddmm.mm -- i.e. degrees, minutes and hundreths of minutes.
                         ftmp = fabs(WX.Wunder.Lat);
-                        WX_TCPPut(MySocket, s_to_a(buff, (short) ftmp,2,0 ));         // in dd format
+                        aprs_buff_cat( s_to_a(buff, (short) ftmp,2,0 ));         // in dd format
                         ftmp -= abs((short)WX.Wunder.Lat);
-                        WX_TCPPut(MySocket, s_to_a(buff, (short) (ftmp*6000),2,2 ));  // in mm.mm format
+                        aprs_buff_cat( s_to_a(buff, (short) (ftmp*6000),2,2 ));  // in mm.mm format
 
                         if (WX.Wunder.Lat <0)
-                            WX_TCPPut(MySocket, "S/");
+                            aprs_buff_cat( "S/");
                         else
-                            WX_TCPPut(MySocket, "N/");
+                            aprs_buff_cat( "N/");
 
                         ftmp = fabs(WX.Wunder.Lon);
-                        WX_TCPPut(MySocket, s_to_a(buff, (short) ftmp,3,0 ));      //longitude has 3 ddd with leading 0's
+                        aprs_buff_cat( s_to_a(buff, (short) ftmp,3,0 ));      //longitude has 3 ddd with leading 0's
                         ftmp -= abs((short)WX.Wunder.Lon);
-                        WX_TCPPut(MySocket, s_to_a(buff, (short) (ftmp*6000),2,2 ));  // in mm.mm format
+                        aprs_buff_cat( s_to_a(buff, (short) (ftmp*6000),2,2 ));  // in mm.mm format
 
                         if (WX.Wunder.Lon <0)
-                            WX_TCPPut(MySocket, "W");
+                            aprs_buff_cat( "W");
                         else
-                            WX_TCPPut(MySocket, "E");
+                            aprs_buff_cat( "E");
                 
 
                         // Wind is mendatory to report -- sending "..." if Wind is not measured
@@ -324,47 +398,67 @@ CWOP_Client(void)
                             else
                                 tmp = SensorReading.Wind_dir;
 
-                            WX_TCPPut( MySocket,"_");      // THE WIND dir
-                            WX_TCPPut( MySocket,s_to_a( buff,tmp,3,0 ));
-                            WX_TCPPut( MySocket,"/");      // THE WIND speed
-                            WX_TCPPut( MySocket,s_to_a(buff, (short) SensorReading.AvgWindSpd,3,0 ));
-                            WX_TCPPut( MySocket,"g");      // THE WIND speed
-                            WX_TCPPut( MySocket,s_to_a(buff, (short) SensorReading.Wind_gust_5min,3,0 ));
+                            aprs_buff_cat("_");      // THE WIND dir
+                            aprs_buff_cat(s_to_a( buff,tmp,3,0 ));
+                            aprs_buff_cat("/");      // THE WIND speed
+                            aprs_buff_cat(s_to_a(buff, (short) SensorReading.AvgWindSpd,3,0 ));
+                            aprs_buff_cat("g");      // THE WIND speed
+                            aprs_buff_cat(s_to_a(buff, (short) SensorReading.Wind_gust_5min,3,0 ));
                         }
                         else
-                            WX_TCPPut( MySocket,"_000/000g...");      // Space holder for no-wind reporting
+                            aprs_buff_cat("_000/000g...");      // Space holder for no-wind reporting
 
                         // Temp is mendatory to report
-                        WX_TCPPut(MySocket, "t");
-                        WX_TCPPut(MySocket, s_to_a(buff,(short)SensorReading.TempF,3,0));  // Send the Temperature in whole deg F
+                        aprs_buff_cat( "t");
+                        aprs_buff_cat( s_to_a(buff,(short)SensorReading.TempF,3,0));  // Send the Temperature in whole deg F
 
                         if (WX.Wunder.report_enable.Rain)
                         {
-                            WX_TCPPut( MySocket,"r");
-                            WX_TCPPut( MySocket,s_to_a(buff, (short)(SensorReading.RainIn*100) ,3,0 ));
-                            WX_TCPPut( MySocket,"P");
-                            WX_TCPPut( MySocket,s_to_a(buff, (short) (SensorReading.RainDaily*100) ,3,0 ));
+                            aprs_buff_cat("r");
+                            aprs_buff_cat(s_to_a(buff, (short)(SensorReading.RainIn*100) ,3,0 ));
+                            aprs_buff_cat("P");
+                            aprs_buff_cat(s_to_a(buff, (short) (SensorReading.RainDaily*100) ,3,0 ));
                         }
 
                         if (WX.Wunder.report_enable.Hyg)
                         {
-                            WX_TCPPut( MySocket,"h");
+                            aprs_buff_cat("h");
                             tmp =(short)SensorReading.RH;
                             if (tmp>=100)       // send 00 for 100% or condensing
                                 tmp = 0;
-                            WX_TCPPut( MySocket,s_to_a( buff,tmp ,2,0 ));       // CWOP calculates dewpoint
+                            aprs_buff_cat(s_to_a( buff,tmp ,2,0 ));       // CWOP calculates dewpoint
                         }
 
-                        WX_TCPPut( MySocket,"b");
+                        aprs_buff_cat("b");
                         tmp = SensorReading.BaromIn * 338.6388157895;   // Connvert to 1/10 of millibar
-                        WX_TCPPut( MySocket,s_to_a( buff,tmp ,5,0 ));        
+                        aprs_buff_cat(s_to_a( buff,tmp ,5,0 ));
                         // the end -- send station software idetifier
-                        WX_TCPPut( MySocket,"-WWX");
-                        WX_TCPPut( MySocket,"\r\n");       // Without this only some of the servers take the data
+                        //aprs_buff_cat("WunderWeatherStation");
+                        aprs_buff_cat("See http://WWS.us.to");
+                        tmp = aprs_buff_cat("\r\n");       // Without this only some of the servers take the data
+                        
+                        if ( tmp >= APRS_BUFF_SZ)
+                            putrsUART((ROM char*) "\r\nAPRS Buffer overflow!!\r\n");
 
-                        TCPFlush(MySocket);
-                        ThisState++;
-                        Timer = TickGet();
+                        if ( MySocket != INVALID_SOCKET)       // This is going out to CWOP via TCP
+                        {
+                            WX_TCPPut(MySocket,aprs_buff);
+                            TCPFlush(MySocket);
+
+                           ThisState++;
+                           Timer = TickGet();
+                        }
+                        else    // it's going out to the RF APRS modem via UART1
+                        {
+
+                            putrsUART("!");        // This goes to the USB UART2 just to see a trace on the monitor
+                            putsUART(aprs_buff);
+
+                            UART1_PutS("!"); // This is the send command of the MicroAPRS modem
+                            UART1_PutS(aprs_buff);  // this is the assembled message string for APRS
+                            ThisState = SM_IDLE ;   // skip over disconnect
+
+                        }
                         break;
 
 #ifdef POSTSENDWAIT
@@ -377,18 +471,21 @@ CWOP_Client(void)
 #endif
 		case SM_DISCONNECT:
 			// Close the socket so it can be used again later
-                        //  TCPClose(MySocket);
-                        TCPDisconnect(MySocket);        // This sends a "FIN"
-                        TCPDisconnect(MySocket);        // This sends a "RST" to force the connection closed and immediatly reliquisches the socket
-			MySocket = INVALID_SOCKET;
-			ThisState = SM_IDLE;
-                        putrsUART((ROM char*) "\r\nSock disconnected\r\n");
-                        LED2_IO = 0;    //Clear yellow and red LEDs
-                        LED3_IO = 0;
+                        if ( MySocket != INVALID_SOCKET)
+                        {
+                            TCPDisconnect(MySocket);        // This sends a "FIN"
+                            TCPDisconnect(MySocket);        // This sends a "RST" to force the connection closed and immediatly reliquisches the socket
+                            MySocket = INVALID_SOCKET;
+                            ThisState = SM_IDLE;
+                            putrsUART((ROM char*) "\r\nSock disconnected\r\n");
+                            LED2_IO = 0;    //Clear yellow and red LEDs
+                            LED3_IO = 0;
+                        }
  			break;
 	
 		case SM_IDLE:
-			// Do nothing , park here until someone starts the process again 
+			// Do nothing , park here until someone starts the process again
+                         MySocket = INVALID_SOCKET;
                          break;
 	}
         return retry;

@@ -17,9 +17,11 @@
 #include "Once_per_second.h"
 #include "Barometer.h"
 #include "Hygrometer.h"
+#include "WunderHttpClient.h"
 
 #include "Configs/WX_WUNDER_BRD_MRF24W.h"       // to make the IDE's error checking happy  (if defined (WS_CS_TRIS) -- Already included by compiler
 #include "Configs/TCPIP MRF24W.h"               // ""
+#define APRS_WIFICONNECT_TIME 7200 // time the system waits until it gives up trying to connect to a accesspoint in APRS_RF mode 7200 == 3 minutes
 
 #if defined(WF_CS_TRIS) &&  !defined(MRF24WG)
  extern BOOL gRFModuleVer1209orLater;
@@ -74,7 +76,7 @@ _StackError(void)
     Nop();
     Nop();
 }
-/* Interrupt service routine to handle the pin change notification interupt
+/* Interrupt service routine to handle the pin change notification interrupt
  Change Notification is used to trigger mail alarms when a active high signal is detected on an active alarm
  input
  */
@@ -89,7 +91,7 @@ _CNInterrupt(void)
     tmp = PORTD;
 
 
-    // Alarms are triggert on active high signal on the enambed  alarm inputs
+    // Alarms are triggered on active high signal on the enabled  alarm inputs
 
     if (( WX.Alarms.enable & 1<<1) && ALARM_1_input)
         alarms |= 1<<1;
@@ -217,7 +219,7 @@ main(void)
   
     All_LEDS_off();
 
-    // Resets board to factory values if button is depressed on startup and allows UART based communication configuration
+    // Resets board to factory values if button is depressed on start-up and allows UART based communication configuration
     if (BUTTON1_IO == 0u)
     {
 #if defined(EEPROM_CS_TRIS) || defined(SPIFLASH_CS_TRIS)
@@ -265,6 +267,7 @@ main(void)
     putsUART(WX.Station.password);
     putrsUART("\r\n");
     putrsUART("Netbios name: ");putsUART(AppConfig.NetBIOSName);
+    putrsUART("WiFi SSID: ");putsUART(AppConfig.MySSID);
     putrsUART("\r\n\r\n");
    
 
@@ -273,7 +276,11 @@ main(void)
 
     StackInit(); // Initialize core stack layers (MAC, ARP, TCP, UDP) and application modules (HTTP, SNMP, etc.)
 
-    WF_Connect();
+    // For APRS_RF only configure a limited number of connection attempts -- otherwise attempt to connect forever
+    // this is so that the station doesn't try to connect to wifi forever and therefore waste power
+
+    WF_Connect(WF_RETRY_FOREVER); // forever or until we reboot
+
     WiFi_con_watchdog = 0;
     putrsUART("\r\nInit complete... waiting for WiFi connection...\r\n");
 
@@ -293,24 +300,49 @@ main(void)
         // This task performs normal stack task including checking
         // for incoming packet, type of packet and calling
         // appropriate stack entity to process it.
-        StackTask();        // StackTask also calls MACProcess which in tems calls WFProcess
+        StackTask();        // StackTask also calls MACProcess which in terms calls WFProcess
 
-        if (!WiFi_isConnected()) // if there is no WIFI connection there is no use to do anything else
+        if (WX.Wunder.report_enable.Station != APRS_CLIENT)
         {
-             DelayMs(25);// blink fast
-             LED1_IO ^= 1;
-             if ( WiFi_con_watchdog++ %1000 == 0)
-                 putrsUART("... waiting for WiFi connection...\r\n");
 
-             if ( WiFi_con_watchdog > 24000) // That's 10 minutes worth of (25ms) delays with no connection
-             {
-                 putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting. \r\n");
-                 Reset(); // This would get triggert in case there is no connection with a accesspoint for >10 min.
-                          // This can also be the case if the Wifi Adapter crahes internally 
-             }
-             continue;
+            if (!WiFi_isConnected()) // if there is no WIFI connection there is no use to do anything else
+            {
+                WiFi_con_watchdog++;
+                DelayMs(25);// blink fast
+                LED1_IO ^= 1;
+                if ( WiFi_con_watchdog > 24000) // That's 10 minutes worth of (25ms) delays with no connection
+                {
+                     putrsUART("WiFi connection failed to establish for 10 minutes -- Rebooting. \r\n");
+                     Reset(); // This would get triggered in case there is no connection with a access point for >10 min.
+                              // This can also be the case if the Wifi Adapter crashes internally
+                }
+                else if ( WiFi_con_watchdog %1000 == 0)
+                putrsUART("... waiting for WiFi connection...\r\n");
+                continue;       // Nothing else is getting done until we have a WiFi connection
+            }
+        }
+        else // it is the APRS_RF mode -- No Wifi Connection is required
+        {
+            if (WiFi_isConnected())
+                    goto WiFiStation;
+
+            if (WiFi_con_watchdog < APRS_WIFICONNECT_TIME )
+            {
+                if ( !WiFi_isConnected() &&  (++WiFi_con_watchdog == APRS_WIFICONNECT_TIME))
+                {
+                    putrsUART("Disabling WiFi device\r\n");
+                    WF_HibernateEnable();      // sets the chip enable of the wifi module to false, only reset of the board will get it back
+                }
+                else
+                {
+                    DelayMs(25);// blink fast
+                    LED1_IO ^= 1;
+                }
+            }
+             goto NoWiFiStation;
         }
 
+WiFiStation:
 #if defined (WF_USE_POWER_SAVE_FUNCTIONS)
 #if !defined(MRF24WG)
         if (gRFModuleVer1209orLater)
@@ -336,7 +368,7 @@ main(void)
             continue;  // wait until DHCP is completed
         }
 
-        Announce_My_IP_addr();      // For the TCPIP discover tool and the uart status message
+        Announce_My_IP_addr();      // For the TCPIP discover tool and the UART status message
 
 #if defined(STACK_USE_ZEROCONF_LINK_LOCAL)
         ZeroconfLLProcess();
@@ -349,8 +381,6 @@ main(void)
 #endif
 
         SMTP_Mail_alarm();      // checks and sends mail alarms
-        Baro_Read_Process();    // Reads the Barometer pressure and temp
-        Hygro_Read_Process(); // Reads the Hygrometer
         NIST_DAYTIME_Client();  // Start One-shot to get time from a NIST server and periodically calls NIST again to update time
 
         if (WDIR_cal_tmp.DoWindDirCal)
@@ -358,6 +388,9 @@ main(void)
             Wind_dir_cal();
             continue;
         }
+NoWiFiStation:
+        Baro_Read_Process();    // Reads the Barometer pressure and temp
+        Hygro_Read_Process();   // Reads the Hygrometer
 
         if (RTC_1Sec_flag )     //  time yet
         {
@@ -365,8 +398,9 @@ main(void)
             Once_perSecTask();      // This is the main application task that starts measurements and computes readings and averages
         }
 
-        WunderHttpClient();
-        CWOP_Client();
+        // Note that only one client will be doing something, the other one will stay at Idle
+        WunderHttpClient();     // This does all the rest of the protocols
+        APRS_Client();          // this does CWOP/APRS and APRS/RF
 
 
         // TODO: This could go somewhere else, i.e inside an event ??

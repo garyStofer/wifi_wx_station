@@ -18,6 +18,7 @@ extern "C" {
 #define WXBUG_CLIENT 3
 #define CWOP_CLIENT 4
 #define WOW_CLIENT  5
+#define APRS_CLIENT 6
 
 
 extern void

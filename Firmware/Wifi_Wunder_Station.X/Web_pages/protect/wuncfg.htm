@@ -5,8 +5,8 @@
 <script type="text/javascript">
 function setRadioBtn()
 {
-   document.WUNDERconfig.W_ENB[~W_ENB~].checked= true;
-	if ( parseInt(~W_ENB~) == 4   )
+    document.WUNDERconfig.W_ENB[~W_ENB~].checked= true;
+	if ( parseInt(~W_ENB~) == 4   && parseInt( document.WUNDERconfig.UpInt.value) < 300 )
         document.WUNDERconfig.UpInt.value = "300";
 }
 </script>
@@ -38,7 +38,8 @@ function setRadioBtn()
                 <input type="radio" name="W_ENB" value="2"/> PWS-Weather/WeatherForYou<br>
                 <input type="radio" name="W_ENB" value="3"/> Weather Bug<br>
                 <input type="radio" name="W_ENB" value="4"/> CWOP/APRS<br>
-                <input type="radio" name="W_ENB" value="5"/> WOW
+                <input type="radio" name="W_ENB" value="5"/> WOW<br>
+                <input type="radio" name="W_ENB" value="6"/> APRS/RF 
             </div>
 			<div><label>Report Wind      :</label><input type="checkbox" name="R_WND" ~R_WND~ value="1"/></div>
 			<div><label>Report Humidity  :</label><input type="checkbox" name="R_HYG" ~R_HYG~ value="1"/></div>

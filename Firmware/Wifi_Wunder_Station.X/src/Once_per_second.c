@@ -212,8 +212,12 @@ Once_perSecTask(void)
         }
         SensorReading.Wind_gust_5min = f_tmp;
 
+        // Note:  The uplink methodes are mutually excluwsive, the uplink mode variable "WX.Wunder.report_enable.Station" is
+        // checked in the calls below to make sure only one ...SendData function is executing .
+
         WunderSendData(); // starts the HTTP client process to send data to Wunderground and others that do HTTP GET protocol
-        CWOPSendData();   // CWOP and WunderSendata are mutually exclusive  by the Uplink mode variable
+        CWOPSendData();     // Starts the statemachine to send the data to CWOP/APRS via TCP/ip
+        APRSSendData();     // Starts the statemachine to send via modem and 2m ham radio direct to APRS over the air.
      }
  
 }
