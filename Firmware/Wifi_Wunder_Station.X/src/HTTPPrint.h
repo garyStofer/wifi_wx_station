@@ -126,7 +126,7 @@ void HTTPPrint(DWORD callbackID)
 {
 	switch(callbackID)
 	{
-        case 0x00000000:
+        case 0x00000000:                                       
 			HTTPIncFile((ROM BYTE*)"header.inc");
 			break;
         case 0x00000001:
@@ -455,6 +455,24 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x0000006d:
 			HTTPPrint_BARO_T();
+			break;
+        case 0x0000006e:
+			HTTPPrint_adc(10);
+			break;
+        case 0x0000006f:
+			HTTPPrint_adc(11);
+			break;
+        case 0x00000070:
+			HTTPPrint_adc(12);
+			break;
+        case 0x00000071:
+			HTTPPrint_adc(13);
+			break;
+        case 0x00000072:
+			HTTPPrint_adc(14);
+			break;
+        case 0x00000073:
+			HTTPPrint_adc(15);
 			break;
 		default:
 			// Output notification for undefined values

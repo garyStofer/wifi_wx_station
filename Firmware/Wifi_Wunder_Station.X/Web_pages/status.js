@@ -1,23 +1,3 @@
-function timed_out(xmlData)
-{
-	var mainstat = document.getElementById('display').style.display;
-	var loadstat = document.getElementById('loading').style.display;
-
-	// Check if a timeout occurred
-	if(!xmlData)
-	{
-		mainstat = 'none';
-		loadstat = 'inline';
-		return true;
-	}
-
-	// Make sure we're displaying the status display
-	mainstat = 'inline';
-	loadstat = 'none';
-	return false;
-
-}
-
 // Parses the xmlResponse from status_xyz.xml and updates the status box
 function updateLedStatus(xmlData) 
 {
@@ -28,8 +8,6 @@ function updateLedStatus(xmlData)
 	document.getElementById('led2').style.color = (getXMLValue(xmlData, 'led2') == '+') ? '#f90' : '#ddd';
 	document.getElementById('led3').style.color = (getXMLValue(xmlData, 'led3') == '+') ? '#f00' : '#ddd';
 }
-
-
 function updateOutputStatus(xmlData) 
 {
 	
@@ -41,7 +19,6 @@ function updateOutputStatus(xmlData)
 		document.getElementById('out' + i).style.color = (getXMLValue(xmlData, 'out' + i) == '+') ? '#090' : '#ddd';
 
 }
-
 function updateInputStatus(xmlData) 
 {
 	
@@ -56,18 +33,20 @@ function updateInputStatus(xmlData)
 	document.getElementById('btn1').style.color = (getXMLValue(xmlData, 'btn1') == '+') ? '#ddd' :'#0A0';
 	document.getElementById('btn2').style.color = (getXMLValue(xmlData, 'btn2') == '+') ? '#ddd' :'#0A0';
 }
-
-function updateADCStatus(xmlData)
+function timed_out(xmlData)
 {
-	
-	if ( timed_out(	xmlData) )
-		return;
-
-    for(i = 0; i < 6; i++)
+	// Check if a time-out occurred
+	if(!xmlData)
 	{
-        document.getElementById('adc'+i).innerHTML = getXMLValue(xmlData, 'adc'+i);
-    }
+		document.getElementById('ok_').style.display='none';
+		document.getElementById('err').style.display='inline';
+		return true;
+	}
 
-
+	// Make sure we're displaying the status display
+	document.getElementById('ok_').style.display='inline';
+	document.getElementById('err').style.display='none';
+	return false;
 
 }
+

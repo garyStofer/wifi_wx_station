@@ -4,8 +4,6 @@
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
-      <itemPath>../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld</itemPath>
-      <itemPath>../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld</itemPath>
       <itemPath>src/p24FJ128GA008_BL.gld</itemPath>
       <itemPath>src/p24FJ256GA108_BL.gld</itemPath>
     </logicalFolder>
@@ -38,6 +36,7 @@
       <itemPath>src/Hygrometer.h</itemPath>
       <itemPath>src/SI_7021.h</itemPath>
       <itemPath>src/WunderHttpClient.h</itemPath>
+      <itemPath>src/UART1.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -68,6 +67,7 @@
         <itemPath>src/SI_7021.c</itemPath>
         <itemPath>src/Hygrometer.c</itemPath>
         <itemPath>src/CWOP_Client.c</itemPath>
+        <itemPath>src/UART1.c</itemPath>
       </logicalFolder>
       <logicalFolder name="TCPIP" displayName="Stack" projectFiles="true">
         <logicalFolder name="Include" displayName="Include" projectFiles="true">
@@ -334,30 +334,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
         <C30>
         </C30>
@@ -451,10 +427,34 @@
       <item path="../TCPIP/Include/TCPIP Stack/WFDriverPrv.h"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/Include/TCPIP Stack/WFRaw.h" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFDriverCom.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFDriverCom_24G.c" ex="false" overriding="false">
         <C30>
@@ -467,6 +467,14 @@
         </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFDriverRaw.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFDriverRaw_24G.c" ex="false" overriding="false">
         <C30>
@@ -479,6 +487,14 @@
         </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFMac.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFMac_24G.c" ex="false" overriding="false">
         <C30>
@@ -491,6 +507,14 @@
         </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFMgmtMsg.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFMgmtMsg_24G.c" ex="false" overriding="false">
         <C30>
@@ -503,6 +527,14 @@
         </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFParamMsg.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../TCPIP/WiFi/WFParamMsg_24G.c" ex="false" overriding="false">
         <C30>
@@ -748,30 +780,6 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ128GA008.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="../../../Program Files/Microchip/MPLAB C30/support/PIC24F/gld/p24FJ256GA108.gld"
-            ex="true"
-            overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <item path="../TCPIP/ENC28J60.c" ex="true" overriding="false">
         <C30>
         </C30>

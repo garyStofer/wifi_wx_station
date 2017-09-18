@@ -205,7 +205,6 @@ static BOOL   g_txBufferFlushed;
 static UINT16 MACIFService(void);
 static void SyncENCPtrRAWState(UINT8 encPtrId, UINT16 encIndex);
 
-extern void WF_Connect(void);
 
 #if defined ( WF_CONSOLE ) && defined ( EZ_CONFIG_SCAN ) && !defined(__18CXX)
 extern void WFDisplayScanMgr();

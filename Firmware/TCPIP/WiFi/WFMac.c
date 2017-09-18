@@ -204,7 +204,7 @@ static UINT16 MACIFService(void);
 extern void WFDisplayScanMgr(void);
 #endif
 
-extern void WF_Connect(void);
+//extern void WF_Connect(int Retry_count);
 
 /*****************************************************************************
  * FUNCTION: SyncENCPtrRAWState

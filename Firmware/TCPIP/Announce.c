@@ -246,9 +246,10 @@ void DiscoveryTask(void)
 			    	break;
 			    UDPPut('-');
 			}
-			UDPPut('\r');
-			UDPPut('\n');
-
+		//	UDPPut('\r');
+		//	UDPPut('\n');
+// Send some other human readable information.
+	UDPPutROMString((ROM BYTE*)"\r\nDiscovery  event occurred");
 			// Send the packet
 			UDPFlush();
 

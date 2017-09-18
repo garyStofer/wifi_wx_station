@@ -256,8 +256,10 @@
 
 #define ADC_R1 (14.0)          // Voltage divider R1 on external ADC inputs
 #define ADC_R2 ( 26.1 )        // Voltage divider R2 on external ADC inputs
-#define ADC_SCALE ((ADC_R1+ADC_R2) / ADC_R2)
-
+#define ADC_SCALE_5V ((ADC_R1+ADC_R2) / ADC_R2)
+// alternative readout 0-15V with 100Ko resistors
+#define ADC_SCALE_15V (( 100.0+26.1)/26.1)       // 100Ko and 26.1  divider
+#define ADC_SCALE_3_3V  (1.0)                   // no resistor to gnd
 
 #define SOL_ADCBUFF  ADC1BUF3
 #define WIND_ADCBUFF ADC1BUF4

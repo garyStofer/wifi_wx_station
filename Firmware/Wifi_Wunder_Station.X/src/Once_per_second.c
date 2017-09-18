@@ -32,7 +32,7 @@ static struct tagWind_avg {
 static float LongWindGustSamples[ LONG_GUST_COUNT] ;
 
 
-static unsigned char RAIN_Count_Samples[RAIN_SAMPLES_P_HOUR] = {0};
+static unsigned char RAIN_Count_Samples[RAIN_SAMPLES] = {0};
 static unsigned short rain_sample_ndx = 0;
 
 
@@ -40,6 +40,8 @@ static unsigned short rain_sample_ndx = 0;
 void
 Once_perSecTask(void)
 {
+    static unsigned short last_RainCnt = 0;
+    static unsigned short curr_RainCnt = 0;
     static unsigned short sec_count = 0;        // Count will wrap around
     static unsigned char LongGust_ndx = 0;
     short s_tmp;
@@ -53,7 +55,11 @@ Once_perSecTask(void)
     // start the daily rain accumulation at midnight.
     if (RTC_isMidnight(RTC_Read_BCD_Time(),WX.Wunder.TZ_offset))        // this also reads the RTC every one second
     {
-        SensorReading.RainDaily = 0.0;
+
+        IEC1bits.T4IE = 0;      // disable interrupt for Timer4
+        curr_RainCnt = last_RainCnt = RainCountSinceMidnight = 0;
+        IEC1bits.T4IE = 1;      // re-enable interrupt for Timer4
+
         NIST_TimeSyncRequest();                             // Daily refresh the RTC with NIST time
     }
 
@@ -63,26 +69,43 @@ Once_perSecTask(void)
         Hygro_startMeasure();
      }
 
-    if (sec_count % RAIN_MEAS_Interval == 0)
+	// The Rain: 
+	// The tipping bucket rain counter is connected to the timer4 clock input and the timer is configured so that it interrupts on every clock edge. 
+	// The timer4 ISR increments the global variable RainCountSinceMidnight upon each bucket tip.
+	// Once per second the output variable RainDaily is calculated from the interrupt variable RainCountSinceMidnight, and in the first second 
+	// since midnight the count is reset for the new day.
+	// Once every RAIN_MEAS_Interval (60 seconds) the rain rate is calculated from the difference in count over that period. The last 5 minutes 
+	// of that rain rate are then averaged and sent to WU -- Note that 5 minutes is the sample interval for WU's data collection and averaging 
+	// over less than 5 minutes would lead to a loss of data as far as WU's records are concerned.
+        // WU clearly states that the RainIn parameter is to report the rain that has fallen in the last 60 minutes, therefore only a full
+        // 60 Minute window will capture the expected data correctly. 
+	// The rain rate displayed on the local user interface is the same as is being sent to WU. 
+
+    // Suspend Tmr4 interrupt when reading RainCountSinceMidnight, otherwise read could be interrupted
+    IEC1bits.T4IE = 0;      // disable interrupt for Timer4
+    curr_RainCnt = RainCountSinceMidnight;
+    IEC1bits.T4IE = 1;      // re-enable interrupt for Timer4
+
+    SensorReading.RainDaily = curr_RainCnt/(float) WX.Calib.Rain_counts;
+
+    // update the rain rate once a minute from an average of the last RAIN_SAMPLES minutes since WU samples that data stream every 5 minutes
+    if (sec_count % RAIN_MEAS_Interval == 0)        // i.e. every 60 seconds
     {
+        RAIN_Count_Samples[rain_sample_ndx++] = curr_RainCnt - last_RainCnt;
+        last_RainCnt = curr_RainCnt;
 
-        s_tmp = RAIN_COUNTER;
-        RAIN_COUNTER=0;
-
-        RAIN_Count_Samples[rain_sample_ndx++] = s_tmp;
-        SensorReading.RainDaily += s_tmp/(float) WX.Calib.Rain_counts;
-
-        if ( rain_sample_ndx >= RAIN_SAMPLES_P_HOUR )
+        if ( rain_sample_ndx >= RAIN_SAMPLES )
              rain_sample_ndx =0;
 
-       // sum up all the individual Rain counts for the last hour to calculate the rain amounth in inches that fell over the last hour
-        s_tmp = 0;
-        for (i = 0; i < RAIN_SAMPLES_P_HOUR; i++)
+       // sum up all the individual Rain counts for the last RAIN_SAMPLES minutes
+        for (s_tmp = i = 0; i < RAIN_SAMPLES; i++)
         {
             s_tmp += RAIN_Count_Samples[i];
         }
 
-       SensorReading.RainIn =   s_tmp  / (float) WX.Calib.Rain_counts;
+        //expand to rain rate per hour
+        s_tmp *= ( 60/RAIN_SAMPLES);
+        SensorReading.RainIn =   s_tmp  / (float) WX.Calib.Rain_counts;
 
      }
 
@@ -91,17 +114,17 @@ Once_perSecTask(void)
 
     // The Wind Speed:
     // Davis Cup anemometer conversion to MPH is 2.25 x revolution/sec
-    // The wind speed data is aquired as follows:
+    // The wind speed data is acquired as follows:
     // The RTCC ISR captures counter/Timer2 once per second and stores the reading in Var Wind_1Sec_count
     // The Once_perSecond task executes once following a one second RTCC tic change.
-    // The one second momentary wind spead is calculated and added to an averaging array that spans the entire duration
+    // The one second momentary wind speed is calculated and added to an averaging array that spans the entire duration
     // of the update interval.
     // The average and peak values for the update interval are calculated and reported to Wunderground, while the momentary data
     // is reported on the stations local display.
     // The 10 minute peak gust could be calculated and reported to Wunderground, but it seems that they do not record or display it
 
     // convert counts to MPH, since the measure window is 1 seconds and there are 7 pulses per revolution
-    // the following formual gives MPH in  miles resolution
+    // the following formula gives MPH in  miles resolution
     // MPH = wind_counts_per_sec  *2.25 /7;
     // or MPH = wind_counts_per_sec * 0.32142
 
@@ -130,7 +153,7 @@ Once_perSecTask(void)
 
     // The Wind direction
     // the PWM of the wind-vane does not fully go between 0 and 100 %PWM i.e not fully between DC 0V and DC 5V
-    // Winddir_min_ADC and Winddir_max_adc are calibrated values considering the variance in 5V from the powersupply
+    // Winddir_min_ADC and Winddir_max_adc are calibrated values considering the variance in 5V from the power supply
     // and voltage losses/offset on the cable to the wind vane
 
     s_tmp = (WIND_ADCBUFF - WX.Calib.WDir_min)* 360.0 /( WX.Calib.WDir_max - WX.Calib.WDir_min); //This is from the PWM of the magnetic rotary encoder
@@ -141,7 +164,7 @@ Once_perSecTask(void)
     else if (s_tmp < 0)
         s_tmp = 0;
 
-    SensorReading.Wind_dir = (s_tmp + WX.Calib.WDir_offs) % 360; // Momentary wind diretion
+    SensorReading.Wind_dir = (s_tmp + WX.Calib.WDir_offs) % 360; // Momentary wind direction
 
     f_tmp = SensorReading.Wind_dir * 6.2832 / 360.0; // convert to radians
     // Vector addition of NS and EW wind vector samples for average calculation
@@ -173,7 +196,7 @@ Once_perSecTask(void)
         }
 
         SensorReading.AvgWindSpd = sum_spd / s_tmp; // The linear average of the speed in wind average interval -- not the vector average --
-        f_tmp = atan2(sum_EW, sum_NS); // the vector average of the direction -- using atan2() to get the 4 quadrands resolved automaticaly
+        f_tmp = atan2(sum_EW, sum_NS); // the vector average of the direction -- using atan2() to get the 4 quadrants resolved automatically
         SensorReading.AvgWindDir = f_tmp * 360 / 6.2832; // Convert to deg
 
 
@@ -189,8 +212,12 @@ Once_perSecTask(void)
         }
         SensorReading.Wind_gust_5min = f_tmp;
 
+        // Note:  The uplink methodes are mutually excluwsive, the uplink mode variable "WX.Wunder.report_enable.Station" is
+        // checked in the calls below to make sure only one ...SendData function is executing .
+
         WunderSendData(); // starts the HTTP client process to send data to Wunderground and others that do HTTP GET protocol
-        CWOPSendData();   // CWOP and WunderSendata are mutually exclusice  by the Uplink mode variable
+        CWOPSendData();     // Starts the statemachine to send the data to CWOP/APRS via TCP/ip
+        APRSSendData();     // Starts the statemachine to send via modem and 2m ham radio direct to APRS over the air.
      }
  
 }
@@ -202,8 +229,8 @@ t_wind_cal_temp  WDIR_cal_tmp;
 void
 Wind_dir_cal ( void )
 {
-    // Kludge to turn yourself off if the user naviagets away from the WinDir cal page
-    // broser event onunload doesn't seem to work
+    // Kludge to turn yourself off if the user navigates away from the WinDir cal page
+    // browser event "onunload" doesn't seem to work
 
     if ( TickGet() > WDIR_cal_tmp.timeout )
          WDIR_cal_tmp.DoWindDirCal = FALSE;

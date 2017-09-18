@@ -242,9 +242,11 @@
 
 #define USE_GRATUITOUS_ARP
 
-extern void WF_Connect(void);
-extern void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo);
+extern void WF_Connect(int Retry_count);
 extern BOOL gRFModuleVer1209orLater;
+extern void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo);
+
+
 //#define WF_CONSOLE		
 
 //#define WF_CONSOLE_IFCFGUTIL		

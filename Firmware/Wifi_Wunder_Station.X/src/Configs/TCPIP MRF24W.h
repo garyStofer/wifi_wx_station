@@ -177,10 +177,10 @@
 #define MY_DEFAULT_PRIMARY_DNS_BYTE3	(1ul)
 #define MY_DEFAULT_PRIMARY_DNS_BYTE4	(1ul)
 
-#define MY_DEFAULT_SECONDARY_DNS_BYTE1	(0ul)
-#define MY_DEFAULT_SECONDARY_DNS_BYTE2	(0ul)
-#define MY_DEFAULT_SECONDARY_DNS_BYTE3	(0ul)
-#define MY_DEFAULT_SECONDARY_DNS_BYTE4	(0ul)
+#define MY_DEFAULT_SECONDARY_DNS_BYTE1	(8ul)
+#define MY_DEFAULT_SECONDARY_DNS_BYTE2	(8ul)
+#define MY_DEFAULT_SECONDARY_DNS_BYTE3	(8ul)
+#define MY_DEFAULT_SECONDARY_DNS_BYTE4	(8ul)
 
 
 // =======================================================================
