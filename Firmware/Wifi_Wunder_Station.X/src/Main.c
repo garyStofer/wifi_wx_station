@@ -346,8 +346,8 @@ WiFiStation:
 #if defined (WF_USE_POWER_SAVE_FUNCTIONS)
 #if !defined(MRF24WG)
         if (gRFModuleVer1209orLater)
-#endif
             WiFiPowerSavingTask();
+#endif
 #endif
 
 
