@@ -109,6 +109,7 @@ extern void ReenablePowerSaveMode(void);
   *
  *           Customize this function as needed for your application.
  *****************************************************************************/
+short g_isPSK_Ready;
 void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
 {
 
@@ -123,6 +124,8 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
         case WF_EVENT_CONNECTION_SUCCESSFUL:
         /*--------------------------------------*/   
             putrsUART("WiFi Connection Successful\r\n");
+            if ( g_isPSK_Ready == -1)       // mark that encryption is complete if it was requested
+                    g_isPSK_Ready = 1;
             break;
         
         /*--------------------------------------*/            
@@ -139,7 +142,7 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
         case WF_EVENT_CONNECTION_REESTABLISHED:
         /*--------------------------------------*/
 
-            putrsUART("Event: Connection Reestablished\r\n");
+            putrsUART("WiFi Connection Reestablished\r\n");
 
             break;
             
@@ -159,6 +162,7 @@ void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo)
             break;
 			
         case WF_EVENT_KEY_CALCULATION_REQUEST:
+            putrsUART("WiFi Key Calculation Even\r\n");
 	    break;
 		
         default:

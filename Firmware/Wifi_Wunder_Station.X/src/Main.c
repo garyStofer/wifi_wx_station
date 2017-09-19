@@ -189,7 +189,7 @@ Announce_My_IP_addr(void)
 //
 // Main application entry point.
 //
-short g_isPSK_Ready = 0;
+
 
 main(void)
 {
@@ -288,6 +288,7 @@ main(void)
         AppConfig.SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
         AppConfig.SecurityMode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE)
     {
+        g_isPSK_Ready = -1;     // in ecryption mode
         putrsUART("Waiting for WPA Passphrase encryption.....\r\nThis takes about 1 Minute. Do not interrupt!.\r\n");
     }
 
@@ -404,28 +405,11 @@ NoWiFiStation:
 
 
         // TODO: This could go somewhere else, i.e inside an event ??
-        if (g_isPSK_Ready)
+        if (g_isPSK_Ready == 1) // encryption done and the Appconfig is updated ( with MRF24W_G )
         {
             g_isPSK_Ready = 0;
-            //  This is to extract the computed encryption key  from the MRF24 module and to store it instead of the passphrase
-            //   so that next time the device is rebooted it can connect without having to re-calculate it
-            if (AppConfig.SecurityMode == WF_SECURITY_WPA_WITH_PASS_PHRASE ||
-                    AppConfig.SecurityMode == WF_SECURITY_WPA2_WITH_PASS_PHRASE ||
-                    AppConfig.SecurityMode == WF_SECURITY_WPA_AUTO_WITH_PASS_PHRASE)
-            {
-                tWFCPElements profile;
-                UINT8 connState;
-                UINT8 connID;
-
-                putrsUART("Storing WPA encryption key for future use \r\n");
-
-                WF_CMGetConnectionState(&connState, &connID);
-                WF_CPGetElements(connID, &profile);
-                AppConfig.SecurityKeyLength = 32;
-                memcpy((char*) AppConfig.SecurityKey, (char*) profile.securityKey, AppConfig.SecurityKeyLength);
-                AppConfig.SecurityMode--;
-                SaveAppConfig(&AppConfig);
-            }
+            putrsUART("Storing WPA encryption key for future use \r\n");
+            SaveAppConfig(&AppConfig);
         }
 
     } // end while for ever loop

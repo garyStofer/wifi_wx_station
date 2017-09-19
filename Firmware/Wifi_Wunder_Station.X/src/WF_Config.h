@@ -244,6 +244,7 @@
 
 extern void WF_Connect(int Retry_count);
 extern BOOL gRFModuleVer1209orLater;
+extern short g_isPSK_Ready;
 extern void WF_ProcessEvent(UINT8 event, UINT16 eventInfo, UINT8 *extraInfo);
 
 
