@@ -51,7 +51,7 @@ InitAppConfig(void)
     unsigned char vNeedToSaveDefaults = 0;
 #endif
 
-    int size = sizeof (NVM_VALIDATION_STRUCT) + sizeof (AppConfig);
+ //   int size = sizeof (NVM_VALIDATION_STRUCT) + sizeof (AppConfig);
 
     while (1)
     {

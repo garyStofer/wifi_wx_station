@@ -7,10 +7,14 @@
 #include "TCPIP Stack/TCPIP.h"
 #include "math.h"
 #include "rtcc.h"
+#include "nist.h"
 #include "WX_perm_data.h"
 #include "wind_rain_cnt.h"
 #include "Once_per_second.h"
 #include "Configs/Wunder_cfg.h"
+#include "Barometer.h"
+#include "Hygrometer.h"
+#include "WunderHttpClient.h"
 
 #define WIND_AVG_INTERVAL 128 // Must be power of 2 and must match width of index below  128 Seconds , 2 min 8 seconds
                               // is is the maximum time the wind direction and speed are averaged -- For slow reporting when
@@ -26,7 +30,7 @@ static struct tagWind_avg {
     float NS_comp;
     float EW_comp;
     float Spd;
-} Wind_avg[WIND_AVG_INTERVAL] = {0};
+} Wind_avg[WIND_AVG_INTERVAL] = {{0},{0},};
 
 
 static float LongWindGustSamples[ LONG_GUST_COUNT] ;
@@ -34,7 +38,6 @@ static float LongWindGustSamples[ LONG_GUST_COUNT] ;
 
 static unsigned char RAIN_Count_Samples[RAIN_SAMPLES] = {0};
 static unsigned short rain_sample_ndx = 0;
-
 
 
 void

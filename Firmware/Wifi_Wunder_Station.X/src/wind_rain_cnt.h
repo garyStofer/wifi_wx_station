@@ -9,3 +9,4 @@ extern volatile unsigned short RainCountSinceMidnight;
 /* Initializes counter/timer2 so that it counts edges on it's external clock input, used for wind speed counts*/
 extern void WindSpeedCounterInit(void);
 extern void RainCounterInit(void);
+extern void WindCounterInit(void);

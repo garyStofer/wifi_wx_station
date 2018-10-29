@@ -56,6 +56,7 @@
 
 #include "TCPIP Stack/TCPIP.h"
 #include "Main.h"
+#include  "App_cfg.h"
 
 #define MAX_USER_RESPONSE_LEN   (24u)
 

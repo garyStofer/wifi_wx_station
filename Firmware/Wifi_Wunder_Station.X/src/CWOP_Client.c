@@ -6,6 +6,8 @@
 #include "Main.h"
 #include "WunderHttpClient.h"
 #include "rtcc.h"
+#include "UART1.h"
+
 
 #define Debug_CWOP_Response
 
@@ -118,6 +120,10 @@ APRSSendData(  void )
         if (ModemInitialized == 0)
         {   // UART1 is initialized in HW_Init
             ModemInitialized = 1;
+            OUT0_IO = 0;   // controls the powerswitch for the radio -- Low active
+            LED3_IO = 1;   // user feedback
+            DelayMs(2000); // Delay for radio bootup
+
             putrsUART("APRS modem init:");
             DelayMs(50);
             aprs_buff_set("c");         // set call sign from station ID
@@ -149,9 +155,15 @@ APRSSendData(  void )
             UART1_PutS("S");    // Save Configuration
             DelayMs(50);
 
-         //   UART1_PutS( "!>See http://WWS.us.to\n"); // This is the status message -- Not needed sending the URL as part of the report
-         //   DelayMs(50);
-         //   UART1_PutS("H");                        // This prints out the configuration for debugging
+
+
+            UART1_PutS( "!>WunderWXstation, See http://WWS.us.to\n"); // This is the status message
+            DelayMs(1000); // makes sure that the message went on the air
+            OUT0_IO = 1;   // disables the powerswitch for the radio,  low active
+            LED3_IO = 0;   // user feedback
+            
+          // for diagnostics
+          // UART1_PutS("H");                        // This prints out the configuration for debugging
         }
         if (ThisState == SM_IDLE)
             ThisState = SM_SEND_APRS_REPORT;
@@ -205,7 +217,7 @@ APRS_Client(void)
                             LED2_IO = 1;
                             LED3_IO = 1;
                             putrsUART((ROM char*) "\r\n!!NO SOCKET avaialble for CWOP!!");
-                            ThisState == SM_IDLE;
+                            ThisState = SM_IDLE;
                             break;
                         }
 
@@ -416,8 +428,24 @@ APRS_Client(void)
                         {
                             aprs_buff_cat("r");
                             aprs_buff_cat(s_to_a(buff, (short)(SensorReading.RainIn*100) ,3,0 ));
+       
                             aprs_buff_cat("P");
                             aprs_buff_cat(s_to_a(buff, (short) (SensorReading.RainDaily*100) ,3,0 ));
+                        }
+
+                        if (WX.Wunder.report_enable.Sol)
+                        {
+                            if ( SensorReading.SolRad < 1000)
+                            {
+                                aprs_buff_cat("L");
+                                aprs_buff_cat(s_to_a( buff,SensorReading.SolRad ,3,0 ));
+                            }
+                            else
+                            {
+                                aprs_buff_cat("l");
+                                aprs_buff_cat(s_to_a( buff,(SensorReading.SolRad -1000) ,3,0 ));
+                            }
+
                         }
 
                         if (WX.Wunder.report_enable.Hyg)
@@ -432,9 +460,17 @@ APRS_Client(void)
                         aprs_buff_cat("b");
                         tmp = SensorReading.BaromIn * 338.6388157895;   // Connvert to 1/10 of millibar
                         aprs_buff_cat(s_to_a( buff,tmp ,5,0 ));
-                        // the end -- send station software idetifier
+                        // the end -- could send station software idetifier or some other status info
                         //aprs_buff_cat("WunderWeatherStation");
-                        aprs_buff_cat("See http://WWS.us.to");
+                        //aprs_buff_cat("See http://WWS.us.to");
+
+                        // displaying the battery voltage measured at ADC0 as the status message
+                        aprs_buff_cat("Vbat ");
+                        ftmp = ADC1BUF0 * (ADC_SCALE_15V * 3.3 / 1024);
+                        tmp =ftmp*100;
+                        aprs_buff_cat(s_to_a( buff,tmp,2,2 ));
+                        aprs_buff_cat("V");
+
                         tmp = aprs_buff_cat("\r\n");       // Without this only some of the servers take the data
                         
                         if ( tmp >= APRS_BUFF_SZ)
@@ -450,15 +486,21 @@ APRS_Client(void)
                         }
                         else    // it's going out to the RF APRS modem via UART1
                         {
-
+                            OUT0_IO = 0;           //Enables the step down power converter for the radio, low active
+                            LED3_IO = 1;           // user feedback
+                            DelayMs(2500);         // Delay for radio bootup
                             putrsUART("!");        // This goes to the USB UART2 just to see a trace on the monitor
-                            putsUART(aprs_buff);
+                            putsUART(aprs_buff);   // this is for user feedback only
 
-                            UART1_PutS("!"); // This is the send command of the MicroAPRS modem
-                            UART1_PutS(aprs_buff);  // this is the assembled message string for APRS
+                            UART1_PutS("!");        // This is the send command of the NanoAPRS modem
+                            UART1_PutS(aprs_buff);  // this is the assembled message for APRS modem
+  
                             ThisState = SM_IDLE ;   // skip over disconnect
-
+                            DelayMs(1500);          // Delay to make sure the radio transmitted everything
+                            OUT0_IO = 1;            // Disable the stepdown converter for the radio
+                            LED3_IO = 0;            // user feedback LED off
                         }
+
                         break;
 
 #ifdef POSTSENDWAIT

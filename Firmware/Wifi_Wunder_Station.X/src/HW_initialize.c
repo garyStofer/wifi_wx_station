@@ -5,6 +5,7 @@
 #include "HW_initialize.h"
 #include "UART1.h"
 #include "WX_perm_data.h"
+#include "wind_rain_cnt.h"
 
 /****************************************************************************
   Function:

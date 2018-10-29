@@ -513,7 +513,7 @@ HTTPExecuteGet(void)
 static HTTP_IO_RESULT
 reboot_(char *NBname)
 {
-    int i;
+//    int i;
     // Prepare a HTTP_Redirect to a user htm file that gives info about the reboot in progress
     // The reboot.htm will then call reboot.cgi which has the ~reboot~ tag that, when served will
     // call the Reset function.
@@ -1271,6 +1271,7 @@ HTTPPrint_pwr5V()
 {
     HTTPPrint_adc(5);
 }
+void
 HTTPPrint_time(void)
 {
     BCD_RTCC *date_time;
@@ -1280,6 +1281,7 @@ HTTPPrint_time(void)
         TCPPutString(sktHTTP, (BYTE *) RTC_Convert_BCD_Time_to_String(date_time));
     }
 }
+void
 HTTPPrint_date(void)
 {
     BCD_RTCC *date_time;
@@ -1392,6 +1394,7 @@ HTTPPrint_Ala(WORD num)
         TCPPutROMString(sktHTTP, HTML_off);
 }
 
+void
 HTTPPrint_BARO_T()
 {
        if ( WX.Wunder.report_enable.BaroT)

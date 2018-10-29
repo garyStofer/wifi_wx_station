@@ -20,7 +20,12 @@ extern "C" {
 #define WOW_CLIENT  5
 #define APRS_CLIENT 6
 
-
+extern short
+APRS_Client(void);
+extern void
+CWOPSendData(  void );
+extern void
+APRSSendData(  void );
 extern void
 WunderSendData(  void );
 extern void

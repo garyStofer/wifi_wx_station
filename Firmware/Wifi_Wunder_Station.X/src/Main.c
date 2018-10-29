@@ -11,6 +11,7 @@
 #include "APP_cfg.h"
 #include "WX_perm_data.h"
 #include "rtcc.h"
+#include "nist.h"
 #include "Mail_Alarm.h"
 #include "Main.h"
 #include "HW_initialize.h"
@@ -190,7 +191,7 @@ Announce_My_IP_addr(void)
 // Main application entry point.
 //
 
-
+int
 main(void)
 {
     unsigned short WiFi_con_watchdog;  // This is a work around for the problem when the WIFI board crashes and stops sending interrupts
@@ -401,7 +402,7 @@ NoWiFiStation:
 
         // Note that only one client will be doing something, the other one will stay at Idle
         WunderHttpClient();     // This does all the rest of the protocols
-        APRS_Client();          // this does CWOP/APRS and APRS/RF
+        APRS_Client();          // this does CWOP/APRS and APRS/RF  
 
 
         // TODO: This could go somewhere else, i.e inside an event ??

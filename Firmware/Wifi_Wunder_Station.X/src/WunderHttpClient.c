@@ -102,7 +102,7 @@ WX_TCPPut(TCP_SOCKET theSocket, ROM char const * pMsg)
 
     if (pMsg != NULL)
     {
-        while (b = *pMsg++)
+        while(  (b = *pMsg++) )
         {
             WX_TCPPutC( theSocket, b);
             n++;
@@ -130,7 +130,7 @@ put_WXparam_arg(TCP_SOCKET theSocket, ROM char const * pMsg, short data, BYTE de
 
     // Now tack on the formatted result to the output
     i = 0;
-    while (b = strTmp[i++])
+    while ( (b = strTmp[i++]) )
     {
         putcUART(b);
         TCPPut(theSocket, b);
@@ -483,7 +483,7 @@ putrsUART((ROM char*) "Socket buffer too small\r\n");
                         //
 
                        //  weatherforyou pws its a html file with body etc..
-                        if (w = TCPIsGetReady(MySocket))
+                        if ( ( w = TCPIsGetReady(MySocket)) )
                         {
                              putsUART((ROM char*) "WX host says: ");
 
