@@ -13,14 +13,21 @@ extern "C" {
 #endif
 extern void
 UART1_Init(unsigned int BaudRt);
-
+#ifdef  notNeededforSNOWsensor
 extern  short
 UART1_GetStringLen( void );
 
 extern  short
 UART1_GetString ( char * s);
+#endif
 
-extern void
+extern unsigned char *
+UART1_GetInBuff( void);
+
+extern unsigned char
+UART1_GetInBuffFilled( void);
+
+extern unsigned char *
 UART1_ClearRXBuffer( void );
 
 extern void

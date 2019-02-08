@@ -19,11 +19,11 @@ extern "C" {
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE3        (136ul)
 #define MY_DEFAULT_WUNDER_IP_ADDR_BYTE4        (125ul)
 */
-    //La Grange Oregon : 216.228.192.69
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE1        (216ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE2        (228ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE3        (192ul)
-#define MY_DEFAULT_NIST1_IP_ADDR_BYTE4        (69ul)
+    //Colorado  : 132.163.92.1
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE1        (132ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE2        (163ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE3        (92ul)
+#define MY_DEFAULT_NIST1_IP_ADDR_BYTE4        (1ul)
 
     // UC Colorado, Boulder
 #define MY_DEFAULT_NIST2_IP_ADDR_BYTE1        (128ul)
@@ -50,6 +50,8 @@ extern "C" {
       // to a rate/hr that comes out to be (60/5) * 0.01"  == 0.12" .   15 min == 0.04"/hr resolution.
       // This means that at 15Min mesure interval ( moving average of 15 one minute samples) rain less than 0.04"/hr will cause a
       // a spiky grapgh toggling between 0 and 0.04"/hr
+
+#define SNOW_MEAS_Interval (60)
 
 #ifdef	__cplusplus
 }

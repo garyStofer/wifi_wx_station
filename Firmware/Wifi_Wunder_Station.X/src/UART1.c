@@ -57,6 +57,7 @@ UART1_PutS(char *buffer)
 }
 
 
+#ifdef  notNeededforSNOWsensor  -- See below for explenation
 /* returns the length of the next string in the buffer, not counting the terminating 0*/
 /* If there is a null string in the buffer, skip across it, eliminating the null string from the input */
 short
@@ -127,12 +128,31 @@ UART1_GetString ( char * s)
     rd_ndx= ndx;                    // for successful reads advance the read index to the next string
     return n-1;                     // return the number of characters read -- not counting the 0 termination
 }
+#endif
 
-// Flushes the input buffer, discards any unread content
-void
+// For HRXL-MAX-sonar device we only need to capture 6 characters every now and then. We just let the RX buffer fill up with incoming 
+// sensor data after calling ClearRXBuffer and then scan through the captured data for the key letter "R" followed by 4 digits of range 
+// data to extract a recent reading. 
+
+// Return then address of the RX inbuffer
+unsigned char *
+UART1_GetInBuff( void)
+{
+    return RX_buff;
+}
+
+// returns the number of bytes that are in the inbuffer since the last clear -- max of 256
+unsigned char
+UART1_GetInBuffFilled( void)
+{
+    return wr_ndx;
+}
+// Flushes the input buffer, discards any unread content, set the buffer pointers to the beginning.
+unsigned char *
 UART1_ClearRXBuffer( void )
 {
-    wr_ndx = rd_ndx;
+    wr_ndx = rd_ndx =0;
+    return  RX_buff;
 }
 
 void _ISR __attribute__((__no_auto_psv__))
@@ -148,7 +168,7 @@ _U1RXInterrupt(void)
 
     if ( wr_ndx !=   (unsigned char)  (rd_ndx -1)  ) // as long as there is room in the buffer
     {
-        if (c == 0xa)   //NL== delimiter,
+        if (c == 0xa || c == 0xd)   //NL or CR is used as delimiter,
             RX_buff[wr_ndx] = 0;
         else
             RX_buff[wr_ndx] = c;

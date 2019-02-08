@@ -25,6 +25,11 @@ extern t_wind_cal_temp  WDIR_cal_tmp;
 extern void Wind_dir_cal (void );
 extern void Once_perSecTask(void);
 
+#define Hours_24 24
+extern short SnowFall24Hrs[];
+extern short SnowFall1Hr;
+extern short SnowRange;
+
 #ifdef	__cplusplus
 }
 #endif

@@ -15,6 +15,7 @@
 #include "Barometer.h"
 #include "Hygrometer.h"
 #include "WunderHttpClient.h"
+#include "UART1.h"
 
 #define WIND_AVG_INTERVAL 128 // Must be power of 2 and must match width of index below  128 Seconds , 2 min 8 seconds
                               // is is the maximum time the wind direction and speed are averaged -- For slow reporting when
@@ -34,6 +35,11 @@ static struct tagWind_avg {
 
 
 static float LongWindGustSamples[ LONG_GUST_COUNT] ;
+
+// Snow related items
+short SnowFall24Hrs[Hours_24]={0,};
+short SnowFall1Hr =0;
+short SnowRange;
 
 
 static unsigned char RAIN_Count_Samples[RAIN_SAMPLES] = {0};
@@ -111,6 +117,74 @@ Once_perSecTask(void)
         SensorReading.RainIn =   s_tmp  / (float) WX.Calib.Rain_counts;
 
      }
+// TODO -- Need to exclude all of this code if no snow sensor is connected and I integrate this with the main trunk
+    if (sec_count % SNOW_MEAS_Interval == 0)        // i.e. every 60 seconds
+    {
+        unsigned char bytes_read;
+        unsigned char n = 0;
+        unsigned char * rx_ndx;
+        static char hr_ndx = 0;
+        static short PriorSnowRange = 0;
+
+
+ unsigned char buf[8];
+
+        rx_ndx = UART1_GetInBuff();
+
+        if (  UART1_GetInBuffFilled() > 20 )    // If there is no data after the wait then sensor is not attached
+        {
+            // find beginning of next report string  .i.e.  "R1233" is 1233 mm of range from the sensor to the snow.
+            while ( *rx_ndx++  != 0)
+            {
+                if (n++ > 14 )  //  find the beginning of the next reading
+                    break;      // If there is no null in the data then its either a Sensor diagnostic or bootup string
+            }
+            
+            if ( *rx_ndx++ == 'R' )    // Report starts with capital R, followed by 4 digits of readings in mm
+            {                          // if no 'R' found then something else is on the UART port sending data
+
+                SnowRange = atoi(rx_ndx);  // the following 4 digits comprise the sensor range
+
+                if( PriorSnowRange == 0 )   // just got turned on -- fill all hour readings with current readings as a base line
+                {                           // since the sensor just got turned on this is initial reading without any averaging over time
+                    PriorSnowRange = SnowRange; // init first time around
+                }
+
+                if  ( sec_count % 3600 == 0 )   // once per hour store a new snow  reading for the report
+                {
+                    SnowFall1Hr = PriorSnowRange - SnowRange;
+                    PriorSnowRange = SnowRange;
+
+                    // only report fall not melt
+                    if ( SnowFall1Hr < 0 )
+                        SnowFall1Hr = 0;
+
+                    SnowFall24Hrs[hr_ndx] = SnowFall1Hr;
+
+                    if ( ++hr_ndx >= Hours_24 )
+                        hr_ndx =0;                  // wrap around
+
+                }
+
+                SensorReading.SnowHeight = SnowRange;       // This is not actual snow height, it's the distance from the sensor to the snow
+// SensorReading.SnowHeight = SensorReferenceheight- SnowRange ;
+                             
+                putrsUART("SnowSensor bytes read: ");
+                uitoa((WORD) bytes_read, buf);
+                putrsUART(buf);
+                
+                putrsUART(" -- Snow Range :");
+                uitoa((WORD) SnowRange, buf);
+                putrsUART(buf);
+                putrsUART("\r\n");
+            }
+
+      }
+      else
+          putrsUART(" No Snow Range\r\n");
+
+        UART1_ClearRXBuffer();  // clear UART RX for next reading here so we don't have to wait for new readings to arrive
+    }
 
     SensorReading.SolRad = (short) (((float) SOL_ADCBUFF * WX.Calib.Sol_gain) / 1000.0);
  
